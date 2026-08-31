@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-18T09:56:31.911021+00:00",
+  "inputs": {
+    "production": {
+      "path": "<FROZEN_TCAD_ROOT>/terminal_charge_timing\\production\\terminal_qv_dynamic_training.csv",
+      "sha256": "584b1574882305b1187b01e05ed850fed98097f52a80af0168e61ebcec4881e2"
+    },
+    "certificate": {
+      "path": "<FROZEN_TCAD_ROOT>/terminal_charge_timing\\production\\terminal_qv_validation_certificate.csv",
+      "sha256": "ed008d7fee17961f2493326b5bc8766100d70e06c10aa358fff729d50848fd50"
+    },
+    "template_veriloga": {
+      "path": "bkan\\device_modeling\\veriloga\\ge_si_photodetector_terminal_charge.va",
+      "sha256": "2dbe37208a520f2abbf6244b5e88c520db7793c1d4ebe51044fe2886651a062b"
+    },
+    "evidence": [
+      {
+        "path": "<FROZEN_TCAD_ROOT>/terminal_charge_stage_a_remaining_validation\\terminal_qv\\kan_terminal_dynamic_qv_training.csv",
+        "sha256": "0ea8568b634296bf38a922daa1868e82ac5520fc81ab6633c6a3a0f541c6fc77"
+      },
+      {
+        "path": "<FROZEN_TCAD_ROOT>/terminal_charge_stage_b_validation_v2\\terminal_qv\\kan_terminal_dynamic_qv_training.csv",
+        "sha256": "4773142734a0e243fb5a51748c77a62c9d46d0ed0b4fb0bddb7c0bcb1ad2dff9"
+      },
+      {
+        "path": "<FROZEN_TCAD_ROOT>/terminal_charge_strict_revalidation_3\\terminal_qv\\kan_terminal_dynamic_qv_training.csv",
+        "sha256": "e0fe1731957f7947f62be228f1513ac9a36bf81ee936d4f8601d0dbe59120fbc"
+      }
+    ]
+  },
+  "training_script_sha256": "396ea06eb396e2b62e18570de8c2cf943086879971b9f6b73f1c84de58972ece",
+  "simulator_execution_status": {
+    "spectre_compilation": "passed",
+    "spectre_dc": "passed",
+    "spectre_ac_admittance": "passed",
+    "spectre_transient_stability": "passed",
+    "legacy_proxy_evidence_transfer": false
+  },
+  "simulator_evidence": {
+    "scope": "CURRENT_REPLACEMENT_TERMINAL_Q",
+    "acceptance_report": "artifacts/results/terminal_charge_spectre/acceptance_report.json",
+    "acceptance_report_sha256": "44670fd44f0948baa834174ff1609f42a3edee47e714d591719f0409a8f32fe7",
+    "returned_archive_sha256": "84a04d633f2e09fb12de6c191833b2a0f2101d892b0a63ea0ea794f6f2be1ba0",
+    "spectre_version": "18.1.0.077",
+    "qualification_scope": "reported DC, AC-admittance, and transient test envelope only"
+  },
+  "outputs": {
+    "models_sha256": "1b571416067bbdef0b4de16f038a7f98732a0ab94918b5e04b4f697d5fffc345",
+    "veriloga_sha256": "2dbe37208a520f2abbf6244b5e88c520db7793c1d4ebe51044fe2886651a062b",
+    "exported_veriloga": "bkan\\device_modeling\\veriloga\\ge_si_photodetector_terminal_charge.va"
+  }
+}

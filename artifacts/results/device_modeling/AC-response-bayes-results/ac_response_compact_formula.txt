@@ -1,0 +1,11 @@
+AC response compact formula [AC_Response]
+============================================
+
+Formula family:
+  y = y_floor + (y0 - y_floor) / (1 + (frequency_ghz / fc)^p)
+
+Fit target: Bayesian posterior mean in model space for ac_response_db
+RMSE=0.0970838, MAE=0.0833835, optimizer_success=True
+Condition variables: ['active_layer_length', 'simulation_temperature']
+
+ac_response_db_model_space = 0.0127235709487393*active_layer_length + 0.0351387573208426*simulation_temperature - 19.3768505375964 + (-0.0117266759934525*active_layer_length - 0.03488283072414*simulation_temperature + 19.4018156517685)/(0.0142779533594861*(frequency_ghz*exp(-0.000690444884035588*active_layer_length + 0.00545076806767964*simulation_temperature))**1.09293379917491 + 1)

@@ -1,0 +1,105 @@
+// Verilog-A Compact Model for Ge/Si Photodetector
+// Generated from current symbolic KAN formulas.
+// Source: artifacts/results/device_modeling/*/symbolic_formula.txt
+
+`include "disciplines.vams"
+`include "constants.vams"
+
+module ge_si_photodetector_ic618(anode, cathode);
+
+  inout anode, cathode;
+  electrical anode, cathode;
+
+  parameter real active_layer_length = 40.0 from (0.1:100.0);
+  parameter real trap_assisted_recomb_A = 1.0e-9 from [0:1.0e-5];
+  parameter real ge_sio2_recomb_velocity = 2500.0 from [1.0:1.0e6];
+  parameter real ge_si_recomb_velocity = 500.0 from [1.0:1.0e6];
+  parameter real sim_temp = 300.0;
+  parameter real area = 1.0;
+  parameter real light_power = 0.0;
+
+  parameter real v_min = -3.0;
+  parameter real v_max = 0.0;
+  parameter real sqrt_eps = 1.0e-18;
+  parameter real smooth_delta = 1.0e-18;
+
+  real vd, vd_safe, T;
+  real dark_raw, photo_raw;
+  real dark_current, photo_current, total_current;
+
+  analog function real sqr;
+    input x;
+    real x;
+    begin
+      sqr = x * x;
+    end
+  endfunction
+
+  analog function real smax0;
+    input x, delta;
+    real x, delta;
+    begin
+      smax0 = 0.5 * (x + sqrt(x*x + 4.0*delta*delta));
+    end
+  endfunction
+
+  analog function real safe_sqrt_kan;
+    input arg, eps, delta;
+    real arg, eps, delta;
+    begin
+      safe_sqrt_kan = sqrt(eps + smax0(arg, delta));
+    end
+  endfunction
+
+  analog function real safe_exp_kan;
+    input x;
+    real x;
+    begin
+      if (x < -80.0)
+        safe_exp_kan = exp(-80.0);
+      else if (x <= 80.0)
+        safe_exp_kan = exp(x);
+      else
+        safe_exp_kan = exp(80.0) * (1.0 + x - 80.0);
+    end
+  endfunction
+
+  analog function real dark_boundary_gate;
+    input v;
+    real v, u;
+    begin
+      if (v <= -0.2)
+        dark_boundary_gate = 1.0;
+      else if (v >= 0.0)
+        dark_boundary_gate = 0.0;
+      else begin
+        u = (v - (-0.2)) /
+            ((0.0) - (-0.2));
+        dark_boundary_gate = 1.0 - u*u*(3.0 - 2.0*u);
+      end
+    end
+  endfunction
+
+  analog begin
+    vd = V(anode, cathode);
+    T = sim_temp;
+
+    if (vd < v_min)
+      vd_safe = v_min;
+    else if (vd > v_max)
+      vd_safe = v_max;
+    else
+      vd_safe = vd;
+
+    dark_raw = pow(10, 0.0041364920460940603*T - 8979627246308360.0*sqr(6.6960677352389096e-10 - safe_exp_kan(-0.068282438309411303*T)) + 4.1655510196711703*sqr(-0.0037685927983991002*T + 1 + 0.35055107291988502/(2.7419450672245702 - 3.99278414053469*vd_safe)) + 11.091804671452*sqr(-0.0036384309408752299*T + 1 + 0.27795067599470802/(2.71809355668523 - 3.91344149021847*vd_safe)) - 4.0797652084980403*sqr(0.0031437998134108301*T - 1 - 0.129413223340552/(1.9810310906033299 - 4.2284055530582396*vd_safe)) - 10.890950950498899*sqr(0.0032060372831007001*T - 1 - 0.067104895549517998/(1.0388148580098799 - 1.47159079721493*vd_safe)) - 7.12316065714458*sqr(0.0032401308694073399*T - 1 - 0.152897530929964/(1.65810271741587 - 4.9512858805121001*vd_safe)) - 7.9153253720267003*sqr(0.0031007692729312099*T + 0.43802923045546699*sqr(1 - 0.027698242091027201*active_layer_length) - 1 - 0.25256010136551499/(2.3734751394050502 - 2.5912779117378402*vd_safe)) - 7.6048937528310399 - 0.146112698632896/(1.21672301165792 - 1.4259479623268201*vd_safe));
+
+    photo_raw = pow(10, -0.014504251095571101*sqr(-0.304660746275493*vd_safe - 1) - 0.00879972112992739*sqr(0.34506128024025401*safe_sqrt_kan(0.0020061858936205202 - vd_safe, sqrt_eps, smooth_delta) + 0.0030861531873339898*safe_exp_kan(4269713641.0529399*trap_assisted_recomb_A) - 1) - 0.019662584876536899*sqr(0.49258729322719003*safe_sqrt_kan(0.11724480586293801 - vd_safe, sqrt_eps, smooth_delta) + 1.0868170263734301e-8*safe_exp_kan(0.031558430517720698*ge_si_recomb_velocity) - 1.1854731994142201e-5*safe_exp_kan(0.0038523925984506702*ge_sio2_recomb_velocity) - 1) - 0.028207595180121*sqr(0.326758643287686*safe_sqrt_kan(0.14782816836177101 - vd_safe, sqrt_eps, smooth_delta) - 1 - 0.157032375818627*safe_exp_kan(-57.215375755633303*sqr(1 - 0.026808991153413699*active_layer_length)) - 0.78291642437031195*safe_exp_kan(-120.76644898671699*sqr(1 - 0.00278725855957155*T))) + 0.013746151162503301*sqr(-0.045737606663228*active_layer_length + 0.00053721671440674001*ge_sio2_recomb_velocity - 0.37180434793935802*safe_sqrt_kan(0.044923674235422303 - vd_safe, sqrt_eps, smooth_delta) - 0.0216760759633743 + safe_exp_kan(-4.8748662427598502e+17*sqr(-trap_assisted_recomb_A - 7.1828801133480402e-10)) - 0.14561379761209201*safe_exp_kan(-857.41501497266904*sqr(1 - 0.0018567486108185*ge_si_recomb_velocity))) - 0.00033335653380208401*safe_exp_kan(3.6177860021574602/(1.6393993436840399 - 2.4126139874324499*vd_safe)) - 3.2792754852111701 + 0.0067018922785369202*safe_exp_kan(-66.818902613228005*sqr(1 - 0.0020714521177533501*ge_si_recomb_velocity)) - 0.0026411763734831002*safe_exp_kan(-60.018853214265597*sqr(1 - 0.027810014060302601*active_layer_length)) - 0.0155001826294954/(1.45147908539154 - 0.834053906830449*vd_safe));
+
+    dark_current = area * dark_boundary_gate(vd_safe) * smax0(dark_raw, smooth_delta);
+    photo_current = area * light_power * smax0(photo_raw, smooth_delta);
+    total_current = dark_current + photo_current;
+
+    I(anode, cathode) <+ total_current;
+  end
+
+endmodule

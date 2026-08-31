@@ -1,0 +1,19 @@
+simulator lang=spectre
+
+// The runner freezes this deck and the exact replacement source in one bundle.
+ahdl_include "ge_si_photodetector_terminal_charge.va"
+
+parameters Vb_ac=-1.0 Tdev=300.0 Vac_mag=1m
+
+// Terminal-charge AC coverage matrix; outputs must be compared with the new
+// JSON reference before the archived proxy implementation can be superseded.
+Vac (a_ac 0) vsource dc=Vb_ac mag=Vac_mag type=sine
+Xac (a_ac 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+save Vac:p
+
+bias_sweep sweep param=Vb_ac values=[-3.0 -2.0 -1.0 -0.5 0.0] {
+  temperature_sweep sweep param=Tdev values=[290.0 300.0 310.0] {
+    ac_bias_temp_terminal_charge ac dec=20 start=1M stop=1000G
+  }
+}

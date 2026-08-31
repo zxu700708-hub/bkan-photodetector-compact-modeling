@@ -1,0 +1,19 @@
+{
+  "posterior_draw_count": 20,
+  "draw_seed_base": 26000,
+  "distillation_seed_fixed": 314159,
+  "symbolic_step_scale": 1.0,
+  "task_step_scale": [
+    "I_photo=0.3",
+    "Capacitance=0.3"
+  ],
+  "bkan_retrained": false,
+  "architecture_changed": false,
+  "formula_fit_groups": "70% train only",
+  "formula_selection_groups": "10% validation only",
+  "formula_conformal_groups": "10% calibration only",
+  "final_evaluation_groups": "10% test only",
+  "formula_nominal_coverage": 0.9,
+  "formula_conformal_rank_rule": "ceil((n+1)*(1-alpha)); no clipping",
+  "posterior_variation_isolation": "distillation RNG fixed across draws; observed/derivative/shape losses disabled"
+}

@@ -1,0 +1,163 @@
+========================================================================================================================
+  KAN Compact Model - Comprehensive Verification Summary
+  Generated: 2026-07-01
+  Device: Vertical Ge/Si Photodetector
+  Data source: TCAD simulations
+  Verification source: artifacts/results/device_modeling
+========================================================================================================================
+========================================================================================================================
+  SECTION 1: DATA OVERVIEW
+========================================================================================================================
+
+  [I_dark]
+    Source: artifacts\results\device_modeling\I-dark-bayes-results\Formula_Pointwise_Verification.csv
+    Samples: 240
+    Columns: dark_voltage, trap_assisted_recomb_A, ge_sio2_recomb_velocity, ge_si_recomb_velocity, active_layer_length, simulation_temperature, dark_current, tcad_model_space...
+
+  [I_photo]
+    Source: artifacts\results\device_modeling\I-photo-bayes-results\Formula_Pointwise_Verification.csv
+    Samples: 256
+    Columns: light_voltage, trap_assisted_recomb_A, ge_sio2_recomb_velocity, ge_si_recomb_velocity, active_layer_length, simulation_temperature, light_current, tcad_model_space...
+
+  [AC Response]
+    Source: artifacts\results\device_modeling\AC-response-bayes-results\Formula_Pointwise_Verification.csv
+    Samples: 448
+    Columns: frequency_ghz, active_layer_length, simulation_temperature, ac_response_db, tcad_model_space, bnn_model_space, formula_model_space, formula_minus_bnn...
+
+========================================================================================================================
+  SECTION 2: CORE ACCURACY METRICS
+========================================================================================================================
+
+  I_dark  (linear [A])
+    Samples:                 240
+    Symbolic formula vs TCAD: RMSE=2.074214e-02  MAE=1.679258e-02  Max=5.987613e-02  R2=0.986967
+    BNN/KAN vs TCAD:          RMSE=9.003682e-03  MAE=3.763797e-03  R2=0.997544
+    Symbolic formula vs BNN:  RMSE=2.097958e-02  MAE=1.676695e-02  Max=5.988491e-02
+
+  I_photo  (linear [A])
+    Samples:                 256
+    Symbolic formula vs TCAD: RMSE=4.942364e-03  MAE=4.194836e-03  Max=1.174231e-02  R2=0.953142
+    BNN/KAN vs TCAD:          RMSE=4.268918e-03  MAE=3.366872e-03  R2=0.965041
+    Symbolic formula vs BNN:  RMSE=2.670988e-03  MAE=2.201370e-03  Max=7.089423e-03
+
+  AC Response  (normalized response [dB])
+    Samples:                 448
+    Symbolic formula vs TCAD: RMSE=0.115424  MAE=0.091543  Max=0.594291  R2=0.997752
+    BNN/KAN vs TCAD:          RMSE=0.080513  MAE=0.035764  R2=0.998906
+    Symbolic formula vs BNN:  RMSE=0.098223  MAE=0.083788  Max=0.272834
+
+========================================================================================================================
+  SECTION 3: LINEAR-SPACE CURRENT ACCURACY
+========================================================================================================================
+
+  [I_dark]  (target_space format: log10)
+      V[V]         TCAD[A]      Formula[A]    Err[%]  Status
+  ----------------------------------------------------------------
+    -3.000    4.441532e-07    4.432988e-07    0.1924  OK
+    -1.000    2.515272e-07    2.536820e-07    0.8567  OK
+    -0.200    2.946628e-07    2.900770e-07    1.5563  OK
+
+  Global relative error: Mean=3.89%  Median=3.34%  Max=14.78%
+
+  [I_photo]  (target_space format: log10)
+      V[V]         TCAD[A]      Formula[A]    Err[%]  Status
+  ----------------------------------------------------------------
+    -3.000    5.290784e-04    5.284747e-04    0.1141  OK
+    -1.000    4.959530e-04    4.908353e-04    1.0319  OK
+    -0.200    4.546066e-04    4.523501e-04    0.4964  OK
+     0.000    4.550107e-04    4.520630e-04    0.6478  OK
+
+  Global relative error: Mean=0.97%  Median=0.90%  Max=2.74%
+
+========================================================================================================================
+  SECTION 4: NORMALIZED AC RESPONSE PREDICTION
+========================================================================================================================
+
+  Design point: L=40.0 um, T=300.0 K
+  characteristic midpoint frequency = 252.981 GHz
+  low-frequency response = 0.1375 dB
+  high-frequency floor = -8.3805 dB
+  derived -3 dB bandwidth = 143.551 GHz
+  scope note: values above the 40 GHz training maximum are formula extrapolation
+  Roll-off exponent p = 1.0755
+
+    Freq [GHz]    Response [dB]    Delta [dB]         |S21|
+  ------------------------------------------------------------
+        0.0010         0.137493     -0.000013      0.999998
+        0.0100         0.137349     -0.000157      0.999982
+        0.1000         0.135643     -0.001863      0.999786
+        1.0000         0.115391     -0.022115      0.997457
+       10.0000        -0.118396     -0.255902      0.970968
+       50.0000        -1.130350     -1.267856      0.864186
+      100.0000        -2.156326     -2.293832      0.767907
+      143.5509        -2.862494     -3.000000      0.707946  <-3 dB>
+      252.9809        -4.121494     -4.259000      0.612421
+      500.0000        -5.615586     -5.753092      0.515639
+     1000.0000        -6.798716     -6.936222      0.449976
+
+========================================================================================================================
+  SECTION 5: LIMITED SPECTRE CIRCUIT SIMULATION EVIDENCE
+  Platform: VMware CentOS 7, IC618 ISR 6.1.8-64b.83, Spectre 18.1.0.077
+========================================================================================================================
+  Verilog-A compilation        RUN_OK         all four runs completed with 0 errors/0 warnings
+  DC dark/total sweep          NUMERIC_PASS   61+61 points, -3 V to 0 V
+  DC bias/temperature          NUMERIC_PASS   61x3 pointwise reference
+  AC bias/temperature          NUMERIC_PASS   15x121 points; C=2.701e-17..3.723e-17 F
+  Transient proxy charge       NUMERIC_PASS   5025 points; RMSE=3.705e-08 A; stimulus-limited
+  AC response formula          PYTHON_PASS    TCAD/model-space and symbolic Python check
+  AC response VA readout       NUMERIC_PASS    45-point standalone V(out)=y_ac readout; max abs err 8.88e-16 dB; not the terminal dynamic branch
+  Strict terminal charge       UNAVAILABLE    strict_terminal_charge_available=0
+
+  Scope statement: NUMERIC_PASS means Spectre matches the independent Python evaluator. It does not establish strict terminal charge, intrinsic bandwidth/response time, or complete PDK/foundry sign-off.
+
+  Key reference point, L=40 um, T=300 K, trap_A=1e-9:
+  Vbias       I_dark[A]        I_photo[A]       I_total[A]
+   -5.00     4.298577e-07     5.409802e-04     5.414100e-04
+   -3.00     3.862585e-07     5.272437e-04     5.276299e-04
+   -1.00     2.682052e-07     4.899428e-04     4.902110e-04
+    0.00     9.303521e-08     4.418241e-04     4.419171e-04
+    0.40     1.411559e-09     4.272967e-04     4.272981e-04
+
+========================================================================================================================
+  SECTION 6: TRAINING DATA PARAMETER RANGES
+========================================================================================================================
+
+  [I_dark]
+    dark_voltage                  : [-3.0000e+00, -2.0000e-01]
+    trap_assisted_recomb_A        : [8.6476e-10, 1.1065e-09]
+    ge_sio2_recomb_velocity       : [2.3878e+03, 2.6466e+03]
+    ge_si_recomb_velocity         : [4.7434e+02, 5.4045e+02]
+    active_layer_length           : [3.6106e+01, 4.2749e+01]
+    simulation_temperature        : [2.8865e+02, 3.1133e+02]
+
+  [I_photo]
+    light_voltage                 : [-3.0000e+00, 0.0000e+00]
+    trap_assisted_recomb_A        : [8.6476e-10, 1.2226e-09]
+    ge_sio2_recomb_velocity       : [2.3061e+03, 2.7002e+03]
+    ge_si_recomb_velocity         : [4.5440e+02, 5.4045e+02]
+    active_layer_length           : [3.6106e+01, 4.2347e+01]
+    simulation_temperature        : [2.8865e+02, 3.0348e+02]
+
+  [AC Response]
+    frequency_ghz                 : [1.0000e-01, 4.0000e+01]
+    active_layer_length           : [3.5793e+01, 4.4510e+01]
+    simulation_temperature        : [2.8518e+02, 3.0887e+02]
+
+========================================================================================================================
+  SECTION 7: SYMBOLIC FORMULA COMPLEXITY
+========================================================================================================================
+
+  [I_dark]
+    Formula file: artifacts\results\device_modeling\I-dark-bayes-results\symbolic_formula.txt
+    Complexity: 179 ops, 33 lines
+
+  [I_photo]
+    Formula file: artifacts\results\device_modeling\I-photo-bayes-results\symbolic_formula.txt
+    Complexity: 241 ops, 33 lines
+
+  [AC Response]
+    Formula file: artifacts\results\device_modeling\AC-response-bayes-results\symbolic_formula.txt
+    Complexity: 41 ops, 20 lines
+========================================================================================================================
+  END OF REPORT
+========================================================================================================================

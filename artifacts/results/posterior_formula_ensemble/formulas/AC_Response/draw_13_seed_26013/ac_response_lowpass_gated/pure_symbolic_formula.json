@@ -1,0 +1,138 @@
+{
+  "family": "gated_lowpass",
+  "inputs": [
+    "frequency_ghz",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "condition_inputs": [
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "feature_definitions": [
+    {
+      "name": "1",
+      "kind": "one"
+    },
+    {
+      "name": "scaled(active_layer_length)",
+      "kind": "z",
+      "input": "active_layer_length",
+      "mean": 39.915676891842516,
+      "scale": 1.810288189192554
+    },
+    {
+      "name": "scaled(simulation_temperature)",
+      "kind": "z",
+      "input": "simulation_temperature",
+      "mean": 299.58726770374415,
+      "scale": 4.622309267439484
+    },
+    {
+      "name": "scaled(active_layer_length)^2",
+      "kind": "z2",
+      "input": "active_layer_length",
+      "mean": 39.915676891842516,
+      "scale": 1.810288189192554
+    },
+    {
+      "name": "scaled(simulation_temperature)^2",
+      "kind": "z2",
+      "input": "simulation_temperature",
+      "mean": 299.58726770374415,
+      "scale": 4.622309267439484
+    },
+    {
+      "name": "scaled(active_layer_length)*scaled(simulation_temperature)",
+      "kind": "z_product",
+      "left": "active_layer_length",
+      "right": "simulation_temperature",
+      "left_mean": 39.915676891842516,
+      "left_scale": 1.810288189192554,
+      "right_mean": 299.58726770374415,
+      "right_scale": 4.622309267439484
+    }
+  ],
+  "formula": "floor(z) + (y0(z)-floor(z))/(1+(frequency_ghz/exp(logfc(z)))^p)",
+  "coefficients": {
+    "y0": [
+      0.18066678941249847,
+      0.0,
+      0.010032499209046364,
+      -0.0,
+      0.0,
+      0.0
+    ],
+    "floor": [
+      -8.447450637817383,
+      0.0,
+      0.17340153455734253,
+      0.0,
+      0.057987529784440994,
+      -0.0
+    ],
+    "logfc": [
+      2.2913143634796143,
+      0.0021615929435938597,
+      -0.02975221537053585,
+      -0.002313068835064769,
+      -0.009889893233776093,
+      -0.0
+    ]
+  },
+  "log_p": -0.5816144347190857,
+  "p": 1.0589951764701562,
+  "active_terms": [
+    {
+      "submodel": "y0",
+      "feature": "1",
+      "coefficient": 0.18066678941249847
+    },
+    {
+      "submodel": "y0",
+      "feature": "scaled(simulation_temperature)",
+      "coefficient": 0.010032499209046364
+    },
+    {
+      "submodel": "floor",
+      "feature": "1",
+      "coefficient": -8.447450637817383
+    },
+    {
+      "submodel": "floor",
+      "feature": "scaled(simulation_temperature)",
+      "coefficient": 0.17340153455734253
+    },
+    {
+      "submodel": "floor",
+      "feature": "scaled(simulation_temperature)^2",
+      "coefficient": 0.057987529784440994
+    },
+    {
+      "submodel": "logfc",
+      "feature": "1",
+      "coefficient": 2.2913143634796143
+    },
+    {
+      "submodel": "logfc",
+      "feature": "scaled(active_layer_length)",
+      "coefficient": 0.0021615929435938597
+    },
+    {
+      "submodel": "logfc",
+      "feature": "scaled(simulation_temperature)",
+      "coefficient": -0.02975221537053585
+    },
+    {
+      "submodel": "logfc",
+      "feature": "scaled(active_layer_length)^2",
+      "coefficient": -0.002313068835064769
+    },
+    {
+      "submodel": "logfc",
+      "feature": "scaled(simulation_temperature)^2",
+      "coefficient": -0.009889893233776093
+    }
+  ],
+  "kan_contribution_at_inference": 0.0
+}

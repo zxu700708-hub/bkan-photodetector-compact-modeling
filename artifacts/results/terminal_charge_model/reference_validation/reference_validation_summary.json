@@ -1,0 +1,28 @@
+{
+  "validation_status": "passed",
+  "serialized_json_vs_training_predictions": {
+    "charge": {
+      "max_absolute_error": 3.944304526105059e-31,
+      "median_relative_error": 0.0,
+      "p95_relative_error": 1.968239869691637e-16,
+      "max_relative_error": 4.024656327290439e-16
+    }
+  },
+  "dense_analytic_vs_finite_difference_dQdV": {
+    "max_absolute_error": 9.271447982499265e-23,
+    "median_relative_error": 3.702266541765584e-08,
+    "p95_relative_error": 8.319523043779922e-08,
+    "max_relative_error": 8.763420848710893e-08
+  },
+  "transient_dQdt_vs_dQdV_times_dVdt": {
+    "max_absolute_error": 7.207278850056056e-11,
+    "median_relative_error": 8.64093627083611e-06,
+    "p95_relative_error": 1.4454442262527127e-05,
+    "max_relative_error": 2.4847608203181673e-05
+  },
+  "dense_conditions": 9,
+  "dense_points_per_condition": 12001,
+  "transient_points": 10001,
+  "spectre_available": false,
+  "scope": "Independent NumPy serialization and calculus audit only; an external Spectre rerun is required for simulator implementation verification."
+}

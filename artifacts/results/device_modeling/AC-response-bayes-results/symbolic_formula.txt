@@ -1,0 +1,27 @@
+AC Response Compact Formula extraction [AC_Response] *LOW-PASS*
+========================================================
+
+Extraction mode: ac_response_safe + low_pass_compact
+
+AC-specific strategy:
+  1. Avoid free reciprocal terms in KAN symbolic extraction.
+  2. Fit a monotone low-pass compact form to the Bayesian posterior mean.
+  3. Let y0, y_floor, and fc vary affinely with physical condition variables.
+
+Compact fit RMSE=0.0970838, MAE=0.0833835
+Optimizer success: True (`ftol` termination condition is satisfied.)
+Condition variables: ['active_layer_length', 'simulation_temperature']
+
+Variable map:
+  frequency_ghz: frequency_ghz
+  active_layer_length: active_layer_length
+  simulation_temperature: simulation_temperature
+
+Free variables in formula:
+  active_layer_length, frequency_ghz, simulation_temperature
+
+Formula in model space:
+  0.0127235709487393*active_layer_length + 0.0351387573208426*simulation_temperature - 19.3768505375964 + (-0.0117266759934525*active_layer_length - 0.03488283072414*simulation_temperature + 19.4018156517685)/(0.0142779533594861*(frequency_ghz*exp(-0.000690444884035588*active_layer_length + 0.00545076806767964*simulation_temperature))**1.09293379917491 + 1)
+
+Formula in physical space:
+  ac_response_db = 0.0127235709487393*active_layer_length + 0.0351387573208426*simulation_temperature - 19.3768505375964 + (-0.0117266759934525*active_layer_length - 0.03488283072414*simulation_temperature + 19.4018156517685)/(0.0142779533594861*(frequency_ghz*exp(-0.000690444884035588*active_layer_length + 0.00545076806767964*simulation_temperature))**1.09293379917491 + 1)

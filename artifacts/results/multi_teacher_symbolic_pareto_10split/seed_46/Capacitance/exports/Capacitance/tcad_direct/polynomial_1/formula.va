@@ -1,0 +1,25 @@
+`include "constants.vams"
+`include "disciplines.vams"
+module poly3_export(out);
+output out; electrical out;
+parameter real x0=0.0; // bias_v
+parameter real x1=0.0; // log_frequency_ghz
+parameter real x2=0.0; // trap_assisted_recomb_A
+parameter real x3=0.0; // ge_sio2_recomb_velocity
+parameter real x4=0.0; // ge_si_recomb_velocity
+parameter real x5=0.0; // active_layer_length
+parameter real x6=0.0; // simulation_temperature
+real y;
+analog begin
+  y = 2.9326292794742322e-14
+    + (2.2336335003671821e-15)*(((x0--1.5)/0.92195444572928875))
+    + (-4.2086079191972896e-16)*(((x1-0.19604119982655921)/0.71475520981330376))
+    + (1.7048686811200184e-19)*(((x2-1.0043431072598764e-09)/9.6517718030773918e-11))
+    + (8.8668822731214163e-20)*(((x3-2504.5660673141692)/92.945339418347672))
+    + (-1.8436576898079553e-19)*(((x4-498.63648094610454)/18.636632711054482))
+    + (1.3202577972377405e-15)*(((x5-40.036628336838596)/1.8014939372812893))
+    + (1.093044459922544e-16)*(((x6-299.53355240084676)/4.807585532709183))
+  ;
+  V(out) <+ y;
+end
+endmodule

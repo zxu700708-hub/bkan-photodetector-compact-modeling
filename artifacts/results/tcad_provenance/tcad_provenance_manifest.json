@@ -1,0 +1,114 @@
+{
+  "schema_version": "tcad_provenance_v1",
+  "generated_at_utc": "2026-08-22T14:20:01.850798+00:00",
+  "status_taxonomy": {
+    "recovered": "The exact retained file is present and hash registered.",
+    "partial": "Only a subset or later unbound snapshot is present.",
+    "unavailable": "The item is absent from the recovered snapshot and is not asserted."
+  },
+  "primary_campaign": {
+    "logical_root": "<FROZEN_TCAD_ROOT>/Data/Data_20260617_0243_181408",
+    "condition_count": 160,
+    "raw_condition_file_count": 160,
+    "condition_table": {
+      "packaged_path": "artifacts/results/tcad_provenance/primary_condition_table.csv",
+      "source_sha256": "d3f1e6fb149c82000edcf0bab4295fa192c8033defb9abfdf754674e6cea7382",
+      "packaged_sha256": "d3f1e6fb149c82000edcf0bab4295fa192c8033defb9abfdf754674e6cea7382"
+    },
+    "sampling_parameters": {
+      "packaged_path": "artifacts/results/tcad_provenance/primary_sampling_parameters.csv",
+      "source_sha256": "adb6c5d3a419f180c2e498a3c6b9290c4cd4cc73f41f3da1b632abfa1cd89b31",
+      "packaged_sha256": "adb6c5d3a419f180c2e498a3c6b9290c4cd4cc73f41f3da1b632abfa1cd89b31"
+    }
+  },
+  "native_session_recovery": {
+    "all_retained_counts": {
+      "fsp": 21,
+      "ldev": 21,
+      "log": 42
+    },
+    "primary_campaign_date_match_counts": {
+      "fsp": 4,
+      "ldev": 4,
+      "log": 8
+    },
+    "interpretation": "The primary-date subset contains four FDTD projects, four TCAD projects, and eight logs. It is partial evidence, not a 160-condition native-session archive. Other retained sessions are earlier development context and are not attributed to the primary campaign.",
+    "mesh_boundary": "Mesh state is embedded in retained .fsp/.ldev projects; no separate complete mesh archive was recovered. Sanitized log-derived grid/element summaries are in native_session_inventory.csv.",
+    "software_versions": [
+      "commercial TCAD solver (version withheld from public artifact)",
+      "commercial optical TCAD solver (version withheld from public artifact)"
+    ]
+  },
+  "canonical_derivatives": {
+    "primary_aggregated_table": {
+      "path": "artifacts/results/device_modeling/cleaned_data.csv",
+      "sha256": "9d69f05fe44a47cb19e5cd78860114910c9ad249a9b9a2cfac67a8a4884c1b29",
+      "bytes": 1460839
+    },
+    "apparent_capacitance_manifest": {
+      "path": "artifacts/results/apparent_capacitance_correction/manifest.json",
+      "sha256": "898437e139d7b4707eb99bfbb451f58775b40a2d415f89d857167b993507ea9e",
+      "bytes": 43984
+    },
+    "apparent_capacitance_table": {
+      "path": "artifacts/results/apparent_capacitance_correction/primary_ge_si_apparent_capacitance.csv",
+      "sha256": "d3a743fe5d29a8e20ae62237e0a3b9e39b497fa51b33ab5d54413c467a7e929b",
+      "bytes": 22322743
+    },
+    "terminal_charge_provenance": {
+      "path": "artifacts/results/terminal_charge_model/terminal_charge_model_provenance.json",
+      "sha256": "2179f078dd9f41e0eaeb005127aa4897655d397566ce1e1757ea2b7841109cb0",
+      "bytes": 2614
+    }
+  },
+  "recoverability": [
+    {
+      "item": "frozen primary condition table and sampling-parameter table",
+      "status": "recovered_and_packaged",
+      "evidence": "primary_condition_table.csv; primary_sampling_parameters.csv"
+    },
+    {
+      "item": "160 extracted per-condition primary output tables",
+      "status": "recovered_local_hash_registered_not_packaged",
+      "evidence": "primary_raw_output_inventory.csv"
+    },
+    {
+      "item": "native FDTD/TCAD projects and logs for primary campaign",
+      "status": "partial",
+      "evidence": "4 .fsp, 4 .ldev, and 8 logs match the campaign date; see native_session_inventory.csv"
+    },
+    {
+      "item": "mesh state",
+      "status": "partial",
+      "evidence": "embedded in retained native sessions; sanitized grid/element summaries recovered from logs"
+    },
+    {
+      "item": "current TCAD generation/source scripts",
+      "status": "recovered_later_snapshot",
+      "evidence": "source_snapshot_inventory.csv"
+    },
+    {
+      "item": "original random-sampling seed",
+      "status": "unavailable",
+      "evidence": "no seed call or run record was recovered; reproduction starts from the frozen table"
+    },
+    {
+      "item": "exact source-code revision executed for the primary campaign",
+      "status": "unavailable",
+      "evidence": "no version-control binding was recovered and current snapshots postdate the campaign"
+    },
+    {
+      "item": "native sessions and logs for all 160 primary conditions",
+      "status": "unavailable",
+      "evidence": "only the primary-date subset listed above was recovered"
+    }
+  ],
+  "publication_boundary": {
+    "not_packaged": [
+      "commercial TCAD .fsp/.ldev binaries",
+      "raw logs containing host, license, and local-path details",
+      "large local per-condition raw tables already represented by hash inventory and canonical tables"
+    ],
+    "claim": "The artifact supports exact replay from frozen tables and canonical derivatives. It does not claim byte-for-byte regeneration of every original TCAD solve from a sampling seed and complete native deck archive."
+  }
+}

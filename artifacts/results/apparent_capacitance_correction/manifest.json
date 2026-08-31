@@ -1,0 +1,557 @@
+{
+  "schema_version": "apparent_capacitance_correction_v1",
+  "status": "passed",
+  "target_name": "total-admittance apparent capacitance",
+  "target_symbol": "C_app",
+  "target_definition": "Im(Y_total)/(2*pi*f)",
+  "not_displacement_capacitance": true,
+  "not_terminal_charge_derivative": true,
+  "source": "<FROZEN_TCAD_ROOT>/Data\\Data_20260617_0243_181408\\supplemental_charge_ac\\supplemental_electrical\\ac_cv\\kan_ac_cv_training.csv",
+  "source_sha256": "a6d566261cbd0d8e8fc9cdf5f3d4780329d364f93ae75a8d59893e0c56020527",
+  "canonical_dataset": "artifacts/results/apparent_capacitance_correction/primary_ge_si_apparent_capacitance.csv",
+  "canonical_dataset_sha256": "d3a743fe5d29a8e20ae62237e0a3b9e39b497fa51b33ab5d54413c467a7e929b",
+  "audit": {
+    "rows": 64000,
+    "device_count": 160,
+    "rows_per_device": 400,
+    "bias_count": 16,
+    "frequency_count": 25,
+    "legacy_vac_V": 1.0,
+    "actual_vac_V": 0.001,
+    "scale_factor": 1000.0,
+    "max_relative_identity_error": 6.630044387744278e-16
+  },
+  "metric_transform": {
+    "target_prediction_residual_rmse_mae_crps_mpiw_interval_score": "multiply by 1000",
+    "raw_gaussian_nll": "add ln(1000)=6.90775527898214",
+    "r2_mape_coverage_conformal_multiplier_rankings_p_values": "unchanged"
+  },
+  "formula_overlay_count": 75,
+  "formula_overlays": [
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_4/formula.json",
+      "source_sha256": "e652e8a498f9efca6b6a3142c8819fa220a001dfa7590f39bb99905fd4bec7f0",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_4/formula.json",
+      "corrected_sha256": "1e4eb62f468aee1b67a362a26dd8fc885c808157a9a1caafea4cc67098d432bb"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_4/formula.va",
+      "source_sha256": "ea5f670a9b66ccd0fca29eb097173c87e875dbbd0add877271686d584ea9e39f",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_4/formula.va",
+      "corrected_sha256": "7d6f382987b44fd47a569d72c731569e526ff74d913812c5021ae328a8680b35"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_6/formula.json",
+      "source_sha256": "7c4f765689703a3582512509d2cca3972a125c2bbc361259cc4e1e1e127485b0",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_6/formula.json",
+      "corrected_sha256": "d702c8799d627b9b19f91020637e55c964543d7e96f8da09583a02f63fe1d231"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_6/formula.va",
+      "source_sha256": "eeaada6c207aa0648879ea0f48504825214a7349b2992282c6b95e032e5bf2a1",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_6/formula.va",
+      "corrected_sha256": "1b30972f5c4d1b75c8b6f57a96cd86e1dda91c00d1413e0c6d00c31bddc538b6"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_8/formula.json",
+      "source_sha256": "a5a11ca6f5ad59ed9ac53b72b93eeb1cf9136dbec13c71b212d9c5a07333c826",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_8/formula.json",
+      "corrected_sha256": "f3d795dc8473cd5559101b85a016ec859665f56a3ba205de20450fd38c4a4d36"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_8/formula.va",
+      "source_sha256": "35c5fd319b5232251764a2c1485f226847c99b657c93e5d8c6bd8b6af616bd17",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/additive_spline_8/formula.va",
+      "corrected_sha256": "70e77bf862bf2a5076530bb7cdbaeb033e9ecd199f791a330449b5497b75748c"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_1/formula.json",
+      "source_sha256": "d6b23828ab566df2fd500b27f4a9ee66d497dc788be1a8719db224b8fa065536",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_1/formula.json",
+      "corrected_sha256": "5e1443680f37c508aa193eb8fb58b9a4be5410807e2a4709ba79c1b4717fb8c1"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_1/formula.va",
+      "source_sha256": "3e3fb58f4cbb6d4ad235295a72e0991955853f324f49512c55e3d57da82ecfae",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_1/formula.va",
+      "corrected_sha256": "d9380dca0a3624fd2b723f0e16ab0a6cf005ee7630fe4a439b75e17e05922f79"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_2/formula.json",
+      "source_sha256": "fa07d6ad0c0bb5eb181a0366a968b4d03a031473edad0aaf379b5d4eb219cc30",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_2/formula.json",
+      "corrected_sha256": "59ad7f021493151ce2d9ea8aca3badf1bc205dc57b7e8dc8824ca453c9c6802e"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_2/formula.va",
+      "source_sha256": "11d82296a54743849f945961ed833e755d897a2a6b6c1ab455cf2fb45cd66d7e",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_2/formula.va",
+      "corrected_sha256": "0479ac82fcbd72f2c54f3162c4f2237ed57b72ca7fa1ac6d6fea69f81673fe53"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_3/formula.json",
+      "source_sha256": "f92fcfcfe52b2b3a049e2b3a1a7ced88ed2b0789e489bd46a3c7cb67a21d46f5",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_3/formula.json",
+      "corrected_sha256": "1c7639b7f58f01b4684f4be1d8b5ae11e69a341a48ce6445affffb6a87ecf355"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_3/formula.va",
+      "source_sha256": "965f83d674fa7e07e8e6f0ae7fdc9fb943829195ef92649bb56dec27a039f5b0",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/bkan_parameter_mean/polynomial_3/formula.va",
+      "corrected_sha256": "c5de17fd790291125db9074e6602e8c7f26b5b8d4d8ca2a8f0c0a5719e9a5fc8"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_4/formula.json",
+      "source_sha256": "1e8a9e9293483cbfe3df696c66d637c3f278f4e5ff09b537e479ac99ca7b2db5",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_4/formula.json",
+      "corrected_sha256": "70c06e4c2919418b4b1429f8b4e1131ac15ad0114736eea6347f0a3d85c638d9"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_4/formula.va",
+      "source_sha256": "68cf98bce5ca0146c6b888f6cebe4b355d0be614b5f3ef780c264f6e30b1e336",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_4/formula.va",
+      "corrected_sha256": "e45f57028d9486dca4878401a35ed56feac26f697240d0bbd66385b5a058a68f"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_6/formula.json",
+      "source_sha256": "f7f726425c354b91084f72cab3cf100f066fcc09cbce5d250ca3516ee18a721c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_6/formula.json",
+      "corrected_sha256": "754d8aa5d982a9f4018c301f0faafaa45342be48e2289d14172f2648ce502618"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_6/formula.va",
+      "source_sha256": "ca131da9872a65fb3dc8b7732aaea0783b39d11feebe76da0dcf6a42d3858c6f",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_6/formula.va",
+      "corrected_sha256": "fdb04dc8726d9adff6d5ba05e7d2901c935abc0fe66bda20f4c6cf767ce7e1c1"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_8/formula.json",
+      "source_sha256": "b71f8d786284510ed95433b8a00df5202d02a22ca165c606a05d876759d7b3b9",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_8/formula.json",
+      "corrected_sha256": "ddb0e93b8509dcdcae8e196588210ded7656af43b0b9155501cef3c69cd2aa70"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_8/formula.va",
+      "source_sha256": "62c24254935a165acf108d9a271a461b72a8bedfe920a545f145cd77601454e8",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/additive_spline_8/formula.va",
+      "corrected_sha256": "e19a4c016c631c956274bbbdaa48439cafcb275c032b8ce033fc3a39c9a85a0a"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_1/formula.json",
+      "source_sha256": "b80f26a96095ff3da6a36ec42ebe4f709f134fb7bcf62ba75d853df7ecc7566a",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_1/formula.json",
+      "corrected_sha256": "7d6a5e19e75629bd9e014d07ab5132ab6e4f7bb980d1c461a406e5158cba9d6c"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_1/formula.va",
+      "source_sha256": "1517418d3943e077dc9922cbbbc20bc25e551af376a7fd7e0e89395c4643f921",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_1/formula.va",
+      "corrected_sha256": "d6c06f31b079189407ff366fefc788d49c174a7d081c4282dce40337e5e0f0a1"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_2/formula.json",
+      "source_sha256": "3cec3102cbf6d60f101e8327e891ef8d480bbbdde13f21a95cb50a31998fd561",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_2/formula.json",
+      "corrected_sha256": "63865bbe663b676c5b3f8beb7dcf397bce647bae3c5d52be792381a12ad5c2b2"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_2/formula.va",
+      "source_sha256": "a4c105bcfa2f32f5054cb3dcd015a5255d3dc2d6d2279f9eed9a2e2113af54b1",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_2/formula.va",
+      "corrected_sha256": "d307888c998956e3f01ef4d09f3dfbc3dafb54d53ec0663cd75024e0a7b727cf"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_3/formula.json",
+      "source_sha256": "af9558c233dc79dd740346d0c3b34bba877a9805837ab030f0d8e1171bb4eeaf",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_3/formula.json",
+      "corrected_sha256": "08c3650c4b657a559bfcca4c1546093e5c989546fcb5ab95fe067f1db5efb973"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_3/formula.va",
+      "source_sha256": "a5387a3fbb7539ff3fd155de713c257000660613bf9e34cd8f8fa9e9bab41c0a",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/dkan/polynomial_3/formula.va",
+      "corrected_sha256": "85bb45b5405f7b673cd0effda6b6e8bfe2b7903e0466fb2e03981977f8911fdf"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_4/formula.json",
+      "source_sha256": "08571761bafdb9f85f2a289eb5d0444cc8b8870d8eda3d918b9d5ae4488aa8eb",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_4/formula.json",
+      "corrected_sha256": "31f6738480f07ae66d202a842a72b6640140e1b5abf3656ac8eb66fd3b3755c5"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_4/formula.va",
+      "source_sha256": "d33d4ab296bb914fbf730069dea47b5b7ee157c0cf388cc77da8e5490d1dd007",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_4/formula.va",
+      "corrected_sha256": "59d6963b68b945f649fe43f216295d47734f9b23bd12c2a8b59010b0220bbf84"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_6/formula.json",
+      "source_sha256": "e2c8af62812ce013ed4500cb8605082d58f3f1c506174d5ea903964d8016ceef",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_6/formula.json",
+      "corrected_sha256": "f55be8b31ce9a39c72f67f5cb3c69f40375361a219dd58e87e0d52719d9e99d1"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_6/formula.va",
+      "source_sha256": "393ce0802c46fb47763e349786c8ca5ce1a0394e7c5fb82b8b2bd07c058946de",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_6/formula.va",
+      "corrected_sha256": "056a62aa5633f65acbb5f39c12be05b409a586f853863f8db4b071e25d0ef75a"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_8/formula.json",
+      "source_sha256": "e3326900531ff6f5241d56cb632e4d84bb11ae5288578d374045871f28d2fce1",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_8/formula.json",
+      "corrected_sha256": "4f0e905842d492039c327b3c1a88ffc0fdf27de769991a07c467a17963304f90"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_8/formula.va",
+      "source_sha256": "b8a93b05f8e37e84cc897c88316e9ea4acc02e665af8295fe5743707753f787c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/additive_spline_8/formula.va",
+      "corrected_sha256": "62499097246db7baa3bcfe8ad13f12c79f1b1554dcfed8872e8324c78e4519fa"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_1/formula.json",
+      "source_sha256": "dba3f41e753841256644dc9619713b60e868396160549bca0ec72bd1a1a30921",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_1/formula.json",
+      "corrected_sha256": "206b25a8b52d5986856c3c28a0de093d49b7d0d2d0573cf8ab7c50269408fc83"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_1/formula.va",
+      "source_sha256": "ce6bdfd51b873ebc401a8e5470cdc4a840e986d6381fc708149a688731f0ec62",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_1/formula.va",
+      "corrected_sha256": "1c5da6f6375075f6e3fdb30fea2906450bd67743c171e62deef76c39bc9cfce4"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_2/formula.json",
+      "source_sha256": "cbff8c909a580fd2d9f3874719ef53f2e72655e5ab534d9b9d7270cc3d88de68",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_2/formula.json",
+      "corrected_sha256": "f92d8f66c2030303352e38ff6ed691e85d2b7be1bc6202338cdea8d963556f6a"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_2/formula.va",
+      "source_sha256": "751e5103ee73d576b080c16d5a6a39e8131862f2a80181f626e8a8929479c612",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_2/formula.va",
+      "corrected_sha256": "bedb2e0a2dbf0837b5fb4241e9b2ba653cce6c9ae6fcefa782eebca9e9b5b641"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_3/formula.json",
+      "source_sha256": "f9d094ce64f08ef6288df20e4870b143e85d5e44f89647ad21c9a129147d55ee",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_3/formula.json",
+      "corrected_sha256": "75b6ad1cc062ff3f60c5189c5485a4373b0fe48cd265572f2a4385730e28f594"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_3/formula.va",
+      "source_sha256": "96bd327e5c58d418e50b3511451f6bd51db7c1dc3875a68924eb498481a18389",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/mlp_l/polynomial_3/formula.va",
+      "corrected_sha256": "ded6db4953d97a2c2ee257363689858221d41f686dfbdd1bd69c738c38c3bff0"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_4/formula.json",
+      "source_sha256": "d9254e6b42fa65ac9a3a1b38cd86dc9a09c3eea2ee7397a9036945098f758240",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_4/formula.json",
+      "corrected_sha256": "a95a37f5731e5f080806618a82ead61ed7a6a02d7c00b792511d64168c14a26e"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_4/formula.va",
+      "source_sha256": "6c57895800d83a5e2ab19b01286c958b73110c1a552838a367bea02b5345558c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_4/formula.va",
+      "corrected_sha256": "46a0721d3c3a592ac69115df5d3924afeb3efad0c9aae4a9bc07c8b0f5f094db"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_6/formula.json",
+      "source_sha256": "cb5e3281bb4c1a9629ca02d497343530e924e0bc025268cc09f40ce4f4b7296c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_6/formula.json",
+      "corrected_sha256": "71d965cbe4c230c4fdde8d3c4bcfb19483820de3e1baf82c084f318944ed5b4c"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_6/formula.va",
+      "source_sha256": "8b13e20840e73ef85b12a02dfa06fb9ecaf0494278bd7d70980211c845d527f5",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_6/formula.va",
+      "corrected_sha256": "dfcc1e1c2a158fee557521e9f27ff31b9bc18eb66c6521f0f2d08b36e8e4d316"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_8/formula.json",
+      "source_sha256": "96e61a1ba21cdb56cac7c31116dd79800c36522e00445b11677a398e75c1f181",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_8/formula.json",
+      "corrected_sha256": "91e90e83eaa1c7655d65ab531b7317ca4df484d980e059cf2031aeaf4249e40f"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_8/formula.va",
+      "source_sha256": "535bf38b3550c9062f6323138caab23b3c4c9ba6f4a13be8b45149133bee9056",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/additive_spline_8/formula.va",
+      "corrected_sha256": "6d91f114609d6bfe2015ff529cf049211274e127278f3ba4809ffebac875291a"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_1/formula.json",
+      "source_sha256": "fc9ce1531150957276a668f99064a4fb20f3b125b0ef5cd9f5f94fc52e8cee24",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_1/formula.json",
+      "corrected_sha256": "583cd97d1fceaedcb87ea80d3c7f5bb1480b1aec61f85a287494512e3e3a82c4"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_1/formula.va",
+      "source_sha256": "a931025f01d8210063294668aaed100b28d737eb63b28d75307af9cd8febe588",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_1/formula.va",
+      "corrected_sha256": "af9c0ba10496c2c862b78b117e6de53190cc7aeb716abc01484216c1548442fd"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_2/formula.json",
+      "source_sha256": "bb8402d7c52f002837f78289a8edfa716dac1a0f09dbaf8182ddc269234cd13c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_2/formula.json",
+      "corrected_sha256": "81296c1b2379e60f7708fcec0e0509beb06d9e06acfd282ce8d2b7684d2dd6fa"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_2/formula.va",
+      "source_sha256": "3fbbe5a97c58e3210582c70f8043045f61f6d47175fc7a61d3453bd48519ff98",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_2/formula.va",
+      "corrected_sha256": "e636fb36cd34a414a0eeaa0f185446d13ed4b9e1a2c96a56fbda2805f4b8ef2f"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_3/formula.json",
+      "source_sha256": "c0298e997022e4b78282eb2bdedc226e5bc6d9561b0111f559fbe5d80b2c2daf",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_3/formula.json",
+      "corrected_sha256": "6b16d6007610d807b0d6cc282e9cd77bb014e304660e9834913aa7869d3e5c12"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_3/formula.va",
+      "source_sha256": "79798baf50f9dc630d2d23d0ee57f30933fa96f5a201808e589989ee9751d2b0",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/multi_teacher_symbolic_pareto/exports/Capacitance/tcad_direct/polynomial_3/formula.va",
+      "corrected_sha256": "b795d59bc81937b496c3a668cfe99698018661dcba5b34ffe70f066137833acc"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_00_seed_26000/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "2708bd25f243d0f25d859be5bd5e6f1d5d4282be95e4ffb12c7311c9fe3d3507",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_00_seed_26000/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "452eb092fb5fa71be072935348ab65fb6ce71650e29dcaf04472d41d8c3bac23"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_01_seed_26001/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "5601b0dabb4b0a32ebf703f83f8fb57385161a074eab339859c22a285a6c6c5b",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_01_seed_26001/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "9f0425bdc2ad2a4a1b64229d0e6600590d12f621ea7d88c12e49b88e41181632"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_02_seed_26002/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "b1e6df05a84d1d91f45b493d399d7e28252149eea861c65d9587416a8c46b003",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_02_seed_26002/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "a38768db01e2099dd4e294694ca0dc7e7c7bb0a067983932798d990587290f18"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_03_seed_26003/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "028116cd37a7bdfc32b19490fb742f5e166197ced50c54c31d750e9909d35e23",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_03_seed_26003/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "23236890819edcb2439ef516b5b1a0877b5a9b2bed50452ed20aa169ab1403a5"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_04_seed_26004/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "ab18dc527b3707f6dc21ccdd2cf457ec1da389ac86d370c7f358cbea4a271990",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_04_seed_26004/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "28b15eeb631f61c8a03e4a478acfa7b21070881fa9301dccdafdada4f41eef78"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_05_seed_26005/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "fddfba338305b1d010b4e7720c68a273531bd93a2023202f2126301b293311b4",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_05_seed_26005/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "621746fd35d173dbf817265e9d49b4b685fcd76aa847f281c3bbe60353475f3b"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_06_seed_26006/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "4e271baa4ff233e9f3d45f566d26ef5836eccf43ca3ce190e5e84c51270fd151",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_06_seed_26006/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "f248f85b05dc579e94b03a1a0b3c91cb3352037d4b4f6dd0369e0f41ed617ac2"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_07_seed_26007/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "41b9ca601ddff146c76c488cb89086dccc01d902430c907d7670b8a826c09939",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_07_seed_26007/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "39ee7fa917bba045085bcab68eb7d06ee73faa95981326db67d787f08bb50271"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_08_seed_26008/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "cbdc9b02a0bdcf07cb8f5f34f6097e4e4a2a9a7b490a06247e62301b0ad52669",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_08_seed_26008/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "5179fd24544600a1cc2c4e8f9428af7cb74811ab9424ad28d129fdcd4a349dd8"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_09_seed_26009/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "bf5d4dd4c028f640831aee6dc07d43b54fe1e754f5789dd2f5667f5307e9f84e",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_09_seed_26009/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "d6749877a69863e7c57eab7313e48abe6fbdcd2c921bf4c0926a7434105d0dad"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_10_seed_26010/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "e2092d9e24d9d96d248e3d8f06c8e02762828df6f2a26f33a944aa4f704d5cd3",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_10_seed_26010/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "598718c4fbc45a735ac755b2fd8897d3e64089cd4d557b55baee4ceedbcf7578"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_11_seed_26011/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "a87d8f28f63e630a54c662db4b7fabe5b38142577f6ac67937dfb85ad87c7b7d",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_11_seed_26011/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "796357d4476eb419aa2e3732169135f758f1c2bbc212ad6ac2a867cbdb3d7492"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_12_seed_26012/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "fc8472f273eea95d1c658b9df57b990e68ebdcba346a4ea8304e00a514e00141",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_12_seed_26012/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "af1dee0963383be09ca1cf7e643cfed3bdb8ecf5d34188b8221781034f921910"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_13_seed_26013/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "cebef60c5af55abb45f17a30fcd5c942f83afcc39dfd2dd13e34c3a86f3fb0dc",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_13_seed_26013/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "74e5b1052ed5b77111e5be9480136733c273d46bd9a509d77afe2b90326a1fc7"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_14_seed_26014/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "7bd83dc887081116e5aa1ba85291b0b7c5c6f0a0ff243e34ce28cf01a71645b0",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_14_seed_26014/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "c7b277fb3c8baaaa2b664e107bc324afb3eac0261d93fe14b56eb5c34353b073"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_15_seed_26015/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "4948444c0e41bcfd18afd7cf34fd1bc3ea406eee02bfa6c430d354f10a1cca37",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_15_seed_26015/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "c01dfe28fd86f6c0038f14c8f7906e0f10ec4b4d02b28b3c433861dcb18e18e0"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_16_seed_26016/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "34cb21b5f29765a3b3444f8e844586988189c0d2add42c706881ce1184297f9c",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_16_seed_26016/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "2ef61f5a41eecfad14519cbc6e3222cb2665e002324db704ab7ad79f5a81ea74"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_17_seed_26017/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "a5d8e3df5e84087c8798ce7d42241e4cc047b3f6c282da3e41187392954448aa",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_17_seed_26017/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "31cc49e1a4a0c582dfefb09cad420a9f5070607ff71d81f59c3b5a20a2904087"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_18_seed_26018/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "1f8fc14ad815d4fe6261d33195f8004bd79af8455700c063837e889cdd6de76b",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_18_seed_26018/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "c2f0dcda3f1e97c0a5d4fe7466207861c20d8fce65a8ff9b4f40dfeda02f8176"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_19_seed_26019/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "ca3a67afd2a9fba201180ef12f2f32b983c7cc06f649ee18490ae88d90f7ebe9",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/posterior_formula_ensemble/formulas/Capacitance/draw_19_seed_26019/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "c739f60467c8557a999ea21612e4e40910d2e72695d461137acb4de310fdd31a"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/poly3_ridge.json",
+      "source_sha256": "980aaff24af12a2986027fec68322a6e27d4c6bc0f0ec0493e5fe85faa8b110d",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/poly3_ridge.json",
+      "corrected_sha256": "14957566162551e38683ef6955a9a51f5fadf964ca6c994576d5ca612b943b53"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/poly3_ridge.va",
+      "source_sha256": "a9c1684d515020a351c2c55155ead1171c4d815929a541473600102377c049d7",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/poly3_ridge.va",
+      "corrected_sha256": "efd041432d2f7f04950578088d615a63b94759955740c8b597418f5409a4c143"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/spline_ridge.json",
+      "source_sha256": "229de28d57d083d251795b8505a03abe28cb462ef9f82dd4f881e9aebf76c035",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/spline_ridge.json",
+      "corrected_sha256": "f0d95a41736870b178f50ab50d71d2f31548ed9d93497d4f70b51d70d8a37f6e"
+    },
+    {
+      "kind": "veriloga",
+      "source": "artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/spline_ridge.va",
+      "source_sha256": "caab81ee08f656b379a9a48e3669fdb175e260aa4b91c3c23e55f10f43eb945e",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_export_audit/direct_baselines/Capacitance/spline_ridge.va",
+      "corrected_sha256": "3d69bc9a76d0e9e7ca9223cbd8fc5469f0c5c21a71d8cf27f97f2db9402ff449"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_seed42/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "2d7864e6dc66be314523684a7057baa61e4e44ba088b4bc7e558ef5441b8ff24",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_seed42/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "8ee6b0a47d60c66692ca53750d570f19dc4f808f818ea9af1f8f91266e3b7001"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_studentseed43/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "85ee3d63084e62aec90c06269ca5233409b0dcf653fda19325619847b663e46b",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_studentseed43/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "675d421fca4d4075138f231f32b4150bacde2506cf7f620b83b66345b355bc8f"
+    },
+    {
+      "kind": "json",
+      "source": "artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_studentseed44/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "source_sha256": "eae871b441f168e3c89d359f0d7758c08b0db802b516756b84ab8d54a4247b1b",
+      "corrected": "artifacts/results/apparent_capacitance_correction/formula_overlays/artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_studentseed44/capacitance_symbolic_gated_kan/pure_symbolic_formula.json",
+      "corrected_sha256": "43e80b5f9d2b6605730270daee01b578800f4fd1da0a0a48912c3e96b53cd598"
+    }
+  ]
+}

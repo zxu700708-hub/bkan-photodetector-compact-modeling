@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "evidence_scope": "CORRECTED_NET_PHOTOCURRENT_TERMINAL_Q",
+  "status": "ready_to_run",
+  "simulator_execution_status": "pending",
+  "legacy_proxy_evidence_transfer": false,
+  "checks": {
+    "required_files_present": true,
+    "replacement_source_matches_artifact": true,
+    "replacement_module_identity": true,
+    "portable_replacement_only_decks": true
+  },
+  "failures": [],
+  "tolerances": {
+    "dc_relative": 0.002,
+    "dc_absolute_A": 1e-11,
+    "ac_conductance_relative": 0.02,
+    "ac_conductance_absolute_S": 1e-10,
+    "ac_dqdv_relative": 0.02,
+    "ac_dqdv_absolute_F": 1e-18,
+    "transient_normalized_rmse": 0.08,
+    "transient_charge_relative": 0.05,
+    "transient_charge_absolute_C": 5e-18,
+    "transient_step_convergence": 0.05
+  },
+  "references": {
+    "dc_rows": 183,
+    "ac_rows": 1815
+  },
+  "sha256": {
+    "bkan/device_modeling/veriloga/ge_si_photodetector_terminal_charge.va": "c8218fda9cb75f75701b007050328630e3008e7f8ca5e6f9f77375f7489c608d",
+    "artifacts/results/terminal_charge_model/ge_si_photodetector_terminal_charge.va": "c8218fda9cb75f75701b007050328630e3008e7f8ca5e6f9f77375f7489c608d",
+    "artifacts/results/terminal_charge_model/terminal_charge_models.json": "1b571416067bbdef0b4de16f038a7f98732a0ab94918b5e04b4f697d5fffc345",
+    "artifacts/results/device_modeling/I-dark-bayes-results/symbolic_formula.txt": "7abdbb639ba874a9c6eb69b2a9e2524b618497fafebbe8592a0a6bcbe695f793",
+    "artifacts/results/net_photocurrent_retrain/symbolic_fixed_teacher/seed_42/photo_current_symbolic_gated_kan/pure_symbolic_formula.json": "08e29c61913694a09b76475f2d13cc7122154713b4ed9f5fc6b29cdc42a2e22d",
+    "bkan/device_modeling/veriloga/testbench_dc_terminal_charge_ic618.scs": "e1ac741effe348902baff68d043d0cb4f609cac5d6ee2a477b8854327d0b6674",
+    "bkan/device_modeling/veriloga/testbench_ac_bias_temp_terminal_charge_ic618.scs": "cfa728bc95822e09a04e6ddfef5c60486d7e34775ffac485f2b9d3fb05f081be",
+    "bkan/device_modeling/veriloga/testbench_transient_terminal_charge_ic618.scs": "84f50b6062ac9b8438dbdea76361cff069b1a3aad1246350bc012b95ff4bbe9f",
+    "bkan/device_modeling/veriloga/testbench_transient_terminal_charge_fine_ic618.scs": "3938d4d6a767aacf624c2a18bb03e2040ac9fc0db1e9a60bf63351a8c120e30c"
+  }
+}

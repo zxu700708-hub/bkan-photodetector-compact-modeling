@@ -1,0 +1,22 @@
+simulator lang=spectre
+
+// Standalone AC-response formula implementation check.
+// Copy ge_si_ac_response_symbolic.va to the Cadence run directory or update
+// the ahdl_include path below.
+ahdl_include "<CADENCE_RUN_ROOT>/ge_si_ac_response_symbolic.va"
+
+parameters f_ghz=1.0
+
+// Five in-envelope design points.  The output-node voltage equals the
+// normalized small-signal response in dB for that design point.
+Xac_36_290 (y_L36_T290 0) ge_si_ac_response_symbolic frequency_ghz=f_ghz active_layer_length=36.0 simulation_temperature=290.0
+Xac_36_310 (y_L36_T310 0) ge_si_ac_response_symbolic frequency_ghz=f_ghz active_layer_length=36.0 simulation_temperature=310.0
+Xac_40_300 (y_L40_T300 0) ge_si_ac_response_symbolic frequency_ghz=f_ghz active_layer_length=40.0 simulation_temperature=300.0
+Xac_44_290 (y_L44_T290 0) ge_si_ac_response_symbolic frequency_ghz=f_ghz active_layer_length=44.0 simulation_temperature=290.0
+Xac_44_310 (y_L44_T310 0) ge_si_ac_response_symbolic frequency_ghz=f_ghz active_layer_length=44.0 simulation_temperature=310.0
+
+save y_L36_T290 y_L36_T310 y_L40_T300 y_L44_T290 y_L44_T310
+
+// DC analysis is sufficient because frequency_ghz is an explicit formula
+// parameter, not Spectre's small-signal AC frequency variable.
+ac_response_formula_check dc param=f_ghz values=[0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 40.0]

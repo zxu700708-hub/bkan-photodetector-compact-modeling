@@ -1,0 +1,67 @@
+{
+  "artifact_status": "HISTORICAL_RETIRED_NON_PROPAGATING",
+  "current_evidence_eligible": false,
+  "replacement_terminal_q_evidence": false,
+  "compatibility_alias_only": "proxy_charge_definition.json",
+  "identity": "separately fitted numerical proxy; not strict terminal charge",
+  "strict_terminal_charge_available": 0,
+  "source_target": "terminal_charge_proxy_C",
+  "source_table_role": "supplied supplemental Q-V proxy table; upstream physical generation deck is not archived",
+  "feature_names": [
+    "bias_v",
+    "trap_assisted_recomb_A",
+    "ge_sio2_recomb_velocity",
+    "ge_si_recomb_velocity",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "frequency_used": false,
+  "polynomial_degree": 3,
+  "term_count_including_constant": 84,
+  "ridge_alpha": 1e-05,
+  "x_mean": [
+    -1.4999999999999998,
+    1.005414654515767e-09,
+    2506.6936288302218,
+    500.75626911012256,
+    40.02744462364232,
+    299.8451884752757
+  ],
+  "x_scale": [
+    0.9219544457292889,
+    9.031724098584285e-11,
+    98.91205045112198,
+    18.77982968159148,
+    2.0006169381283647,
+    4.762620214306863
+  ],
+  "y_mean": 4.251642016262644e-17,
+  "y_scale": 2.6753154293183016e-17,
+  "split": "70/15/15 by sample_id, seed 42",
+  "selection": {
+    "objective": "joint_value_derivative",
+    "derivative_feature": "bias_v",
+    "derivative_target": "capacitance_F",
+    "derivative_weight": 0.001,
+    "derivative_scale": 3.4175343621831004e-18,
+    "selection_metric": "minimum_c_p95_subject_to_q_active_p95_limit",
+    "q_active_p95_limit": 0.05,
+    "selected_derivative_weight": 0.001,
+    "candidate_derivative_weights": [
+      0.0,
+      0.001,
+      0.003,
+      0.005,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1.0
+    ],
+    "boundary_endpoint_multiplier": 5.0,
+    "boundary_neighbor_multiplier": 2.0
+  },
+  "charge_assignment": "Qp = Q_proxy, Qn = -Q_proxy",
+  "coefficient_csv": "historical_retired_proxy_charge_coefficients.csv",
+  "compatibility_coefficient_csv": "proxy_charge_coefficients.csv"
+}

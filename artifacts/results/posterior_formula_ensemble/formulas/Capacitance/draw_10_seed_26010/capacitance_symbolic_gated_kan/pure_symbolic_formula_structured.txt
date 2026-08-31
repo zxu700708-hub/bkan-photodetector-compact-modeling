@@ -1,0 +1,35 @@
+Pure symbolic student: structured deployment graph
+==================================================
+KAN contribution at inference: 0
+Unique normalized features: 24; branch coefficients: 24
+
+# Evaluate each normalized feature once
+phi_0 = ((1) - 0) / 1  # one
+phi_1 = ((scaled(bias_v)) - -3.193105849175204e-11) / 1  # bias_v_z
+phi_2 = ((scaled(bias_v)^2) - 1) / 0.8891569375991821  # bias_v_z2
+phi_3 = ((softplus(-bias_v/0.2)) - 7.575106143951416) / 4.500237464904785  # soft_reverse_bias_v
+phi_4 = ((tanh(-bias_v/1.0)) - 0.7517894506454468) / 0.3039918839931488  # tanh_reverse_bias_v
+phi_5 = ((1-exp(-(softplus(-bias_v/0.2)-log(2)))) - 0.8795590400695801) / 0.2650760412216187  # reverse_saturation_bias_v
+phi_6 = ((sigmoid(bias_v/0.2)) - 0.06025812029838562) / 0.1325276345014572  # forward_gate_bias_v
+phi_7 = ((sigmoid(-bias_v/0.2)) - 0.9397571086883545) / 0.1325299292802811  # reverse_gate_bias_v
+phi_8 = ((scaled(simulation_temperature)) - -2.155729589503608e-06) / 1.000007152557373  # temperature_z
+phi_9 = ((1/simulation_temperature) - 0.003337366972118616) / 5.432384932646528e-05  # inverse_temperature
+phi_10 = ((bias_v/simulation_temperature) - -0.005006289109587669) / 0.003078551031649113  # bias_v_over_temperature
+phi_11 = ((scaled(active_layer_length)) - 4.870061275141779e-06) / 0.9999966025352478  # length_z
+phi_12 = ((1/active_layer_length) - 0.02501212805509567) / 0.001199635677039623  # inverse_length
+phi_13 = ((bias_v/active_layer_length) - -0.03751403093338013) / 0.02315496653318405  # bias_v_over_length
+phi_15 = ((scaled(ge_sio2_recomb_velocity)) - -3.915237357432488e-06) / 0.9999805092811584  # ge_sio2_velocity_z
+phi_16 = ((scaled(ge_si_recomb_velocity)) - 1.516685415481334e-06) / 1.000007152557373  # ge_si_velocity_z
+phi_17 = ((ge_sio2_recomb_velocity/active_layer_length) - 62.59379577636719) / 3.543800830841064  # ge_sio2_velocity_over_length
+phi_18 = ((ge_si_recomb_velocity/active_layer_length) - 12.47555541992188) / 0.7982455492019653  # ge_si_velocity_over_length
+phi_20 = ((softplus(-bias_v/0.2)^2) - 77.64078521728516) / 71.5345458984375  # bias_reverse_softplus2
+phi_21 = ((softplus(bias_v/0.2)^2) - 0.0373397022485733) / 0.1168528124690056  # bias_forward_softplus2
+phi_22 = ((1/sqrt(1 + (bias_v/0.45)^2)) - 0.4008450210094452) / 0.2667825520038605  # bias_depletion_knee
+phi_23 = ((exp(-clip(bias_v, -3, 3))) - 6.642271041870117) / 5.676732540130615  # bias_reverse_exponential
+phi_24 = ((sign(bias_v)*log1p(abs(bias_v)/0.1)) - -2.487406969070435) / 0.9098379015922546  # bias_signed_log_curvature
+phi_26 = ((1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)) - -9.55536982871763e-09) / 0.4815367162227631  # depletion_knee_times_log_frequency
+
+# Branch graph
+normalized_output = 0.3333100080490112 + (0.3240446150302887)*phi_0 + (0.29953733086586)*phi_1 + (-0.2558621168136597)*phi_2 + (0.2585373222827911)*phi_3 + (-0.2117992639541626)*phi_4 + (-0.1745672225952148)*phi_5 + (-0.3023185133934021)*phi_6 + (-0.02161541953682899)*phi_7 + (0.01483075972646475)*phi_8 + (0.008732153102755547)*phi_9 + (-0.1305523812770844)*phi_10 + (0.01851115189492702)*phi_11 + (-0.2125526070594788)*phi_12 + (-0.07128609716892242)*phi_13 + (-0.06861678510904312)*phi_15 + (-0.08933961391448975)*phi_16 + (0.09716115146875381)*phi_17 + (0.1499159336090088)*phi_18 + (0.03788166493177414)*phi_20 + (-0.04089275747537613)*phi_21 + (0.03921183571219444)*phi_22 + (0.2856854796409607)*phi_23 + (0.418068528175354)*phi_24 + (-0.009301852434873581)*phi_26
+model_space_output = 4.455701297816637e-17 * normalized_output
+physical_output = model_space_output

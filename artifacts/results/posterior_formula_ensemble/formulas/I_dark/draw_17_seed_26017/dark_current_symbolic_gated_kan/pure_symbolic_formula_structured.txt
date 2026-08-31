@@ -1,0 +1,30 @@
+Pure symbolic student: structured deployment graph
+==================================================
+KAN contribution at inference: 0
+Unique normalized features: 19; branch coefficients: 36
+
+# Evaluate each normalized feature once
+phi_0 = ((1) - 0) / 1  # one
+phi_1 = ((scaled(dark_voltage)) - 9.118091170989828e-09) / 1.00000011920929  # dark_voltage_z
+phi_2 = ((scaled(dark_voltage)^2) - 1.000000238418579) / 0.8884189128875732  # dark_voltage_z2
+phi_3 = ((softplus(-dark_voltage/0.2)) - 8.034534454345703) / 4.270110130310059  # soft_reverse_dark_voltage
+phi_4 = ((tanh(-dark_voltage/1.0)) - 0.8018443584442139) / 0.2416383326053619  # tanh_reverse_dark_voltage
+phi_5 = ((1-exp(-(softplus(-dark_voltage/0.2)-log(2)))) - 0.9381130933761597) / 0.141233041882515  # reverse_saturation_dark_voltage
+phi_6 = ((sigmoid(dark_voltage/0.2)) - 0.0309441089630127) / 0.07061640173196793  # forward_gate_dark_voltage
+phi_7 = ((sigmoid(-dark_voltage/0.2)) - 0.9690564870834351) / 0.07061649858951569  # reverse_gate_dark_voltage
+phi_8 = ((scaled(simulation_temperature)) - -1.334008725706326e-08) / 1.000000953674316  # temperature_z
+phi_9 = ((1/simulation_temperature) - 0.003336552297696471) / 5.486086956807412e-05  # inverse_temperature
+phi_10 = ((dark_voltage/simulation_temperature) - -0.005338490009307861) / 0.002884839661419392  # dark_voltage_over_temperature
+phi_11 = ((scaled(active_layer_length)) - -1.071464428292757e-08) / 1.000000715255737  # length_z
+phi_12 = ((1/active_layer_length) - 0.02506421133875847) / 0.001242538914084435  # inverse_length
+phi_13 = ((dark_voltage/active_layer_length) - -0.04010279104113579) / 0.02177552692592144  # dark_voltage_over_length
+phi_14 = ((scaled(trap_assisted_recomb_A)) - 1.050177100836436e-08) / 1  # trap_A_z
+phi_15 = ((scaled(ge_sio2_recomb_velocity)) - -3.547895532918233e-09) / 0.9999987483024597  # ge_sio2_velocity_z
+phi_16 = ((scaled(ge_si_recomb_velocity)) - 1.316269226947497e-08) / 0.9999999403953552  # ge_si_velocity_z
+phi_17 = ((ge_sio2_recomb_velocity/active_layer_length) - 62.68197631835938) / 3.905928611755371  # ge_sio2_velocity_over_length
+phi_18 = ((ge_si_recomb_velocity/active_layer_length) - 12.51839447021484) / 0.8057981729507446  # ge_si_velocity_over_length
+
+# Branch graph
+normalized_output = 0.1293815970420837 + (0.1200244873762131)*phi_0 + (-0.1641141176223755)*phi_1 + (0.001792553230188787)*phi_2 + (0.144366592168808)*phi_3 + (0.1116511002182961)*phi_4 + (0.1628735810518265)*phi_5 + (-0.1392305046319962)*phi_6 + (0.1783866435289383)*phi_7 + (-0.00571429030969739)*phi_8 + (-0.009425132535398006)*phi_9 + (-0.1723196655511856)*phi_10 + (0.005257273558527231)*phi_11 + (0.0004494316526688635)*phi_12 + (-0.06366218626499176)*phi_13 + (-0.008475231938064098)*phi_15 + (-0.004089685156941414)*phi_16 + (0.01421200297772884)*phi_17 + (0.007532582618296146)*phi_18
+model_space_output = 7.318022009221254 * normalized_output
+physical_output = 10**(model_space_output)

@@ -1,0 +1,99 @@
+{
+  "shared_general_student": {
+    "tasks": [
+      "I_dark",
+      "I_photo",
+      "Capacitance"
+    ],
+    "fit_partitions": "gradient-fit plus conformal-calibration groups (80% total)",
+    "validation_partition": "10%; strict lower validation objective retains checkpoint; exact ties retain earlier checkpoint",
+    "test_partition": "10%; opened once after stage-3 freeze",
+    "teacher": "f(x; E_q_beta[theta]) deterministic parameter-mean KAN",
+    "sample_weight": "clip((sigma_q^2+floor^2)^(-1)/mean_precision,0.2,5); floor=max(0.1*median_positive_sigma,1e-12)",
+    "objective": "w_y*Huber_0.05(student,TCAD)+0.25*Huber_0.05(student,teacher)+w_d*Huber_0.05(axis_derivative,finite_difference)+w_c*curve_shape+lambda_r*KAN_residual_MSE+lambda_k*mean_gate+lambda_b*mean(g*(1-g))",
+    "observed_weight": 1.0,
+    "optimizer": "fresh Adam (PyTorch defaults) per stage; gradient norm clipped to 10",
+    "initialization": "seeded 0.02*N(0,1) coefficients; zero biases except photo loss-branch biases=-3; gate prior clip(0.45+0.10*sensitivity,0.05,0.95)",
+    "validation_frequency_steps": 25,
+    "stages": {
+      "1": "lr=0.001; temperature=2; no regularizers",
+      "2": "lr=0.001; temperature geometric 2->0.35; residual/complexity/binary weights each 1e-5",
+      "3": "lr=0.0005; hard mask; temperature=0.2; residual weight=5e-5; complexity=binary=0"
+    },
+    "pruning_probability_threshold": 0.02,
+    "pruning_temperature": 0.2,
+    "pruning_score": "sigmoid(gate_logit/0.2)*abs(coefficient)"
+  },
+  "I_dark": {
+    "steps": [
+      300,
+      1000,
+      300
+    ],
+    "budget": 36,
+    "derivative_weight": 0.05,
+    "curve_shape_weight": 0.02,
+    "pruning": "equal mechanism quota floor(B/(M+1)); residual receives remaining slots"
+  },
+  "I_photo": {
+    "steps": [
+      300,
+      1500,
+      3000
+    ],
+    "budget": 72,
+    "realized_terms": 69,
+    "derivative_weight": 0.0,
+    "curve_shape_weight": 0.0,
+    "pruning": "one anchor per mechanism, then global score order across mechanism/residual candidates; no generic terms and no reserved residual slots"
+  },
+  "Capacitance": {
+    "steps": [
+      800,
+      1800,
+      3200
+    ],
+    "budget": 24,
+    "derivative_weight": 0.0,
+    "curve_shape_weight": 0.0,
+    "pruning": "global top-B eligible gate-score entries"
+  },
+  "AC_Response": {
+    "family": "floor(z)+(y0(z)-floor(z))/(1+(f/exp(logfc(z)))^p)",
+    "teacher": "fixed 500-pass finite-MC q_beta predictive mean (not parameter-mean KAN)",
+    "fit_partitions": "gradient-fit plus conformal-calibration groups",
+    "validation_partition": "evaluation only; not used for structure/checkpoint selection",
+    "test_partition": "opened once after hard pruning and refit",
+    "features_per_head": 6,
+    "heads": [
+      "y0",
+      "floor",
+      "logfc"
+    ],
+    "initialization": "scipy least_squares soft_l1, f_scale=0.08, max_nfev=10000",
+    "objective": "MSE(student,teacher)+1.0*MSE(student,TCAD)+gate_penalty*sum(sigmoid(logit/temperature)) during competition",
+    "optimizer": "one Adam optimizer, lr=0.02, PyTorch defaults; gradient norm clipped to 20",
+    "stages": [
+      "600 steps T=1 no gate penalty",
+      "1800 steps T geometric 2->0.15, gate penalty 2e-4",
+      "hard prune",
+      "2200 steps T=0.1 no gate penalty"
+    ],
+    "budget": 10,
+    "budget_definition": "ten gated coefficients; excludes the ungated global exponent parameter log_p",
+    "parameter_terms": 11,
+    "mandatory_terms": [
+      "y0 intercept",
+      "floor intercept",
+      "logfc intercept"
+    ],
+    "pruning_score": "abs(coefficient)*sigmoid(gate_logit); remaining slots in descending score",
+    "guards": "fc in [0.02,500] GHz; f/fc floored at 1e-12; p=0.5+exp(clip(log_p,log(0.05),log(20)))"
+  },
+  "source_configs": {
+    "I_dark": "artifacts/results/symbolic_gate_replacement/dark_teacher_budget36/dark_current_symbolic_gated_kan/run_config.json",
+    "I_photo": "artifacts/results/net_photocurrent_retrain/symbolic_fixed_teacher/seed_42/photo_current_symbolic_gated_kan/run_config.json",
+    "AC_Response": "historical run predates run_config serialization; effective values registered here",
+    "Capacitance": "artifacts/results/symbolic_gate_replacement/cap_teacher_curvature_budget24_seed42/capacitance_symbolic_gated_kan/run_config.json"
+  }
+}

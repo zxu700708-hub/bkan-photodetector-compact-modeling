@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-22T17:41:48.018060+08:00",
+  "purpose": "data-budget-matched multi-teacher symbolic/direct-export Pareto",
+  "scope_limitation": "Common polynomial and additive-spline KAN-free response-surface students isolate teacher source. This audit does not rerun the task-specific mechanism-gated symbolic student.",
+  "tasks": [
+    "I_photo"
+  ],
+  "seed": 47,
+  "runtime": {
+    "python": "3.12.10",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cpu",
+    "checkpoint_load_warning": "BKAN checkpoint scaler objects report serialization under scikit-learn 1.9.0; this run uses the version recorded above."
+  },
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "partition_policy": {
+    "teacher_fit": "train groups only",
+    "student_and_direct_fit": "train groups only",
+    "ridge_selection": "validation groups only, separately at each fixed complexity budget",
+    "calibration": "untouched",
+    "test": "evaluated once after teacher/student/direct model is frozen"
+  },
+  "teachers": {
+    "bkan_parameter_mean": {
+      "construction": "copy VI variational means to deterministic KAN; retain mean output channel",
+      "checkpoints": {
+        "I_photo": {
+          "path": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\uq_repeated_grouped\\seed_47\\I-photo-bayes-results\\model_checkpoint.pt",
+          "sha256": "795e080df0e32845ef5dde2260fac8af97bdda15a25cf6e695c1f204279641a0"
+        }
+      }
+    },
+    "dkan": {
+      "width": [
+        "n_inputs",
+        8,
+        1
+      ],
+      "grid": 8,
+      "spline_order": 3,
+      "steps": 300,
+      "optimizer": "Adam",
+      "learning_rate": 0.002,
+      "replay_reference": "matched_grouped_comparison frozen test predictions"
+    },
+    "mlp_l": {
+      "hidden": [
+        64,
+        32
+      ],
+      "epochs": 300,
+      "optimizer": "Adam",
+      "learning_rate": 0.002,
+      "regularization": {
+        "lambda": 0.001,
+        "l1": 1.0,
+        "entropy": 2.0
+      },
+      "replay_reference": "matched_grouped_comparison frozen test predictions"
+    }
+  },
+  "export_families": {
+    "polynomial": {
+      "degrees": [
+        1,
+        2,
+        3
+      ]
+    },
+    "additive_spline": {
+      "degree": 3,
+      "n_knots": [
+        4,
+        6,
+        8
+      ],
+      "interaction_terms": false
+    },
+    "ridge_alphas": [
+      1e-08,
+      1e-06,
+      0.0001,
+      0.01
+    ]
+  },
+  "source_data": {
+    "main": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\device_modeling\\cleaned_data.csv",
+    "capacitance": "<REPO_ROOT>/artifacts\\results\\apparent_capacitance_correction\\primary_ge_si_apparent_capacitance.csv"
+  },
+  "outputs": {
+    "per_export_metrics": "metrics_by_export.csv",
+    "summary": "summary.csv",
+    "pareto": "pareto_front_rmse_terms.csv",
+    "teacher_audit": "teacher_audit.csv",
+    "split_manifest": "split_manifest.csv",
+    "exports": "exports/<task>/<source>/<family_budget>/formula.{json,va}"
+  }
+}

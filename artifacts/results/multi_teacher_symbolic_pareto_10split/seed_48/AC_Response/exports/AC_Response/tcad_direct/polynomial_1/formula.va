@@ -1,0 +1,17 @@
+`include "constants.vams"
+`include "disciplines.vams"
+module poly3_export(out);
+output out; electrical out;
+parameter real x0=0.0; // frequency_ghz
+parameter real x1=0.0; // active_layer_length
+parameter real x2=0.0; // simulation_temperature
+real y;
+analog begin
+  y = -2.3060812372821871
+    + (-2.2525341824140588)*(((x0-8.3277898747714616)/11.88145554091504))
+    + (0.013212690454757614)*(((x1-40.032923533168265)/1.7857913676032817))
+    + (0.030991787907283894)*(((x2-299.3608225838347)/4.7615435936653459))
+  ;
+  V(out) <+ y;
+end
+endmodule

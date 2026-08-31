@@ -1,0 +1,38 @@
+dataset,field_or_prefix,unit,role,description
+all,task,none,identifier,论文任务名称
+all,_curve_id,none,group identifier,完整 bias curve、frequency curve 或 bias-frequency surface 的不可拆分分组标识
+primary design and responses,trap_assisted_recomb_A,s,model input,Ge trap-assisted recombination lifetime parameter
+primary design and responses,ge_sio2_recomb_velocity,cm/s,model input,Ge/SiO2 interface recombination velocity
+primary design and responses,ge_si_recomb_velocity,cm/s,model input,Ge/Si interface recombination velocity
+primary design and responses,active_layer_length,um,model input,active-layer length
+primary design and responses,simulation_temperature,K,model input,TCAD simulation temperature
+ge_si_dark_current,dark_voltage,V,swept input,terminal bias for the dark-current curve
+ge_si_dark_current,dark_current,A,target,positive dark-current magnitude; training uses log10 space
+ge_si_photo_current,light_voltage,V,swept input,terminal bias shared by paired dark and illuminated points
+ge_si_photo_current,net_photocurrent,A,target,light_current minus dark_current at matched condition and bias; training uses log10 space
+ge_si_ac_response,frequency_ghz,GHz,swept input,optical small-signal frequency
+ge_si_ac_response,bandwidth_bias,V,condition,normalization/readout bias; the paper evaluates V_bias=-3 V
+ge_si_ac_response,ac_response_db,dB,target,20*log10 of contact-current magnitude normalized by the peak within each response
+ge_si_capacitance,bias_v,V,swept input,electrical terminal bias
+ge_si_capacitance,log_frequency_ghz,log10(GHz),model input,base-10 logarithm of frequency in GHz
+ge_si_capacitance,capacitance_F,F,target,apparent capacitance Im(Y_total)/(2*pi*f_Hz)
+ge_si_terminal_charge,terminal_charge_bias_v,V,swept input,terminal bias used for the quasi-static Q-V model
+ge_si_terminal_charge,compact_port_positive_charge_C,C,target,reference-relative charge of the positive compact-model port
+ge_si_terminal_charge,compact_port_negative_charge_C,C,physical check,equal-and-opposite negative-port charge
+ge_si_terminal_charge,compact_port_charge_conservation_residual_C,C,physical check,sum of the two compact-port charges
+ge_si_terminal_charge,split,none,partition,condition-grouped train/validation/test label used by the charge fit
+ge_si_terminal_charge_dqdv_reference,compact_port_dQdV_from_dc_F,F,reference,finite-difference/analytic derivative from strict Q-V evidence
+ge_si_terminal_charge_dqdv_reference,compact_port_capacitance_from_two_contact_ssac_F,F,reference,strict two-contact small-signal capacitance
+ge_si_terminal_charge_dqdv_reference,*_pass,boolean,audit flag,registered source-consistency or derivative-validation result
+APD,sample_id,none,identifier,APD simulated sample identifier
+APD,structure_group_id,none,group identifier,independent APD physical-structure unit used for every split
+APD,bias_v,V,swept input,APD terminal bias
+APD,optical_power_W,W,model input,one of the two characterized optical-power endpoints
+APD,ge_width_scale,dimensionless,model input,APD Ge geometry scaling factor
+APD,current_A,A,target,dark or illuminated current magnitude; training uses log10 space
+APD,net_photocurrent_A,A,target,paired illuminated-minus-dark current; training uses log10 space
+APD,multiplication_gain,dimensionless,target,avalanche multiplication gain; training uses log10 space
+APD,voltage_at_gain_threshold_v,V,target,voltage at the registered multiplication-gain threshold
+APD,breakdown_voltage_v,V,target,registered APD breakdown-voltage estimate
+manifest,artifact_sha256,hex digest,integrity,SHA-256 of the public canonical CSV
+manifest,sources,structured metadata,provenance,logical source path and SHA-256 of each frozen source table

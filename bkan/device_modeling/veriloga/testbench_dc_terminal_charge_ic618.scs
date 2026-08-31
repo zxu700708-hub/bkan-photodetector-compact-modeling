@@ -1,0 +1,18 @@
+simulator lang=spectre
+
+// Exact replacement module; the runner freezes this file beside the deck.
+ahdl_include "ge_si_photodetector_terminal_charge.va"
+
+parameters Vb_dc=0.0 Tdev=300.0
+
+// DC establishes compilation, parameter mapping, and convergence of the
+// complete replacement module.  ddt(Q_terminal) is zero in steady state, so
+// this analysis is not used as evidence for dynamic-charge correctness.
+Vdc (a_dc 0) vsource dc=Vb_dc
+Xdc (a_dc 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+save Vdc:p a_dc
+
+temperature_sweep sweep param=Tdev values=[290.0 300.0 310.0] {
+  dc_terminal_charge dc param=Vb_dc start=-3.0 stop=0.0 step=0.05
+}

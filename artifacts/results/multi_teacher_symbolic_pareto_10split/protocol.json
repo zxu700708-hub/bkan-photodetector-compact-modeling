@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-22T17:49:44.113834+08:00",
+  "purpose": "ten-matched-split data-budget-matched multi-teacher symbolic/direct audit",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "tasks": [
+    "I_dark",
+    "I_photo",
+    "AC_Response",
+    "Capacitance"
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "exports_expected": 960,
+  "exports_observed": 960,
+  "net_photocurrent_routing": {
+    "target": "net_photocurrent = light_current - dark_current at matched condition and bias",
+    "data": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\device_modeling\\cleaned_data.csv",
+    "matched_predictions": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\matched_grouped_comparison",
+    "bkan_checkpoints": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\uq_repeated_grouped"
+  },
+  "runtime": {
+    "python": "3.12.10",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "scipy": "1.17.1"
+  },
+  "statistics": {
+    "paired_difference": "teacher-distilled RMSE minus TCAD-direct RMSE",
+    "variance_factor": "1/r + n_test/n_train",
+    "confidence_interval": "two-sided t interval, df=r-1",
+    "multiplicity": "Holm globally over 72 contrasts and separately within each task over 18 contrasts",
+    "dependence_warning": "ten splits reuse the same finite group pool and are not independent datasets"
+  },
+  "teacher_replay_policy": {
+    "allow_mismatch": true,
+    "interpretation": "Any tolerated DKAN/MLP mismatch remains labeled mismatch_allowed in teacher_audit.csv and report.md; it is never relabeled pass."
+  },
+  "outputs": {
+    "per_export": "metrics_by_export.csv",
+    "aggregate": "aggregate_by_export.csv",
+    "paired": "paired_teacher_vs_direct.csv",
+    "pareto": "aggregate_pareto_front.csv",
+    "teachers": "teacher_audit.csv and teacher_summary.csv",
+    "manifests": "split_manifest.csv",
+    "formulas": "seed_<seed>/<task>/exports/<task>/<source>/<family_budget>/formula.{json,va}"
+  }
+}

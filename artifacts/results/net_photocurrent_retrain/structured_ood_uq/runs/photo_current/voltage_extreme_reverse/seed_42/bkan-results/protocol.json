@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-08-21T09:03:31.321812+00:00",
+  "scenario": {
+    "task": "photo_current",
+    "name": "voltage_extreme_reverse",
+    "column": "light_voltage",
+    "side": "low",
+    "fraction": 0.2
+  },
+  "seed": 42,
+  "inputs": [
+    "light_voltage",
+    "trap_assisted_recomb_A",
+    "ge_sio2_recomb_velocity",
+    "ge_si_recomb_velocity",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "architecture": {
+    "width": [
+      6,
+      8,
+      2
+    ],
+    "grid": 8,
+    "spline_order": 3
+  },
+  "training": {
+    "epochs": 300,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "kl_weight": 0.1
+  },
+  "calibration": {
+    "unit": "independent_curve_or_DEVICE",
+    "min_z": 1.96,
+    "q": 3.2555111526066125,
+    "score_count": 24
+  },
+  "audit": {
+    "design": "axis_tail_on_independent_test_groups",
+    "threshold": -2.4000000000000004,
+    "holdout_fraction": 0.2,
+    "discarded_ood_group_fragments": 144,
+    "split_rows": {
+      "train": 1248,
+      "validation": 192,
+      "calibration": 288,
+      "id_test": 192,
+      "ood_test": 64
+    },
+    "split_groups": {
+      "train": 104,
+      "validation": 16,
+      "calibration": 24,
+      "id_test": 16,
+      "ood_test": 16
+    },
+    "row_overlap": 0,
+    "independent_test_group_overlap": 0
+  }
+}

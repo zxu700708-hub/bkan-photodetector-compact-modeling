@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "method_label": "beta-weighted mean-field generalized variational inference",
+  "beta": 0.1,
+  "kl_annealing": "a_e=min(1,e/100)",
+  "final_per_observation_objective": "E_q[-log p(y|x,theta)] + beta*KL(q||p)/N",
+  "standard_negative_elbo_only_if_beta_equals_one": true,
+  "generalized_target_at_final_phase": "pi_beta(theta|D) proportional to p(theta)*p(D|theta)^(1/beta)",
+  "ordinary_posterior_variational_approximation_claimed": false,
+  "warmup_epochs_1_50": "mean-channel MSE plus annealed beta-weighted KL",
+  "transition_epochs_51_80": "cosine MSE-to-Gaussian-NLL transition plus annealed beta-weighted KL",
+  "generalized_target_interpretation_applies_to": "final Gaussian-NLL phase with a_e=1",
+  "notation": "q_beta",
+  "numerical_results_changed_by_this_semantic_registration": false
+}

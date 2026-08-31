@@ -1,0 +1,16 @@
+simulator lang=spectre
+
+// The runner freezes this deck and the exact replacement source in one bundle.
+// Keep the include relative so that the archived bundle is independently runnable.
+ahdl_include "ge_si_photodetector_terminal_charge.va"
+
+parameters Vb_ac=-1.0 Vac_mag=1m
+
+// Certified terminal-charge AC validation at Vbias = -1 V.
+// Branch current Vac:p contains dI_dc/dV + j*omega*dQ_terminal/dV.
+Vac (a_ac 0) vsource dc=Vb_ac mag=Vac_mag type=sine
+Xac (a_ac 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=300.0 trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+save Vac:p
+
+ac_terminal_charge ac dec=20 start=1M stop=1000G

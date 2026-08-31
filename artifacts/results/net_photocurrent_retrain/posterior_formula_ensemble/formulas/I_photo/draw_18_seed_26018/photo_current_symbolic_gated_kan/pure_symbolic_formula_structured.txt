@@ -1,0 +1,41 @@
+Pure symbolic student: structured deployment graph
+==================================================
+KAN contribution at inference: 0
+Unique normalized features: 25; branch coefficients: 72
+
+# Evaluate each normalized feature once
+phi_0 = ((1) - 0) / 1  # one
+phi_1 = ((scaled(light_voltage)) - -5.373014810849952e-10) / 0.9999974370002747  # light_voltage_z
+phi_2 = ((scaled(light_voltage)^2) - 0.9999949336051941) / 0.8891484141349792  # light_voltage_z2
+phi_3 = ((softplus(-light_voltage/0.2)) - 7.575705528259277) / 4.500241756439209  # soft_reverse_light_voltage
+phi_4 = ((tanh(-light_voltage/1.0)) - 0.7517293095588684) / 0.3039949834346771  # tanh_reverse_light_voltage
+phi_5 = ((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794807195663452) / 0.265077531337738  # reverse_saturation_light_voltage
+phi_6 = ((sigmoid(light_voltage/0.2)) - 0.06025978550314903) / 0.1325387507677078  # forward_gate_light_voltage
+phi_7 = ((sigmoid(-light_voltage/0.2)) - 0.9397405385971069) / 0.1325387060642242  # reverse_gate_light_voltage
+phi_8 = ((scaled(simulation_temperature)) - 1.232211399582184e-08) / 0.9999999403953552  # temperature_z
+phi_9 = ((1/simulation_temperature) - 0.003334670094773173) / 5.278848766465671e-05  # inverse_temperature
+phi_10 = ((light_voltage/simulation_temperature) - -0.00500201154500246) / 0.003075823187828064  # light_voltage_over_temperature
+phi_11 = ((scaled(active_layer_length)) - -1.257957116251873e-08) / 0.9999997019767761  # length_z
+phi_12 = ((1/active_layer_length) - 0.02508475072681904) / 0.001256213989108801  # inverse_length
+phi_13 = ((light_voltage/active_layer_length) - -0.03762719035148621) / 0.02323255874216557  # light_voltage_over_length
+phi_15 = ((scaled(ge_sio2_recomb_velocity)) - 6.626718285218658e-09) / 1.000000476837158  # ge_sio2_velocity_z
+phi_16 = ((scaled(ge_si_recomb_velocity)) - -6.455789502979314e-08) / 1.00000011920929  # ge_si_velocity_z
+phi_17 = ((ge_sio2_recomb_velocity/active_layer_length) - 62.58314514160156) / 3.858044385910034  # ge_sio2_velocity_over_length
+phi_19 = ((softplus(-light_voltage/0.2)/active_layer_length) - 0.172646552324295) / 0.1133592575788498  # reverse_drive_over_length
+phi_21 = (((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 75.12191772460938) / 4.410733222961426  # surface_recomb_over_length
+phi_22 = ((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 517.0277099609375) / 340.0066223144531  # reverse_drive_surface_recomb
+phi_23 = ((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.896125004374198e-09) / 4.581505397283081e-09  # reverse_drive_trap_A
+phi_24 = (((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.14665222167969) / 10.74607849121094  # collection_saturation_length
+phi_25 = ((1-exp(-active_layer_length/40)) - 0.6313346028327942) / 0.01822703704237938  # length_collection_saturation
+phi_26 = (((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 0.2505113482475281) / 0.01533869374543428  # thermal_surface_recomb_over_length
+phi_27 = ((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.72415018081665) / 1.134395718574524  # reverse_thermal_surface_recomb
+
+# Branch graph
+photogeneration = abs(-1.062836170196533)*softplus(0.06945012509822845 + (0.05876719579100609)*phi_0 + (0.03861426189541817)*phi_1 + (-0.03395920619368553)*phi_2 + (0.05470152199268341)*phi_10 + (0.01758192852139473)*phi_11 + (-0.07241665571928024)*phi_12 + (0.08793748170137405)*phi_13 + (-0.06151906400918961)*phi_24 + (0.009457953274250031)*phi_25)*(1)
+field_collection = abs(-0.2761739194393158)*softplus(-2.918924331665039 + (0.08103226870298386)*phi_0 + (-0.1545599699020386)*phi_1 + (-0.01399166788905859)*phi_2 + (0.1321370899677277)*phi_3 + (0.09559967368841171)*phi_4 + (0.05393404513597488)*phi_5 + (0.08059459924697876)*phi_7 + (-0.0946626141667366)*phi_10 + (0.05986525863409042)*phi_11 + (-0.06305322796106339)*phi_12 + (-0.1429911702871323)*phi_13 + (0.1266940087080002)*phi_19 + (0.05469490960240364)*phi_24 + (0.07716958969831467)*phi_25)*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005)))
+surface_recombination = abs(0.03201749920845032)*softplus(-3.024624109268188 + (-0.02427576668560505)*phi_0 + (0.06534259021282196)*phi_1 + (-0.1365242302417755)*phi_2 + (-0.08233393728733063)*phi_3 + (-0.04388590529561043)*phi_4 + (-0.07793780416250229)*phi_5 + (-0.1473270505666733)*phi_7 + (0.1910990178585052)*phi_8 + (-0.2135794460773468)*phi_9 + (0.08675749599933624)*phi_10 + (0.08474662154912949)*phi_13 + (-0.1057630181312561)*phi_15 + (0.03924856707453728)*phi_16 + (-0.1257118582725525)*phi_17 + (-0.1279874294996262)*phi_19 + (-0.09131892770528793)*phi_21 + (-0.09119985997676849)*phi_22 + (-0.1497587859630585)*phi_26 + (-0.1050325781106949)*phi_27)*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005)))
+trap_recombination = abs(0.02836313284933567)*softplus(-3.050560474395752 + (-0.08632458746433258)*phi_0 + (0.0925462543964386)*phi_1 + (-0.09007114917039871)*phi_2 + (-0.07379305362701416)*phi_3 + (-0.03754523396492004)*phi_4 + (-0.04698990657925606)*phi_5 + (-0.03377050533890724)*phi_7 + (0.1429118663072586)*phi_8 + (-0.1079295352101326)*phi_9 + (0.04604162275791168)*phi_10 + (0.09120421856641769)*phi_13 + (-0.1232466846704483)*phi_19 + (-0.05969220399856567)*phi_23)*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005)))
+residual = -0.06638659536838531 + (-0.08309613913297653)*phi_0 + (0.04743262752890587)*phi_1 + (-0.005024220328778028)*phi_2 + (0.02105072513222694)*phi_4 + (0.03833977878093719)*phi_5 + (0.01144772861152887)*phi_6 + (-0.02180519141256809)*phi_7 + (0.05648979172110558)*phi_10 + (0.03770407661795616)*phi_11 + (-0.01043912675231695)*phi_12 + (-0.05455012992024422)*phi_13 + (-0.002466875594109297)*phi_17 + (-0.04502248018980026)*phi_19 + (-0.005489357281476259)*phi_21 + (-0.04728351160883904)*phi_24 + (0.01774289272725582)*phi_25 + (0.007374849170446396)*phi_26
+normalized_output = ((-1)*photogeneration + (-1)*field_collection)*exp(-clip(surface_recombination,0,8))*exp(-clip(trap_recombination,0,8)) + (0) + residual
+model_space_output = 3.371258675853275 * normalized_output
+physical_output = 10**(model_space_output)

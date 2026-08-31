@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-08-04T17:29:44.870895+08:00",
+  "protocol": "frozen_10_seed_matched_grouped",
+  "data": "<REPO_ROOT>/artifacts\\results\\device_modeling\\cleaned_data.csv",
+  "capacitance_data": "<FROZEN_TCAD_ROOT>/Data\\Data_20260617_0243_181408\\supplemental_charge_ac\\supplemental_electrical\\ac_cv\\kan_ac_cv_training.csv",
+  "bkan_root": "<REPO_ROOT>/artifacts\\results\\uq_repeated_grouped",
+  "capacitance_bkan_root": "<REPO_ROOT>/artifacts\\results\\uq_repeated_grouped_capacitance",
+  "tasks": [
+    "I_dark",
+    "I_photo",
+    "AC_Response",
+    "Capacitance"
+  ],
+  "models": [
+    "bkan",
+    "dkan",
+    "mlp_l",
+    "poly3_ridge",
+    "spline_ridge"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "frozen_hyperparameters": {
+    "dkan": {
+      "steps": 300,
+      "grid": 8,
+      "k": 3,
+      "width": 8,
+      "lr": 0.002
+    },
+    "mlp_l": {
+      "hidden": [
+        64,
+        32
+      ],
+      "epochs": 300,
+      "lr": 0.002,
+      "lamb": 0.001,
+      "lamb_l1": 1.0,
+      "lamb_entropy": 2.0
+    },
+    "poly3_ridge": {
+      "degree": 3,
+      "alpha": 1e-06
+    },
+    "spline_ridge": {
+      "n_knots": 6,
+      "degree": 3,
+      "alpha": 1e-05
+    },
+    "bkan": "reused from source run_config.json files"
+  },
+  "bootstrap_replicates": 50000,
+  "bootstrap_seed": 20260804
+}

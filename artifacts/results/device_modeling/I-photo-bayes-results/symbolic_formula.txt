@@ -1,0 +1,41 @@
+Bayesian Symbolic KAN formula extraction [I_photo]
+================================================
+
+Extraction mode: physics_informed_safe
+
+Physics-informed safe stepwise strategy:
+  Level 1 - safe polynomial probe: lib=['0', 'x', 'x^2', 'sqrt'], r2_threshold=0.92
+    Start with simple, relatively stable semiconductor-friendly trends.
+  Level 2 - core exponential mechanism: lib=['exp', '1/x'], r2_threshold=0.96
+    Admit exponential and reciprocal forms only after stronger evidence.
+  Level 3 - advanced correction: lib=['log', 'x^3', 'abs'], r2_threshold=0.98
+    Capture secondary curvature, compression, and magnitude effects.
+  Level 4 - mathematical fallback: lib=['sin', 'cos', 'tanh', 'gaussian'], r2_threshold=0.998
+    Use flexible patches only when the fit is almost exact.
+
+Advantages:
+  - Improves interpretability by trying low-complexity physical forms before flexible patches.
+  - Reduces noise fitting by requiring higher R2 for exponential, reciprocal, and fallback functions.
+  - Matches common semiconductor behavior such as polynomial corrections and thermally activated exponential trends.
+
+Limitations:
+  - A correct but subtle exponential/log mechanism can be missed if the local edge fit does not pass its threshold.
+  - Stage order is a prior; it can bias formula selection when multiple functions have similar R2.
+  - The formula represents the deterministic posterior-mean KAN, not a full posterior over symbolic structures.
+
+Variable map:
+  light_voltage: light_voltage
+  trap_assisted_recomb_A: trap_assisted_recomb_A
+  ge_sio2_recomb_velocity: ge_sio2_recomb_velocity
+  ge_si_recomb_velocity: ge_si_recomb_velocity
+  active_layer_length: active_layer_length
+  simulation_temperature: simulation_temperature
+
+Free variables in formula:
+  active_layer_length, ge_si_recomb_velocity, ge_sio2_recomb_velocity, light_voltage, simulation_temperature, trap_assisted_recomb_A
+
+Formula in model space:
+  -0.0145042510955711*(-0.304660746275493*light_voltage - 1)**2 - 0.00879972112992739*(0.345061280240254*sqrt(0.00200618589362052 - light_voltage) + 0.00308615318733399*exp(4269713641.05294*trap_assisted_recomb_A) - 1)**2 - 0.0196625848765369*(0.49258729322719*sqrt(0.117244805862938 - light_voltage) + 1.08681702637343e-8*exp(0.0315584305177207*ge_si_recomb_velocity) - 1.18547319941422e-5*exp(0.00385239259845067*ge_sio2_recomb_velocity) - 1)**2 - 0.028207595180121*(0.326758643287686*sqrt(0.147828168361771 - light_voltage) - 1 - 0.782916424370312*exp(-120.766448986717*(1 - 0.00278725855957155*simulation_temperature)**2) - 0.157032375818627*exp(-57.2153757556333*(1 - 0.0268089911534137*active_layer_length)**2))**2 + 0.0137461511625033*(-0.045737606663228*active_layer_length + 0.00053721671440674*ge_sio2_recomb_velocity - 0.371804347939358*sqrt(0.0449236742354223 - light_voltage) - 0.0216760759633743 + exp(-4.87486624275985e+17*(-trap_assisted_recomb_A - 7.18288011334804e-10)**2) - 0.145613797612092*exp(-857.415014972669*(1 - 0.0018567486108185*ge_si_recomb_velocity)**2))**2 - 0.000333356533802084*exp(3.61778600215746/(1.63939934368404 - 2.41261398743245*light_voltage)) - 3.27927548521117 + 0.00670189227853692*exp(-66.818902613228*(1 - 0.00207145211775335*ge_si_recomb_velocity)**2) - 0.0026411763734831*exp(-60.0188532142656*(1 - 0.0278100140603026*active_layer_length)**2) - 0.0155001826294954/(1.45147908539154 - 0.834053906830449*light_voltage)
+
+Formula in physical space:
+  light_current = 10**(-0.0145042510955711*(-0.304660746275493*light_voltage - 1)**2 - 0.00879972112992739*(0.345061280240254*sqrt(0.00200618589362052 - light_voltage) + 0.00308615318733399*exp(4269713641.05294*trap_assisted_recomb_A) - 1)**2 - 0.0196625848765369*(0.49258729322719*sqrt(0.117244805862938 - light_voltage) + 1.08681702637343e-8*exp(0.0315584305177207*ge_si_recomb_velocity) - 1.18547319941422e-5*exp(0.00385239259845067*ge_sio2_recomb_velocity) - 1)**2 - 0.028207595180121*(0.326758643287686*sqrt(0.147828168361771 - light_voltage) - 1 - 0.782916424370312*exp(-120.766448986717*(1 - 0.00278725855957155*simulation_temperature)**2) - 0.157032375818627*exp(-57.2153757556333*(1 - 0.0268089911534137*active_layer_length)**2))**2 + 0.0137461511625033*(-0.045737606663228*active_layer_length + 0.00053721671440674*ge_sio2_recomb_velocity - 0.371804347939358*sqrt(0.0449236742354223 - light_voltage) - 0.0216760759633743 + exp(-4.87486624275985e+17*(-trap_assisted_recomb_A - 7.18288011334804e-10)**2) - 0.145613797612092*exp(-857.415014972669*(1 - 0.0018567486108185*ge_si_recomb_velocity)**2))**2 - 0.000333356533802084*exp(3.61778600215746/(1.63939934368404 - 2.41261398743245*light_voltage)) - 3.27927548521117 + 0.00670189227853692*exp(-66.818902613228*(1 - 0.00207145211775335*ge_si_recomb_velocity)**2) - 0.0026411763734831*exp(-60.0188532142656*(1 - 0.0278100140603026*active_layer_length)**2) - 0.0155001826294954/(1.45147908539154 - 0.834053906830449*light_voltage))

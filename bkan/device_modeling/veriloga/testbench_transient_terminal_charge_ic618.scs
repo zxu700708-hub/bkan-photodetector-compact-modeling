@@ -1,0 +1,22 @@
+simulator lang=spectre
+
+// The runner freezes this deck and the exact replacement source in one bundle.
+ahdl_include "ge_si_photodetector_terminal_charge.va"
+
+parameters Tdev=300.0
+
+// Three simultaneous in-envelope stimuli exercise fast/slow edges and a smooth
+// periodic trajectory.  The verifier subtracts the independently replayed DC
+// branch and compares the remainder with dQ/dV * dV/dt.
+Vfast (a_fast 0) vsource type=pulse val0=-1.0 val1=-2.0 delay=1n rise=20p fall=20p width=2n period=5n
+Xfast (a_fast 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+Vslow (a_slow 0) vsource type=pulse val0=-2.5 val1=-0.5 delay=0.5n rise=200p fall=200p width=2n period=5n
+Xslow (a_slow 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+Vsine (a_sine 0) vsource type=sine dc=-1.5 ampl=0.75 freq=500M
+Xsine (a_sine 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+
+save Vfast:p a_fast Vslow:p a_slow Vsine:p a_sine
+
+tran_terminal_charge tran stop=10n maxstep=2p

@@ -1,0 +1,1624 @@
+{
+  "kind": "pure_symbolic_student",
+  "task_key": "photo_current",
+  "task": "I_photo",
+  "uses_kan_at_inference": false,
+  "output_space": "log10",
+  "output_scale": 3.3712586758532748,
+  "normalized_feature_definition": "scaled(x) = (x - mean[x]) / scale[x]",
+  "input_scalers": {
+    "light_voltage": {
+      "mean": -1.5,
+      "scale": 0.9219544457292888
+    },
+    "trap_assisted_recomb_A": {
+      "mean": 1.0018275180490343e-09,
+      "scale": 9.630968703947052e-11
+    },
+    "ge_sio2_recomb_velocity": {
+      "mean": 2496.5478040463013,
+      "scale": 97.1975422293444
+    },
+    "ge_si_recomb_velocity": {
+      "mean": 500.20451645452926,
+      "scale": 17.970306452827316
+    },
+    "active_layer_length": {
+      "mean": 39.86960773198919,
+      "scale": 1.9230349932285624
+    },
+    "simulation_temperature": {
+      "mean": 299.8714293816938,
+      "scale": 4.7268891282145225
+    }
+  },
+  "feature_centers": [
+    0.0,
+    -7.09405867382884e-10,
+    0.9999930262565613,
+    7.57571268081665,
+    0.751728355884552,
+    0.8794803023338318,
+    0.060259703546762466,
+    0.9397410154342651,
+    1.3969838619232178e-09,
+    0.003335588611662388,
+    -0.005003391299396753,
+    8.475035429000854e-08,
+    0.02514082007110119,
+    -0.037711285054683685,
+    1.1583324521780014e-08,
+    -8.207280188798904e-09,
+    -2.1187588572502136e-08,
+    62.75871658325195,
+    12.576643943786621,
+    0.1730327010154724,
+    2996.755859375,
+    75.3353271484375,
+    518.4977416992188,
+    6.895107151905222e-09,
+    35.06449508666992,
+    0.6304939985275269,
+    0.2512940466403961,
+    1.7295336723327637,
+    3.9978072408075604e-08,
+    3.342052112484395e-12
+  ],
+  "feature_scales": [
+    1.0,
+    0.9999964833259583,
+    0.8891475796699524,
+    4.500245094299316,
+    0.30399468541145325,
+    0.26507699489593506,
+    0.13253849744796753,
+    0.1325385570526123,
+    0.9999997615814209,
+    5.291130946716294e-05,
+    0.0030766816344112158,
+    1.0000015497207642,
+    0.0012282743118703365,
+    0.023279406130313873,
+    1.0000014305114746,
+    0.9999988079071045,
+    0.9999996423721313,
+    3.8315482139587402,
+    0.7776284217834473,
+    0.11358988285064697,
+    97.87372589111328,
+    4.342223167419434,
+    340.902587890625,
+    4.577496159896555e-09,
+    10.715104103088379,
+    0.017829203978180885,
+    0.015141394920647144,
+    1.1377147436141968,
+    4.592866087449465e-09,
+    1.0
+  ],
+  "generic_symbolic_terms": false,
+  "flat_gates": false,
+  "reverse_scale": 0.2,
+  "reverse_norm": 14.306852819440055,
+  "branches": [
+    {
+      "name": "photogeneration",
+      "role": "main",
+      "drive": "all",
+      "sign": -1.0,
+      "scale": -1.0749760866165161,
+      "bias": 0.07610329240560532,
+      "terms": [
+        {
+          "term_index": 0,
+          "term": "one",
+          "expression": "1",
+          "normalized_expression": "((1) - 0) / 1",
+          "coefficient_normalized_output": 0.08635478466749191,
+          "dependencies": []
+        },
+        {
+          "term_index": 1,
+          "term": "light_voltage_z",
+          "expression": "scaled(light_voltage)",
+          "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+          "coefficient_normalized_output": -0.023745305836200714,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 2,
+          "term": "light_voltage_z2",
+          "expression": "scaled(light_voltage)^2",
+          "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+          "coefficient_normalized_output": -0.006307685747742653,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 8,
+          "term": "temperature_z",
+          "expression": "scaled(simulation_temperature)",
+          "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+          "coefficient_normalized_output": -0.009007172659039497,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 9,
+          "term": "inverse_temperature",
+          "expression": "1/simulation_temperature",
+          "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+          "coefficient_normalized_output": 0.003366270801052451,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 10,
+          "term": "light_voltage_over_temperature",
+          "expression": "light_voltage/simulation_temperature",
+          "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+          "coefficient_normalized_output": -0.022509679198265076,
+          "dependencies": [
+            "light_voltage",
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 11,
+          "term": "length_z",
+          "expression": "scaled(active_layer_length)",
+          "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+          "coefficient_normalized_output": -0.014109053649008274,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 12,
+          "term": "inverse_length",
+          "expression": "1/active_layer_length",
+          "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+          "coefficient_normalized_output": 0.014564935117959976,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 13,
+          "term": "light_voltage_over_length",
+          "expression": "light_voltage/active_layer_length",
+          "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+          "coefficient_normalized_output": -0.026939209550619125,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 24,
+          "term": "collection_saturation_length",
+          "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+          "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+          "coefficient_normalized_output": 0.020703136920928955,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 25,
+          "term": "length_collection_saturation",
+          "expression": "1-exp(-active_layer_length/40)",
+          "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+          "coefficient_normalized_output": -0.0036255011800676584,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "field_collection",
+      "role": "main",
+      "drive": "reverse",
+      "sign": -1.0,
+      "scale": -0.27507486939430237,
+      "bias": -2.918099880218506,
+      "terms": [
+        {
+          "term_index": 0,
+          "term": "one",
+          "expression": "1",
+          "normalized_expression": "((1) - 0) / 1",
+          "coefficient_normalized_output": 0.06395450234413147,
+          "dependencies": []
+        },
+        {
+          "term_index": 1,
+          "term": "light_voltage_z",
+          "expression": "scaled(light_voltage)",
+          "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+          "coefficient_normalized_output": -0.06382584571838379,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 2,
+          "term": "light_voltage_z2",
+          "expression": "scaled(light_voltage)^2",
+          "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+          "coefficient_normalized_output": -0.04998639225959778,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 3,
+          "term": "soft_reverse_light_voltage",
+          "expression": "softplus(-light_voltage/0.2)",
+          "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+          "coefficient_normalized_output": 0.07139267772436142,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 4,
+          "term": "tanh_reverse_light_voltage",
+          "expression": "tanh(-light_voltage/1.0)",
+          "normalized_expression": "((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532",
+          "coefficient_normalized_output": 0.04699447378516197,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 5,
+          "term": "reverse_saturation_light_voltage",
+          "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+          "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+          "coefficient_normalized_output": 0.055439844727516174,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 7,
+          "term": "reverse_gate_light_voltage",
+          "expression": "sigmoid(-light_voltage/0.2)",
+          "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+          "coefficient_normalized_output": 0.07895097881555557,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 8,
+          "term": "temperature_z",
+          "expression": "scaled(simulation_temperature)",
+          "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+          "coefficient_normalized_output": 0.02081984281539917,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 9,
+          "term": "inverse_temperature",
+          "expression": "1/simulation_temperature",
+          "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+          "coefficient_normalized_output": -0.025780268013477325,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 10,
+          "term": "light_voltage_over_temperature",
+          "expression": "light_voltage/simulation_temperature",
+          "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+          "coefficient_normalized_output": -0.08825124055147171,
+          "dependencies": [
+            "light_voltage",
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 11,
+          "term": "length_z",
+          "expression": "scaled(active_layer_length)",
+          "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+          "coefficient_normalized_output": -0.026564721018075943,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 12,
+          "term": "inverse_length",
+          "expression": "1/active_layer_length",
+          "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+          "coefficient_normalized_output": -0.04332132264971733,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 13,
+          "term": "light_voltage_over_length",
+          "expression": "light_voltage/active_layer_length",
+          "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+          "coefficient_normalized_output": -0.08621544390916824,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 19,
+          "term": "reverse_drive_over_length",
+          "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+          "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+          "coefficient_normalized_output": 0.07300093024969101,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 24,
+          "term": "collection_saturation_length",
+          "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+          "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+          "coefficient_normalized_output": 0.0997457206249237,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 25,
+          "term": "length_collection_saturation",
+          "expression": "1-exp(-active_layer_length/40)",
+          "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+          "coefficient_normalized_output": 0.03741443529725075,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "surface_recombination",
+      "role": "surface_loss",
+      "drive": "reverse",
+      "sign": 1.0,
+      "scale": 0.037175823003053665,
+      "bias": -3.0384838581085205,
+      "terms": [
+        {
+          "term_index": 0,
+          "term": "one",
+          "expression": "1",
+          "normalized_expression": "((1) - 0) / 1",
+          "coefficient_normalized_output": -0.012014120817184448,
+          "dependencies": []
+        },
+        {
+          "term_index": 5,
+          "term": "reverse_saturation_light_voltage",
+          "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+          "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+          "coefficient_normalized_output": -0.026906011626124382,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 13,
+          "term": "light_voltage_over_length",
+          "expression": "light_voltage/active_layer_length",
+          "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+          "coefficient_normalized_output": 0.008996638469398022,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 17,
+          "term": "ge_sio2_velocity_over_length",
+          "expression": "ge_sio2_recomb_velocity/active_layer_length",
+          "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874",
+          "coefficient_normalized_output": -0.14244598150253296,
+          "dependencies": [
+            "ge_sio2_recomb_velocity",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 22,
+          "term": "reverse_drive_surface_recomb",
+          "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+          "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625",
+          "coefficient_normalized_output": -0.03382861241698265,
+          "dependencies": [
+            "light_voltage",
+            "ge_sio2_recomb_velocity",
+            "ge_si_recomb_velocity",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 27,
+          "term": "reverse_thermal_surface_recomb",
+          "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+          "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197",
+          "coefficient_normalized_output": -0.030980072915554047,
+          "dependencies": [
+            "light_voltage",
+            "ge_sio2_recomb_velocity",
+            "ge_si_recomb_velocity",
+            "active_layer_length",
+            "simulation_temperature"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trap_recombination",
+      "role": "trap_loss",
+      "drive": "reverse",
+      "sign": 1.0,
+      "scale": 0.029976757243275642,
+      "bias": -3.0483715534210205,
+      "terms": [
+        {
+          "term_index": 0,
+          "term": "one",
+          "expression": "1",
+          "normalized_expression": "((1) - 0) / 1",
+          "coefficient_normalized_output": -0.05567222088575363,
+          "dependencies": []
+        },
+        {
+          "term_index": 1,
+          "term": "light_voltage_z",
+          "expression": "scaled(light_voltage)",
+          "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+          "coefficient_normalized_output": 0.03742782771587372,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 3,
+          "term": "soft_reverse_light_voltage",
+          "expression": "softplus(-light_voltage/0.2)",
+          "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+          "coefficient_normalized_output": -0.03601324185729027,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 5,
+          "term": "reverse_saturation_light_voltage",
+          "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+          "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+          "coefficient_normalized_output": -0.06212371960282326,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 7,
+          "term": "reverse_gate_light_voltage",
+          "expression": "sigmoid(-light_voltage/0.2)",
+          "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+          "coefficient_normalized_output": -0.06039594113826752,
+          "dependencies": [
+            "light_voltage"
+          ]
+        },
+        {
+          "term_index": 10,
+          "term": "light_voltage_over_temperature",
+          "expression": "light_voltage/simulation_temperature",
+          "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+          "coefficient_normalized_output": 0.044512126594781876,
+          "dependencies": [
+            "light_voltage",
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 19,
+          "term": "reverse_drive_over_length",
+          "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+          "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+          "coefficient_normalized_output": -0.026639239862561226,
+          "dependencies": [
+            "light_voltage",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 23,
+          "term": "reverse_drive_trap_A",
+          "expression": "softplus(-light_voltage/0.2)*trap_assisted_recomb_A",
+          "normalized_expression": "((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09",
+          "coefficient_normalized_output": -0.04434328153729439,
+          "dependencies": [
+            "light_voltage",
+            "trap_assisted_recomb_A"
+          ]
+        }
+      ]
+    }
+  ],
+  "residual_branch": {
+    "bias": -0.07338926196098328,
+    "terms": [
+      {
+        "term_index": 0,
+        "term": "one",
+        "expression": "1",
+        "normalized_expression": "((1) - 0) / 1",
+        "coefficient_normalized_output": -0.056103043258190155,
+        "dependencies": []
+      },
+      {
+        "term_index": 1,
+        "term": "light_voltage_z",
+        "expression": "scaled(light_voltage)",
+        "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+        "coefficient_normalized_output": 0.0031645968556404114,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 2,
+        "term": "light_voltage_z2",
+        "expression": "scaled(light_voltage)^2",
+        "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+        "coefficient_normalized_output": -0.004758879542350769,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 3,
+        "term": "soft_reverse_light_voltage",
+        "expression": "softplus(-light_voltage/0.2)",
+        "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+        "coefficient_normalized_output": 0.030420713126659393,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 4,
+        "term": "tanh_reverse_light_voltage",
+        "expression": "tanh(-light_voltage/1.0)",
+        "normalized_expression": "((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532",
+        "coefficient_normalized_output": -0.000630981579888612,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 5,
+        "term": "reverse_saturation_light_voltage",
+        "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+        "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+        "coefficient_normalized_output": 0.011122620664536953,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 6,
+        "term": "forward_gate_light_voltage",
+        "expression": "sigmoid(light_voltage/0.2)",
+        "normalized_expression": "((sigmoid(light_voltage/0.2)) - 0.06025970354676247) / 0.1325384974479675",
+        "coefficient_normalized_output": 0.008352928794920444,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 7,
+        "term": "reverse_gate_light_voltage",
+        "expression": "sigmoid(-light_voltage/0.2)",
+        "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+        "coefficient_normalized_output": 0.002715502632781863,
+        "dependencies": [
+          "light_voltage"
+        ]
+      },
+      {
+        "term_index": 8,
+        "term": "temperature_z",
+        "expression": "scaled(simulation_temperature)",
+        "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+        "coefficient_normalized_output": -0.0045286971144378185,
+        "dependencies": [
+          "simulation_temperature"
+        ]
+      },
+      {
+        "term_index": 9,
+        "term": "inverse_temperature",
+        "expression": "1/simulation_temperature",
+        "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+        "coefficient_normalized_output": 0.002789589809253812,
+        "dependencies": [
+          "simulation_temperature"
+        ]
+      },
+      {
+        "term_index": 10,
+        "term": "light_voltage_over_temperature",
+        "expression": "light_voltage/simulation_temperature",
+        "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+        "coefficient_normalized_output": -0.008548935875296593,
+        "dependencies": [
+          "light_voltage",
+          "simulation_temperature"
+        ]
+      },
+      {
+        "term_index": 11,
+        "term": "length_z",
+        "expression": "scaled(active_layer_length)",
+        "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+        "coefficient_normalized_output": -0.010996980592608452,
+        "dependencies": [
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 12,
+        "term": "inverse_length",
+        "expression": "1/active_layer_length",
+        "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+        "coefficient_normalized_output": 0.02026640623807907,
+        "dependencies": [
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 13,
+        "term": "light_voltage_over_length",
+        "expression": "light_voltage/active_layer_length",
+        "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+        "coefficient_normalized_output": -0.0009128684177994728,
+        "dependencies": [
+          "light_voltage",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 14,
+        "term": "trap_A_z",
+        "expression": "scaled(trap_assisted_recomb_A)",
+        "normalized_expression": "((scaled(trap_assisted_recomb_A)) - 1.158332452178001e-08) / 1.000001430511475",
+        "coefficient_normalized_output": 0.0005291161360219121,
+        "dependencies": [
+          "trap_assisted_recomb_A"
+        ]
+      },
+      {
+        "term_index": 15,
+        "term": "ge_sio2_velocity_z",
+        "expression": "scaled(ge_sio2_recomb_velocity)",
+        "normalized_expression": "((scaled(ge_sio2_recomb_velocity)) - -8.207280188798904e-09) / 0.9999988079071045",
+        "coefficient_normalized_output": -0.0057581034488976,
+        "dependencies": [
+          "ge_sio2_recomb_velocity"
+        ]
+      },
+      {
+        "term_index": 16,
+        "term": "ge_si_velocity_z",
+        "expression": "scaled(ge_si_recomb_velocity)",
+        "normalized_expression": "((scaled(ge_si_recomb_velocity)) - -2.118758857250214e-08) / 0.9999996423721313",
+        "coefficient_normalized_output": 0.002699201228097081,
+        "dependencies": [
+          "ge_si_recomb_velocity"
+        ]
+      },
+      {
+        "term_index": 17,
+        "term": "ge_sio2_velocity_over_length",
+        "expression": "ge_sio2_recomb_velocity/active_layer_length",
+        "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874",
+        "coefficient_normalized_output": -0.016104990616440773,
+        "dependencies": [
+          "ge_sio2_recomb_velocity",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 18,
+        "term": "ge_si_velocity_over_length",
+        "expression": "ge_si_recomb_velocity/active_layer_length",
+        "normalized_expression": "((ge_si_recomb_velocity/active_layer_length) - 12.57664394378662) / 0.7776284217834473",
+        "coefficient_normalized_output": -0.009254101663827896,
+        "dependencies": [
+          "ge_si_recomb_velocity",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 19,
+        "term": "reverse_drive_over_length",
+        "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+        "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+        "coefficient_normalized_output": 0.01569858193397522,
+        "dependencies": [
+          "light_voltage",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 20,
+        "term": "surface_recomb_sum_z",
+        "expression": "scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)",
+        "normalized_expression": "((scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)) - 2996.755859375) / 97.87372589111328",
+        "coefficient_normalized_output": 0.0024595519062131643,
+        "dependencies": [
+          "ge_sio2_recomb_velocity",
+          "ge_si_recomb_velocity"
+        ]
+      },
+      {
+        "term_index": 21,
+        "term": "surface_recomb_over_length",
+        "expression": "(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+        "normalized_expression": "(((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 75.3353271484375) / 4.342223167419434",
+        "coefficient_normalized_output": 0.02335839532315731,
+        "dependencies": [
+          "ge_sio2_recomb_velocity",
+          "ge_si_recomb_velocity",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 22,
+        "term": "reverse_drive_surface_recomb",
+        "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+        "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625",
+        "coefficient_normalized_output": 0.005456525832414627,
+        "dependencies": [
+          "light_voltage",
+          "ge_sio2_recomb_velocity",
+          "ge_si_recomb_velocity",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 23,
+        "term": "reverse_drive_trap_A",
+        "expression": "softplus(-light_voltage/0.2)*trap_assisted_recomb_A",
+        "normalized_expression": "((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09",
+        "coefficient_normalized_output": -0.00025077228201553226,
+        "dependencies": [
+          "light_voltage",
+          "trap_assisted_recomb_A"
+        ]
+      },
+      {
+        "term_index": 24,
+        "term": "collection_saturation_length",
+        "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+        "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+        "coefficient_normalized_output": 0.00843613501638174,
+        "dependencies": [
+          "light_voltage",
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 25,
+        "term": "length_collection_saturation",
+        "expression": "1-exp(-active_layer_length/40)",
+        "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+        "coefficient_normalized_output": 0.014416070654988289,
+        "dependencies": [
+          "active_layer_length"
+        ]
+      },
+      {
+        "term_index": 26,
+        "term": "thermal_surface_recomb_over_length",
+        "expression": "(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+        "normalized_expression": "(((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 0.2512940466403961) / 0.01514139492064714",
+        "coefficient_normalized_output": -0.0008455927600152791,
+        "dependencies": [
+          "ge_sio2_recomb_velocity",
+          "ge_si_recomb_velocity",
+          "active_layer_length",
+          "simulation_temperature"
+        ]
+      },
+      {
+        "term_index": 27,
+        "term": "reverse_thermal_surface_recomb",
+        "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+        "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197",
+        "coefficient_normalized_output": -0.0016197010409086943,
+        "dependencies": [
+          "light_voltage",
+          "ge_sio2_recomb_velocity",
+          "ge_si_recomb_velocity",
+          "active_layer_length",
+          "simulation_temperature"
+        ]
+      },
+      {
+        "term_index": 28,
+        "term": "trap_A_times_length",
+        "expression": "trap_assisted_recomb_A*active_layer_length",
+        "normalized_expression": "((trap_assisted_recomb_A*active_layer_length) - 3.99780724080756e-08) / 4.592866087449465e-09",
+        "coefficient_normalized_output": -0.0003307527513243258,
+        "dependencies": [
+          "trap_assisted_recomb_A",
+          "active_layer_length"
+        ]
+      }
+    ]
+  },
+  "generic_branch": {
+    "bias": 0.0,
+    "terms": []
+  },
+  "selected_term_count": 70,
+  "selected_terms": [
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": 0.08635478466749191,
+      "dependencies": []
+    },
+    {
+      "term_index": 1,
+      "term": "light_voltage_z",
+      "expression": "scaled(light_voltage)",
+      "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+      "coefficient_normalized_output": -0.023745305836200714,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 2,
+      "term": "light_voltage_z2",
+      "expression": "scaled(light_voltage)^2",
+      "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+      "coefficient_normalized_output": -0.006307685747742653,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 8,
+      "term": "temperature_z",
+      "expression": "scaled(simulation_temperature)",
+      "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+      "coefficient_normalized_output": -0.009007172659039497,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 9,
+      "term": "inverse_temperature",
+      "expression": "1/simulation_temperature",
+      "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+      "coefficient_normalized_output": 0.003366270801052451,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 10,
+      "term": "light_voltage_over_temperature",
+      "expression": "light_voltage/simulation_temperature",
+      "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+      "coefficient_normalized_output": -0.022509679198265076,
+      "dependencies": [
+        "light_voltage",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 11,
+      "term": "length_z",
+      "expression": "scaled(active_layer_length)",
+      "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+      "coefficient_normalized_output": -0.014109053649008274,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 12,
+      "term": "inverse_length",
+      "expression": "1/active_layer_length",
+      "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+      "coefficient_normalized_output": 0.014564935117959976,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 13,
+      "term": "light_voltage_over_length",
+      "expression": "light_voltage/active_layer_length",
+      "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+      "coefficient_normalized_output": -0.026939209550619125,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 24,
+      "term": "collection_saturation_length",
+      "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+      "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+      "coefficient_normalized_output": 0.020703136920928955,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 25,
+      "term": "length_collection_saturation",
+      "expression": "1-exp(-active_layer_length/40)",
+      "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+      "coefficient_normalized_output": -0.0036255011800676584,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": 0.06395450234413147,
+      "dependencies": []
+    },
+    {
+      "term_index": 1,
+      "term": "light_voltage_z",
+      "expression": "scaled(light_voltage)",
+      "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+      "coefficient_normalized_output": -0.06382584571838379,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 2,
+      "term": "light_voltage_z2",
+      "expression": "scaled(light_voltage)^2",
+      "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+      "coefficient_normalized_output": -0.04998639225959778,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 3,
+      "term": "soft_reverse_light_voltage",
+      "expression": "softplus(-light_voltage/0.2)",
+      "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+      "coefficient_normalized_output": 0.07139267772436142,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 4,
+      "term": "tanh_reverse_light_voltage",
+      "expression": "tanh(-light_voltage/1.0)",
+      "normalized_expression": "((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532",
+      "coefficient_normalized_output": 0.04699447378516197,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 5,
+      "term": "reverse_saturation_light_voltage",
+      "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+      "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+      "coefficient_normalized_output": 0.055439844727516174,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 7,
+      "term": "reverse_gate_light_voltage",
+      "expression": "sigmoid(-light_voltage/0.2)",
+      "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+      "coefficient_normalized_output": 0.07895097881555557,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 8,
+      "term": "temperature_z",
+      "expression": "scaled(simulation_temperature)",
+      "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+      "coefficient_normalized_output": 0.02081984281539917,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 9,
+      "term": "inverse_temperature",
+      "expression": "1/simulation_temperature",
+      "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+      "coefficient_normalized_output": -0.025780268013477325,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 10,
+      "term": "light_voltage_over_temperature",
+      "expression": "light_voltage/simulation_temperature",
+      "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+      "coefficient_normalized_output": -0.08825124055147171,
+      "dependencies": [
+        "light_voltage",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 11,
+      "term": "length_z",
+      "expression": "scaled(active_layer_length)",
+      "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+      "coefficient_normalized_output": -0.026564721018075943,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 12,
+      "term": "inverse_length",
+      "expression": "1/active_layer_length",
+      "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+      "coefficient_normalized_output": -0.04332132264971733,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 13,
+      "term": "light_voltage_over_length",
+      "expression": "light_voltage/active_layer_length",
+      "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+      "coefficient_normalized_output": -0.08621544390916824,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 19,
+      "term": "reverse_drive_over_length",
+      "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+      "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+      "coefficient_normalized_output": 0.07300093024969101,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 24,
+      "term": "collection_saturation_length",
+      "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+      "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+      "coefficient_normalized_output": 0.0997457206249237,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 25,
+      "term": "length_collection_saturation",
+      "expression": "1-exp(-active_layer_length/40)",
+      "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+      "coefficient_normalized_output": 0.03741443529725075,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": -0.012014120817184448,
+      "dependencies": []
+    },
+    {
+      "term_index": 5,
+      "term": "reverse_saturation_light_voltage",
+      "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+      "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+      "coefficient_normalized_output": -0.026906011626124382,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 13,
+      "term": "light_voltage_over_length",
+      "expression": "light_voltage/active_layer_length",
+      "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+      "coefficient_normalized_output": 0.008996638469398022,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 17,
+      "term": "ge_sio2_velocity_over_length",
+      "expression": "ge_sio2_recomb_velocity/active_layer_length",
+      "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874",
+      "coefficient_normalized_output": -0.14244598150253296,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 22,
+      "term": "reverse_drive_surface_recomb",
+      "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625",
+      "coefficient_normalized_output": -0.03382861241698265,
+      "dependencies": [
+        "light_voltage",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 27,
+      "term": "reverse_thermal_surface_recomb",
+      "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197",
+      "coefficient_normalized_output": -0.030980072915554047,
+      "dependencies": [
+        "light_voltage",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": -0.05567222088575363,
+      "dependencies": []
+    },
+    {
+      "term_index": 1,
+      "term": "light_voltage_z",
+      "expression": "scaled(light_voltage)",
+      "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+      "coefficient_normalized_output": 0.03742782771587372,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 3,
+      "term": "soft_reverse_light_voltage",
+      "expression": "softplus(-light_voltage/0.2)",
+      "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+      "coefficient_normalized_output": -0.03601324185729027,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 5,
+      "term": "reverse_saturation_light_voltage",
+      "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+      "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+      "coefficient_normalized_output": -0.06212371960282326,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 7,
+      "term": "reverse_gate_light_voltage",
+      "expression": "sigmoid(-light_voltage/0.2)",
+      "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+      "coefficient_normalized_output": -0.06039594113826752,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 10,
+      "term": "light_voltage_over_temperature",
+      "expression": "light_voltage/simulation_temperature",
+      "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+      "coefficient_normalized_output": 0.044512126594781876,
+      "dependencies": [
+        "light_voltage",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 19,
+      "term": "reverse_drive_over_length",
+      "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+      "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+      "coefficient_normalized_output": -0.026639239862561226,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 23,
+      "term": "reverse_drive_trap_A",
+      "expression": "softplus(-light_voltage/0.2)*trap_assisted_recomb_A",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09",
+      "coefficient_normalized_output": -0.04434328153729439,
+      "dependencies": [
+        "light_voltage",
+        "trap_assisted_recomb_A"
+      ]
+    },
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": -0.056103043258190155,
+      "dependencies": []
+    },
+    {
+      "term_index": 1,
+      "term": "light_voltage_z",
+      "expression": "scaled(light_voltage)",
+      "normalized_expression": "((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583",
+      "coefficient_normalized_output": 0.0031645968556404114,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 2,
+      "term": "light_voltage_z2",
+      "expression": "scaled(light_voltage)^2",
+      "normalized_expression": "((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524",
+      "coefficient_normalized_output": -0.004758879542350769,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 3,
+      "term": "soft_reverse_light_voltage",
+      "expression": "softplus(-light_voltage/0.2)",
+      "normalized_expression": "((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316",
+      "coefficient_normalized_output": 0.030420713126659393,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 4,
+      "term": "tanh_reverse_light_voltage",
+      "expression": "tanh(-light_voltage/1.0)",
+      "normalized_expression": "((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532",
+      "coefficient_normalized_output": -0.000630981579888612,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 5,
+      "term": "reverse_saturation_light_voltage",
+      "expression": "1-exp(-(softplus(-light_voltage/0.2)-log(2)))",
+      "normalized_expression": "((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351",
+      "coefficient_normalized_output": 0.011122620664536953,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 6,
+      "term": "forward_gate_light_voltage",
+      "expression": "sigmoid(light_voltage/0.2)",
+      "normalized_expression": "((sigmoid(light_voltage/0.2)) - 0.06025970354676247) / 0.1325384974479675",
+      "coefficient_normalized_output": 0.008352928794920444,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 7,
+      "term": "reverse_gate_light_voltage",
+      "expression": "sigmoid(-light_voltage/0.2)",
+      "normalized_expression": "((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123",
+      "coefficient_normalized_output": 0.002715502632781863,
+      "dependencies": [
+        "light_voltage"
+      ]
+    },
+    {
+      "term_index": 8,
+      "term": "temperature_z",
+      "expression": "scaled(simulation_temperature)",
+      "normalized_expression": "((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209",
+      "coefficient_normalized_output": -0.0045286971144378185,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 9,
+      "term": "inverse_temperature",
+      "expression": "1/simulation_temperature",
+      "normalized_expression": "((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05",
+      "coefficient_normalized_output": 0.002789589809253812,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 10,
+      "term": "light_voltage_over_temperature",
+      "expression": "light_voltage/simulation_temperature",
+      "normalized_expression": "((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216",
+      "coefficient_normalized_output": -0.008548935875296593,
+      "dependencies": [
+        "light_voltage",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 11,
+      "term": "length_z",
+      "expression": "scaled(active_layer_length)",
+      "normalized_expression": "((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764",
+      "coefficient_normalized_output": -0.010996980592608452,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 12,
+      "term": "inverse_length",
+      "expression": "1/active_layer_length",
+      "normalized_expression": "((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337",
+      "coefficient_normalized_output": 0.02026640623807907,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 13,
+      "term": "light_voltage_over_length",
+      "expression": "light_voltage/active_layer_length",
+      "normalized_expression": "((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387",
+      "coefficient_normalized_output": -0.0009128684177994728,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 14,
+      "term": "trap_A_z",
+      "expression": "scaled(trap_assisted_recomb_A)",
+      "normalized_expression": "((scaled(trap_assisted_recomb_A)) - 1.158332452178001e-08) / 1.000001430511475",
+      "coefficient_normalized_output": 0.0005291161360219121,
+      "dependencies": [
+        "trap_assisted_recomb_A"
+      ]
+    },
+    {
+      "term_index": 15,
+      "term": "ge_sio2_velocity_z",
+      "expression": "scaled(ge_sio2_recomb_velocity)",
+      "normalized_expression": "((scaled(ge_sio2_recomb_velocity)) - -8.207280188798904e-09) / 0.9999988079071045",
+      "coefficient_normalized_output": -0.0057581034488976,
+      "dependencies": [
+        "ge_sio2_recomb_velocity"
+      ]
+    },
+    {
+      "term_index": 16,
+      "term": "ge_si_velocity_z",
+      "expression": "scaled(ge_si_recomb_velocity)",
+      "normalized_expression": "((scaled(ge_si_recomb_velocity)) - -2.118758857250214e-08) / 0.9999996423721313",
+      "coefficient_normalized_output": 0.002699201228097081,
+      "dependencies": [
+        "ge_si_recomb_velocity"
+      ]
+    },
+    {
+      "term_index": 17,
+      "term": "ge_sio2_velocity_over_length",
+      "expression": "ge_sio2_recomb_velocity/active_layer_length",
+      "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874",
+      "coefficient_normalized_output": -0.016104990616440773,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 18,
+      "term": "ge_si_velocity_over_length",
+      "expression": "ge_si_recomb_velocity/active_layer_length",
+      "normalized_expression": "((ge_si_recomb_velocity/active_layer_length) - 12.57664394378662) / 0.7776284217834473",
+      "coefficient_normalized_output": -0.009254101663827896,
+      "dependencies": [
+        "ge_si_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 19,
+      "term": "reverse_drive_over_length",
+      "expression": "softplus(-light_voltage/0.2)/active_layer_length",
+      "normalized_expression": "((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647",
+      "coefficient_normalized_output": 0.01569858193397522,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 20,
+      "term": "surface_recomb_sum_z",
+      "expression": "scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)",
+      "normalized_expression": "((scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)) - 2996.755859375) / 97.87372589111328",
+      "coefficient_normalized_output": 0.0024595519062131643,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity"
+      ]
+    },
+    {
+      "term_index": 21,
+      "term": "surface_recomb_over_length",
+      "expression": "(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+      "normalized_expression": "(((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 75.3353271484375) / 4.342223167419434",
+      "coefficient_normalized_output": 0.02335839532315731,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 22,
+      "term": "reverse_drive_surface_recomb",
+      "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625",
+      "coefficient_normalized_output": 0.005456525832414627,
+      "dependencies": [
+        "light_voltage",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 23,
+      "term": "reverse_drive_trap_A",
+      "expression": "softplus(-light_voltage/0.2)*trap_assisted_recomb_A",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09",
+      "coefficient_normalized_output": -0.00025077228201553226,
+      "dependencies": [
+        "light_voltage",
+        "trap_assisted_recomb_A"
+      ]
+    },
+    {
+      "term_index": 24,
+      "term": "collection_saturation_length",
+      "expression": "(1-exp(-softplus(-light_voltage/0.2)))*active_layer_length",
+      "normalized_expression": "(((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838",
+      "coefficient_normalized_output": 0.00843613501638174,
+      "dependencies": [
+        "light_voltage",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 25,
+      "term": "length_collection_saturation",
+      "expression": "1-exp(-active_layer_length/40)",
+      "normalized_expression": "((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089",
+      "coefficient_normalized_output": 0.014416070654988289,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 26,
+      "term": "thermal_surface_recomb_over_length",
+      "expression": "(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+      "normalized_expression": "(((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 0.2512940466403961) / 0.01514139492064714",
+      "coefficient_normalized_output": -0.0008455927600152791,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 27,
+      "term": "reverse_thermal_surface_recomb",
+      "expression": "softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)",
+      "normalized_expression": "((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197",
+      "coefficient_normalized_output": -0.0016197010409086943,
+      "dependencies": [
+        "light_voltage",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 28,
+      "term": "trap_A_times_length",
+      "expression": "trap_assisted_recomb_A*active_layer_length",
+      "normalized_expression": "((trap_assisted_recomb_A*active_layer_length) - 3.99780724080756e-08) / 4.592866087449465e-09",
+      "coefficient_normalized_output": -0.0003307527513243258,
+      "dependencies": [
+        "trap_assisted_recomb_A",
+        "active_layer_length"
+      ]
+    }
+  ],
+  "model_space_formula": "3.371258675853275 * (((-1)*(abs(-1.074976086616516)*softplus(0.07610329240560532 + (0.08635478466749191)*(((1) - 0) / 1) + (-0.02374530583620071)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.006307685747742653)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (-0.009007172659039497)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (0.003366270801052451)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.02250967919826508)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.01410905364900827)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (0.01456493511795998)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.02693920955061913)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.02070313692092896)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (-0.003625501180067658)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089))*(1)) + (-1)*(abs(-0.2750748693943024)*softplus(-2.918099880218506 + (0.06395450234413147)*(((1) - 0) / 1) + (-0.06382584571838379)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.04998639225959778)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (0.07139267772436142)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (0.04699447378516197)*(((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532) + (0.05543984472751617)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.07895097881555557)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (0.02081984281539917)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (-0.02578026801347733)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.08825124055147171)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.02656472101807594)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (-0.04332132264971733)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.08621544390916824)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.07300093024969101)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (0.09974572062492371)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (0.03741443529725075)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005)))))*exp(-clip(abs(0.03717582300305367)*softplus(-3.038483858108521 + (-0.01201412081718445)*(((1) - 0) / 1) + (-0.02690601162612438)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.008996638469398022)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (-0.142445981502533)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874) + (-0.03382861241698265)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625) + (-0.03098007291555405)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005))), 0, 8))*exp(-clip(abs(0.02997675724327564)*softplus(-3.048371553421021 + (-0.05567222088575363)*(((1) - 0) / 1) + (0.03742782771587372)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.03601324185729027)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (-0.06212371960282326)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (-0.06039594113826752)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (0.04451212659478188)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.02663923986256123)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (-0.04434328153729439)*(((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005))), 0, 8)) + (0) + (-0.07338926196098328 + (-0.05610304325819016)*(((1) - 0) / 1) + (0.003164596855640411)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.004758879542350769)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (0.03042071312665939)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (-0.000630981579888612)*(((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532) + (0.01112262066453695)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.008352928794920444)*(((sigmoid(light_voltage/0.2)) - 0.06025970354676247) / 0.1325384974479675) + (0.002715502632781863)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (-0.004528697114437819)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (0.002789589809253812)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.008548935875296593)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.01099698059260845)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (0.02026640623807907)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.0009128684177994728)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.0005291161360219121)*(((scaled(trap_assisted_recomb_A)) - 1.158332452178001e-08) / 1.000001430511475) + (-0.0057581034488976)*(((scaled(ge_sio2_recomb_velocity)) - -8.207280188798904e-09) / 0.9999988079071045) + (0.002699201228097081)*(((scaled(ge_si_recomb_velocity)) - -2.118758857250214e-08) / 0.9999996423721313) + (-0.01610499061644077)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874) + (-0.009254101663827896)*(((ge_si_recomb_velocity/active_layer_length) - 12.57664394378662) / 0.7776284217834473) + (0.01569858193397522)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (0.002459551906213164)*(((scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)) - 2996.755859375) / 97.87372589111328) + (0.02335839532315731)*((((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 75.3353271484375) / 4.342223167419434) + (0.005456525832414627)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625) + (-0.0002507722820155323)*(((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09) + (0.008436135016381741)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (0.01441607065498829)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089) + (-0.0008455927600152791)*((((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 0.2512940466403961) / 0.01514139492064714) + (-0.001619701040908694)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197) + (-0.0003307527513243258)*(((trap_assisted_recomb_A*active_layer_length) - 3.99780724080756e-08) / 4.592866087449465e-09)) + (0))",
+  "formula": "10**(3.371258675853275 * (((-1)*(abs(-1.074976086616516)*softplus(0.07610329240560532 + (0.08635478466749191)*(((1) - 0) / 1) + (-0.02374530583620071)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.006307685747742653)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (-0.009007172659039497)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (0.003366270801052451)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.02250967919826508)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.01410905364900827)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (0.01456493511795998)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.02693920955061913)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.02070313692092896)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (-0.003625501180067658)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089))*(1)) + (-1)*(abs(-0.2750748693943024)*softplus(-2.918099880218506 + (0.06395450234413147)*(((1) - 0) / 1) + (-0.06382584571838379)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.04998639225959778)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (0.07139267772436142)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (0.04699447378516197)*(((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532) + (0.05543984472751617)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.07895097881555557)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (0.02081984281539917)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (-0.02578026801347733)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.08825124055147171)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.02656472101807594)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (-0.04332132264971733)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.08621544390916824)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.07300093024969101)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (0.09974572062492371)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (0.03741443529725075)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005)))))*exp(-clip(abs(0.03717582300305367)*softplus(-3.038483858108521 + (-0.01201412081718445)*(((1) - 0) / 1) + (-0.02690601162612438)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.008996638469398022)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (-0.142445981502533)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874) + (-0.03382861241698265)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625) + (-0.03098007291555405)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005))), 0, 8))*exp(-clip(abs(0.02997675724327564)*softplus(-3.048371553421021 + (-0.05567222088575363)*(((1) - 0) / 1) + (0.03742782771587372)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.03601324185729027)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (-0.06212371960282326)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (-0.06039594113826752)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (0.04451212659478188)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.02663923986256123)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (-0.04434328153729439)*(((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09))*(sigmoid(4*(clip(softplus(-light_voltage/0.2) - log(2), 0, inf) / 14.30685281944005))), 0, 8)) + (0) + (-0.07338926196098328 + (-0.05610304325819016)*(((1) - 0) / 1) + (0.003164596855640411)*(((scaled(light_voltage)) - -7.09405867382884e-10) / 0.9999964833259583) + (-0.004758879542350769)*(((scaled(light_voltage)^2) - 0.9999930262565613) / 0.8891475796699524) + (0.03042071312665939)*(((softplus(-light_voltage/0.2)) - 7.57571268081665) / 4.500245094299316) + (-0.000630981579888612)*(((tanh(-light_voltage/1.0)) - 0.751728355884552) / 0.3039946854114532) + (0.01112262066453695)*(((1-exp(-(softplus(-light_voltage/0.2)-log(2)))) - 0.8794803023338318) / 0.2650769948959351) + (0.008352928794920444)*(((sigmoid(light_voltage/0.2)) - 0.06025970354676247) / 0.1325384974479675) + (0.002715502632781863)*(((sigmoid(-light_voltage/0.2)) - 0.9397410154342651) / 0.1325385570526123) + (-0.004528697114437819)*(((scaled(simulation_temperature)) - 1.396983861923218e-09) / 0.9999997615814209) + (0.002789589809253812)*(((1/simulation_temperature) - 0.003335588611662388) / 5.291130946716294e-05) + (-0.008548935875296593)*(((light_voltage/simulation_temperature) - -0.005003391299396753) / 0.003076681634411216) + (-0.01099698059260845)*(((scaled(active_layer_length)) - 8.475035429000854e-08) / 1.000001549720764) + (0.02026640623807907)*(((1/active_layer_length) - 0.02514082007110119) / 0.001228274311870337) + (-0.0009128684177994728)*(((light_voltage/active_layer_length) - -0.03771128505468369) / 0.02327940613031387) + (0.0005291161360219121)*(((scaled(trap_assisted_recomb_A)) - 1.158332452178001e-08) / 1.000001430511475) + (-0.0057581034488976)*(((scaled(ge_sio2_recomb_velocity)) - -8.207280188798904e-09) / 0.9999988079071045) + (0.002699201228097081)*(((scaled(ge_si_recomb_velocity)) - -2.118758857250214e-08) / 0.9999996423721313) + (-0.01610499061644077)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.75871658325195) / 3.83154821395874) + (-0.009254101663827896)*(((ge_si_recomb_velocity/active_layer_length) - 12.57664394378662) / 0.7776284217834473) + (0.01569858193397522)*(((softplus(-light_voltage/0.2)/active_layer_length) - 0.1730327010154724) / 0.113589882850647) + (0.002459551906213164)*(((scaled(ge_sio2_recomb_velocity + ge_si_recomb_velocity)) - 2996.755859375) / 97.87372589111328) + (0.02335839532315731)*((((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 75.3353271484375) / 4.342223167419434) + (0.005456525832414627)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/active_layer_length) - 518.4977416992188) / 340.902587890625) + (-0.0002507722820155323)*(((softplus(-light_voltage/0.2)*trap_assisted_recomb_A) - 6.895107151905222e-09) / 4.577496159896555e-09) + (0.008436135016381741)*((((1-exp(-softplus(-light_voltage/0.2)))*active_layer_length) - 35.06449508666992) / 10.71510410308838) + (0.01441607065498829)*(((1-exp(-active_layer_length/40)) - 0.6304939985275269) / 0.01782920397818089) + (-0.0008455927600152791)*((((ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 0.2512940466403961) / 0.01514139492064714) + (-0.001619701040908694)*(((softplus(-light_voltage/0.2)*(ge_sio2_recomb_velocity + ge_si_recomb_velocity)/(active_layer_length*simulation_temperature)) - 1.729533672332764) / 1.137714743614197) + (-0.0003307527513243258)*(((trap_assisted_recomb_A*active_layer_length) - 3.99780724080756e-08) / 4.592866087449465e-09)) + (0)))",
+  "deployment_cost": {
+    "unique_normalized_features": 29,
+    "branch_coefficients": 70,
+    "branches": 4
+  }
+}

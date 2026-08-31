@@ -1,0 +1,59 @@
+// Standalone Verilog-A implementation of the distilled AC-response formula.
+//
+// Scope:
+//   This module is a behavioral readout for implementation-consistency checks.
+//   It maps (frequency_ghz, active_layer_length, simulation_temperature) to the
+//   normalized small-signal response y_ac in dB.  It is not the two-terminal
+//   dynamic branch of the deployed photodetector compact model; that branch is
+//   implemented separately through ddt(Q_proxy).
+//
+// Recommended use:
+//   Sweep the parameter frequency_ghz in Spectre and compare V(out, ref)
+//   against the independent Python evaluator in compare_ac_response_symbolic.py.
+
+`include "disciplines.vams"
+
+module ge_si_ac_response_symbolic(out, ref);
+  output out;
+  inout ref;
+  electrical out, ref;
+
+  parameter real frequency_ghz = 1.0 from (0.0:inf);
+  parameter real active_layer_length = 40.0 from (0.0:inf);     // um
+  parameter real simulation_temperature = 300.0 from (0.0:inf); // K
+
+  real f_safe;
+  real y_ac_db;
+  real numerator;
+  real denominator;
+  real scaled_frequency;
+
+  analog begin
+    f_safe = frequency_ghz;
+    if (f_safe < 1.0e-12) begin
+      f_safe = 1.0e-12;
+    end
+
+    scaled_frequency = f_safe * exp(
+      -0.000690444884035588 * active_layer_length
+      + 0.00545076806767964 * simulation_temperature
+    );
+
+    numerator =
+      -0.0117266759934525 * active_layer_length
+      -0.03488283072414 * simulation_temperature
+      +19.4018156517685;
+
+    denominator =
+      1.0
+      +0.0142779533594861 * pow(scaled_frequency, 1.09293379917491);
+
+    y_ac_db =
+      0.0127235709487393 * active_layer_length
+      +0.0351387573208426 * simulation_temperature
+      -19.3768505375964
+      + numerator / denominator;
+
+    V(out, ref) <+ y_ac_db;
+  end
+endmodule

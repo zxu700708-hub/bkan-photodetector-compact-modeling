@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "variational_mean_conversion": "copy means of q_beta; retain mean output channel only for dark current, net photocurrent, and capacitance; AC uses the separately registered finite-MC q_beta predictive mean",
+  "edgewise": {
+    "sampling_domain": "empirical train-set activation range at each edge after train-only input standardization",
+    "sampling_count": "all training rows (task-specific; no validation or test rows)",
+    "fit_family": "c*f(a*x+b)+d",
+    "fit_loss": "maximize squared Pearson correlation R2; solve c,d by ordinary least squares",
+    "a_range": [
+      -10,
+      10
+    ],
+    "b_range": [
+      -10,
+      10
+    ],
+    "parameter_grid_points_per_axis": 101,
+    "grid_refinement_iterations": 3,
+    "selection_loss": "0.8*library_complexity + 0.2*log2(1+1e-5-R2)",
+    "node_prune_threshold": 0.01,
+    "edge_prune_threshold": 0.03,
+    "candidate_library_csv": "edgewise_candidate_library.csv"
+  },
+  "pure_gated": {
+    "feature_source": "physical_library.py and the AC gated-lowpass feature builder; complete definitions and frozen normalizers are in gated_candidate_library.csv",
+    "normalization": "train-set mean/std for inputs and candidate terms; scales below 1e-12 replaced by 1",
+    "fitting_loss": "fully expanded in gated_primary_run_configs.json",
+    "gate_probability_threshold": 0.02,
+    "hard_term_budgets": {
+      "I_dark": 36,
+      "I_photo": 72,
+      "AC_Response": 10,
+      "Capacitance": 24
+    },
+    "selection": "general student restores the strict-best validation checkpoint in each stage; AC is the registered exception whose validation split is evaluation-only; neither path uses test for fitting or pruning",
+    "candidate_library_csv": "gated_candidate_library.csv",
+    "mechanism_masks_csv": "gated_mechanism_masks.csv",
+    "primary_run_configs_json": "gated_primary_run_configs.json"
+  },
+  "numerical_guards": [
+    "softplus arguments clipped to [-40,40]",
+    "positive denominators floored",
+    "AC frequency floored at 1e-12",
+    "AC fc clipped to [0.02,500] GHz",
+    "photo loss exponents clipped to [0,8]"
+  ],
+  "formula_assembly": "serialize train normalizers, selected terms, branch coefficients, mechanism drives, and output scaling to JSON; independent evaluator reads no KAN weights",
+  "veriloga_translation": "replace serialized arithmetic with real-valued analog expressions; exp/log/tanh map directly; softplus uses guarded log1p-exp form; spline baseline is emitted as clamped piecewise cubic Horner form",
+  "test_isolation": "test groups never participate in fitting, pruning, thresholding, or formula selection"
+}

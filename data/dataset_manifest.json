@@ -1,0 +1,404 @@
+{
+  "schema_version": "publication_dataset_manifest_v1",
+  "generated_at_utc": "2026-08-30T19:30:58.500755+00:00",
+  "generation_scope": "frozen_table_conversion_only_no_tcad_rerun",
+  "dataset_count": 14,
+  "datasets": [
+    {
+      "dataset_id": "ac_response",
+      "path": "primary/ge_si_ac_response.csv",
+      "role": "primary supervised task",
+      "rows": 4480,
+      "columns": [
+        "task",
+        "frequency_ghz",
+        "active_layer_length",
+        "simulation_temperature",
+        "ac_response_db",
+        "_curve_id"
+      ],
+      "column_count": 6,
+      "group_unit": "complete frequency curve",
+      "target_definition": "ac_response_db",
+      "artifact_sha256": "45758f9f94fc42b3d21aeda99cc088e8b1ceb3cb1613ab61d754ac2af6cf0a21",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/device_modeling/cleaned_data.csv",
+          "sha256": "9d69f05fe44a47cb19e5cd78860114910c9ad249a9b9a2cfac67a8a4884c1b29"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_breakdown_voltage",
+      "path": "apd/apd_breakdown_voltage.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 155,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W",
+        "breakdown_voltage_v",
+        "_curve_id"
+      ],
+      "column_count": 11,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "breakdown_voltage_v",
+      "artifact_sha256": "2e52f500d5a99118b8c9fe1c2f9146b5fca7d414f6d15d5ce011efe69a79e2af",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_fom.csv",
+          "sha256": "b50a9b658acf0d22505e3d817e49e73fd2d623212c6599e1d70d41be74ad149d"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_dark_current",
+      "path": "apd/apd_dark_current.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 6162,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "current_A",
+        "_curve_id"
+      ],
+      "column_count": 11,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "current_A",
+      "artifact_sha256": "1e38440747b29cfc8d5c215725dcadfc9fef7cafd8c1bd3eded8fc3f25ffaf5e",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_dc.csv",
+          "sha256": "f4f718db78b0cf695324f947568d6a74cea7be5399b20783c87bb07e0e9107e1"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_gain_threshold_voltage",
+      "path": "apd/apd_gain_threshold_voltage.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 155,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W",
+        "voltage_at_gain_threshold_v",
+        "_curve_id"
+      ],
+      "column_count": 11,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "voltage_at_gain_threshold_v",
+      "artifact_sha256": "bd1cfb4ae3b259fdfbf9953c18f29d2a9f4189d5e97fbc12e2d19ded57d6d906",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_fom.csv",
+          "sha256": "b50a9b658acf0d22505e3d817e49e73fd2d623212c6599e1d70d41be74ad149d"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_multiplication_gain",
+      "path": "apd/apd_multiplication_gain.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 12480,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W",
+        "multiplication_gain",
+        "_curve_id"
+      ],
+      "column_count": 12,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "multiplication_gain",
+      "artifact_sha256": "553060015f815224d3ac1258b19a4bd275632b7eca517d4d7019e844c4d628c5",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_gain.csv",
+          "sha256": "cb2b65ff976efddb85acbfb81f7b7dd57986bce4dc2c0a4a8e70b85890c89bd8"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_net_photocurrent",
+      "path": "apd/apd_net_photocurrent.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 12480,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W",
+        "net_photocurrent_A",
+        "_curve_id"
+      ],
+      "column_count": 12,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "net_photocurrent_A",
+      "artifact_sha256": "356dae92bcbc67f463eb1d0d7b5110bc5f21be1e4c97bb4797bfba501720264d",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_gain.csv",
+          "sha256": "cb2b65ff976efddb85acbfb81f7b7dd57986bce4dc2c0a4a8e70b85890c89bd8"
+        }
+      ]
+    },
+    {
+      "dataset_id": "apd_photo_current",
+      "path": "apd/apd_photo_current.csv",
+      "role": "second-device task after APD-specific refitting",
+      "rows": 12480,
+      "columns": [
+        "task",
+        "sample_id",
+        "structure_group_id",
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W",
+        "current_A",
+        "_curve_id"
+      ],
+      "column_count": 12,
+      "group_unit": "complete response for one APD structure",
+      "target_definition": "current_A",
+      "artifact_sha256": "15b7501281e59e09b3ad0f31314f96201767a01f3d26518fdaa3beda74dd442a",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/apd_dc.csv",
+          "sha256": "f4f718db78b0cf695324f947568d6a74cea7be5399b20783c87bb07e0e9107e1"
+        }
+      ]
+    },
+    {
+      "dataset_id": "capacitance",
+      "path": "primary/ge_si_capacitance.csv",
+      "role": "primary supervised task",
+      "rows": 64000,
+      "columns": [
+        "task",
+        "bias_v",
+        "log_frequency_ghz",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "capacitance_F",
+        "_curve_id"
+      ],
+      "column_count": 10,
+      "group_unit": "complete 16x25 bias-frequency surface",
+      "target_definition": "C_app=Im(Y_total)/(2*pi*f_Hz)",
+      "artifact_sha256": "171e9b9979b321a4bf6678c3db5d552917dd18dd8fe5ba59ddb5aeb20dfc62ef",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/apparent_capacitance_correction/primary_ge_si_apparent_capacitance.csv",
+          "sha256": "d3a743fe5d29a8e20ae62237e0a3b9e39b497fa51b33ab5d54413c467a7e929b"
+        }
+      ]
+    },
+    {
+      "dataset_id": "condition_design",
+      "path": "primary/primary_condition_design.csv",
+      "role": "design and provenance",
+      "rows": 160,
+      "columns": [
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature"
+      ],
+      "column_count": 5,
+      "group_unit": "device condition",
+      "target_definition": "not applicable",
+      "artifact_sha256": "66d76f416884eed96e0596b61a665f014e372b9816c8cb92901bb7868117a3bc",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/tcad_provenance/primary_condition_table.csv",
+          "sha256": "d3f1e6fb149c82000edcf0bab4295fa192c8033defb9abfdf754674e6cea7382"
+        }
+      ]
+    },
+    {
+      "dataset_id": "dark_current",
+      "path": "primary/ge_si_dark_current.csv",
+      "role": "primary supervised task",
+      "rows": 2400,
+      "columns": [
+        "task",
+        "dark_voltage",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "dark_current",
+        "_curve_id"
+      ],
+      "column_count": 9,
+      "group_unit": "complete bias curve",
+      "target_definition": "dark_current",
+      "artifact_sha256": "0af6494ee6735867ba8bcdf147d6de7e12a65d687e811e9c9a0d2ef7aa5525cc",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/device_modeling/cleaned_data.csv",
+          "sha256": "9d69f05fe44a47cb19e5cd78860114910c9ad249a9b9a2cfac67a8a4884c1b29"
+        }
+      ]
+    },
+    {
+      "dataset_id": "photo_current",
+      "path": "primary/ge_si_photo_current.csv",
+      "role": "primary supervised task",
+      "rows": 2560,
+      "columns": [
+        "task",
+        "light_voltage",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "net_photocurrent",
+        "_curve_id"
+      ],
+      "column_count": 9,
+      "group_unit": "complete bias curve",
+      "target_definition": "net_photocurrent=light_current-dark_current at matched bias and condition",
+      "artifact_sha256": "32a139cdf4e7ce652fa47524bdfdfb894bfb30b6543026e900b1b1b3f8072c53",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/device_modeling/cleaned_data.csv",
+          "sha256": "9d69f05fe44a47cb19e5cd78860114910c9ad249a9b9a2cfac67a8a4884c1b29"
+        }
+      ]
+    },
+    {
+      "dataset_id": "sampling_parameters",
+      "path": "primary/primary_sampling_parameters.csv",
+      "role": "design and provenance",
+      "rows": 5,
+      "columns": [
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature"
+      ],
+      "column_count": 5,
+      "group_unit": "parameter definition",
+      "target_definition": "not applicable",
+      "artifact_sha256": "adb6c5d3a419f180c2e498a3c6b9290c4cd4cc73f41f3da1b632abfa1cd89b31",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/tcad_provenance/primary_sampling_parameters.csv",
+          "sha256": "adb6c5d3a419f180c2e498a3c6b9290c4cd4cc73f41f3da1b632abfa1cd89b31"
+        }
+      ]
+    },
+    {
+      "dataset_id": "terminal_charge",
+      "path": "primary/ge_si_terminal_charge.csv",
+      "role": "quasi-static terminal-charge fitting",
+      "rows": 2080,
+      "columns": [
+        "sample_id",
+        "terminal_charge_bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "compact_port_positive_charge_C",
+        "compact_port_negative_charge_C",
+        "compact_port_charge_conservation_residual_C",
+        "production_source_row",
+        "split"
+      ],
+      "column_count": 12,
+      "group_unit": "complete Q-V curve for one device condition",
+      "target_definition": "Q_term=compact_port_positive_charge_C relative to V=0",
+      "artifact_sha256": "165b3b3b3a25de647861b6bdeec40aa4ec1d60d6008b3fb36e9426c605abbd43",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/terminal_charge_model/terminal_charge_predictions.csv",
+          "sha256": "3fe7817654d113e3f4a1e653f91569a7c205446eb5218e5d823737edc93d2b5a"
+        }
+      ]
+    },
+    {
+      "dataset_id": "terminal_charge_dqdv_reference",
+      "path": "primary/ge_si_terminal_charge_dqdv_reference.csv",
+      "role": "strict independent derivative validation",
+      "rows": 48,
+      "columns": [
+        "sample_id",
+        "terminal_charge_bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "compact_port_dQdV_from_dc_F",
+        "compact_port_capacitance_from_two_contact_ssac_F",
+        "compact_port_dQdV_small_signal_relative_error",
+        "compact_port_dQdV_small_signal_validation_pass",
+        "strict_terminal_charge_both_contacts_dQdV_pass",
+        "production_source_row",
+        "split"
+      ],
+      "column_count": 14,
+      "group_unit": "strict two-contact SSAC validation point",
+      "target_definition": "dQ_term/dV compared with two-contact small-signal capacitance",
+      "artifact_sha256": "f45e92c04581bc1601273619d2e455c6d6358046b2c1f0fa76aa5b3724352d54",
+      "sources": [
+        {
+          "logical_path": "artifacts/results/terminal_charge_model/terminal_charge_derivative_predictions.csv",
+          "sha256": "89d84be13324ebd0fc0433260a71967d44a05908615e7b9a3f146fcdf1813277"
+        }
+      ]
+    }
+  ],
+  "known_recovery_limits": {
+    "primary_sampling_seed": "unavailable",
+    "primary_campaign_source_revision": "unavailable",
+    "complete_native_tcad_archive": "unavailable"
+  }
+}

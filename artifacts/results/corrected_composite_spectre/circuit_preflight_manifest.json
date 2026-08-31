@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "status": "ready_for_remote_spectre",
+  "scope": "bounded_electrical_circuit_level_validation_no_measurements",
+  "model_sha256": "c8218fda9cb75f75701b007050328630e3008e7f8ca5e6f9f77375f7489c608d",
+  "reference_generation": "independent_frozen_formula_and_terminal_Q_JSON",
+  "optical_port_validation": false,
+  "device_qualification": false,
+  "python_compatibility": "Python >=3.6; validated against numpy 1.14.3, pandas 0.22.0, scipy 1.0.1",
+  "tolerances": {
+    "bias_node_absolute_V": 0.0002,
+    "bias_current_relative": 0.005,
+    "bias_current_absolute_A": 2e-08,
+    "tia_ac_complex_relative": 0.03,
+    "tia_ac_complex_absolute_V": 2e-06,
+    "tia_transient_input_nrmse": 0.05,
+    "tia_transient_output_nrmse": 0.05,
+    "tia_transient_peak_relative": 0.05,
+    "multi_complex_relative": 0.03,
+    "multi_complex_absolute_A": 2e-09
+  },
+  "files": [
+    {
+      "path": "ge_si_photodetector_terminal_charge.va",
+      "sha256": "c8218fda9cb75f75701b007050328630e3008e7f8ca5e6f9f77375f7489c608d",
+      "bytes": 21713
+    },
+    {
+      "path": "reference/bias_load_reference.csv",
+      "sha256": "62b5e9b61dd968cc692a544283a1bfde4bfb4368964cde375b7ff62ecc1f2974",
+      "bytes": 5568
+    },
+    {
+      "path": "reference/multi_instance_reference.csv",
+      "sha256": "b0aa0551a48d59a4b69d0aecfade85ba798c6a505c51cf73d6e24b8495313838",
+      "bytes": 20602
+    },
+    {
+      "path": "reference/tia_ac_reference.csv",
+      "sha256": "8ccc7b7ff9802850f997b4e7fad7b008f922e0421a624216cc199d677df494c5",
+      "bytes": 15200
+    },
+    {
+      "path": "reference/tia_operating_point.json",
+      "sha256": "9b72ef7e0e8852196ee5821c1a076748190d7458d1bcef97f56984cc252be063",
+      "bytes": 208
+    },
+    {
+      "path": "reference/tia_transient_reference.csv",
+      "sha256": "c00718e21873dc08a384811385bbfcaaefabf5279904da67b48ba82260aef863",
+      "bytes": 293405
+    },
+    {
+      "path": "run_spectre_terminal_charge_circuits.sh",
+      "sha256": "64f35adc677258936caf3a893e954e97feae299b4847209871137a71c3353e4c",
+      "bytes": 2852
+    },
+    {
+      "path": "terminal_charge_circuit_validation.py",
+      "sha256": "6fecab3e1cb7424cb6f78dc087fb4307e09893c7e086b22613ee548d5a6ffb8a",
+      "bytes": 25358
+    },
+    {
+      "path": "testbench_bias_load_terminal_charge_ic618.scs",
+      "sha256": "d78a1a3697cb6732674388609b9972eec7fc37622d103c6a3eda4a5ec04a9af8",
+      "bytes": 451
+    },
+    {
+      "path": "testbench_multi_instance_001_terminal_charge_ic618.scs",
+      "sha256": "84880e6e3b893cbd97631f328992db06a3e0d33a31572b432304750e3c72a2e1",
+      "bytes": 384
+    },
+    {
+      "path": "testbench_multi_instance_010_terminal_charge_ic618.scs",
+      "sha256": "ad0c87eaa8238a9fcf44c0833078e0a2866171d2947f7908cab0c44e9bbbee71",
+      "bytes": 2220
+    },
+    {
+      "path": "testbench_multi_instance_100_terminal_charge_ic618.scs",
+      "sha256": "2163ba0299744270aa3a9bd09935a97ff36f08791fc96da58ec39f98abecda3c",
+      "bytes": 20580
+    },
+    {
+      "path": "testbench_tia_ac_terminal_charge_ic618.scs",
+      "sha256": "90bdc777964323c18d27ea5998acb09d96182008a05ae82ffaf22fac8cefb862",
+      "bytes": 581
+    },
+    {
+      "path": "testbench_tia_transient_terminal_charge_ic618.scs",
+      "sha256": "b0e17684a15c5c31f2c852fd1c6ad42c0d6241c4d9b8dfa714fe4e252f3e9de5",
+      "bytes": 637
+    }
+  ]
+}

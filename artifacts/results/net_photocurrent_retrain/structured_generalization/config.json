@@ -1,0 +1,56 @@
+{
+  "data": "artifacts\\results\\device_modeling\\cleaned_data.csv",
+  "capacitance_data": "<REPO_ROOT>/artifacts\\results\\apparent_capacitance_correction\\primary_ge_si_apparent_capacitance.csv",
+  "sections": [
+    "structured"
+  ],
+  "tasks": [
+    "I_photo"
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "device": "cpu",
+  "engineering_output_dir": "<REPO_ROOT>/artifacts\\results\\pdk_style_baselines",
+  "structured_output_dir": "artifacts\\results\\net_photocurrent_retrain\\structured_generalization",
+  "value_output_dir": "<REPO_ROOT>/artifacts\\results\\compact_model_value",
+  "engineering_models": [
+    "pdk_lut_knn",
+    "poly3_ridge",
+    "spline_ridge",
+    "rbf_nystroem"
+  ],
+  "structured_models": [
+    "pdk_lut_knn",
+    "poly3_ridge",
+    "spline_ridge",
+    "rbf_nystroem",
+    "mlp_l",
+    "dkan",
+    "bkan"
+  ],
+  "structured_holdout_fraction": 0.2,
+  "structured_scenarios": null,
+  "structured_seeds": [
+    42,
+    43,
+    44
+  ],
+  "structured_seed": null,
+  "knn_neighbors": 16,
+  "rbf_components": 384,
+  "timing_repeats": 30,
+  "mlp_epochs": 300,
+  "mlp_lr": 0.002,
+  "mlp_lamb": 0.001,
+  "mlp_lamb_l1": 1.0,
+  "mlp_lamb_entropy": 2.0,
+  "kan_steps": 300,
+  "bkan_epochs": 300,
+  "bkan_mc_samples": 50,
+  "bkan_batch_size": 32,
+  "structured_run_tag": "",
+  "section": "structured"
+}

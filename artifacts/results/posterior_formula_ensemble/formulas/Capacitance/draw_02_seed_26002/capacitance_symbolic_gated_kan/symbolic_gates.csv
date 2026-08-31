@@ -1,0 +1,28 @@
+mechanism_index,mechanism,photo_role,mechanism_drive,mechanism_initial_sign,mechanism_scale,term_index,term_name,expression,dependencies,probability,active_gate,coefficient_model_space
+0,symbolic_response,mechanism,all,1.0,1.0,0,one,1,,0.9615119099617004,1.0,0.3246002197265625
+0,symbolic_response,mechanism,all,1.0,1.0,17,ge_sio2_velocity_over_length,ge_sio2_recomb_velocity/active_layer_length,"ge_sio2_recomb_velocity,active_layer_length",0.8661854863166809,1.0,0.09355823695659637
+0,symbolic_response,mechanism,all,1.0,1.0,24,bias_signed_log_curvature,sign(bias_v)*log1p(abs(bias_v)/0.1),bias_v,0.8289185166358948,1.0,0.41698160767555237
+0,symbolic_response,mechanism,all,1.0,1.0,15,ge_sio2_velocity_z,scaled(ge_sio2_recomb_velocity),ge_sio2_recomb_velocity,0.7697056531906128,1.0,-0.06600221246480942
+0,symbolic_response,mechanism,all,1.0,1.0,18,ge_si_velocity_over_length,ge_si_recomb_velocity/active_layer_length,"ge_si_recomb_velocity,active_layer_length",0.7373839020729065,1.0,0.1447897106409073
+0,symbolic_response,mechanism,all,1.0,1.0,3,soft_reverse_bias_v,softplus(-bias_v/0.2),bias_v,0.7064605951309204,1.0,0.25834041833877563
+0,symbolic_response,mechanism,all,1.0,1.0,16,ge_si_velocity_z,scaled(ge_si_recomb_velocity),ge_si_recomb_velocity,0.6846776008605957,1.0,-0.08619160205125809
+0,symbolic_response,mechanism,all,1.0,1.0,23,bias_reverse_exponential,"exp(-clip(bias_v, -3, 3))",bias_v,0.6835322976112366,1.0,0.2870751917362213
+0,symbolic_response,mechanism,all,1.0,1.0,4,tanh_reverse_bias_v,tanh(-bias_v/1.0),bias_v,0.647270917892456,1.0,-0.21410194039344788
+0,symbolic_response,mechanism,all,1.0,1.0,1,bias_v_z,scaled(bias_v),bias_v,0.6144793629646301,1.0,0.29177430272102356
+0,symbolic_response,mechanism,all,1.0,1.0,6,forward_gate_bias_v,sigmoid(bias_v/0.2),bias_v,0.6122596263885498,1.0,-0.30709806084632874
+0,symbolic_response,mechanism,all,1.0,1.0,5,reverse_saturation_bias_v,1-exp(-(softplus(-bias_v/0.2)-log(2))),bias_v,0.6096093654632568,1.0,-0.18079601228237152
+0,symbolic_response,mechanism,all,1.0,1.0,2,bias_v_z2,scaled(bias_v)^2,bias_v,0.6037644743919373,1.0,-0.25493374466896057
+0,symbolic_response,mechanism,all,1.0,1.0,12,inverse_length,1/active_layer_length,active_layer_length,0.5284661650657654,1.0,-0.20136785507202148
+0,symbolic_response,mechanism,all,1.0,1.0,10,bias_v_over_temperature,bias_v/simulation_temperature,"bias_v,simulation_temperature",0.5038989782333374,1.0,-0.12548129260540009
+0,symbolic_response,mechanism,all,1.0,1.0,13,bias_v_over_length,bias_v/active_layer_length,"bias_v,active_layer_length",0.4789304733276367,1.0,-0.07414613664150238
+0,symbolic_response,mechanism,all,1.0,1.0,8,temperature_z,scaled(simulation_temperature),simulation_temperature,0.45173317193984985,1.0,0.015840424224734306
+0,symbolic_response,mechanism,all,1.0,1.0,22,bias_depletion_knee,1/sqrt(1 + (bias_v/0.45)^2),bias_v,0.4440936744213104,1.0,0.03847502917051315
+0,symbolic_response,mechanism,all,1.0,1.0,9,inverse_temperature,1/simulation_temperature,simulation_temperature,0.42669209837913513,1.0,0.009700832888484001
+0,symbolic_response,mechanism,all,1.0,1.0,7,reverse_gate_bias_v,sigmoid(-bias_v/0.2),bias_v,0.408504843711853,1.0,-0.02032802253961563
+0,symbolic_response,mechanism,all,1.0,1.0,20,bias_reverse_softplus2,softplus(-bias_v/0.2)^2,bias_v,0.37242719531059265,1.0,0.03117227926850319
+0,symbolic_response,mechanism,all,1.0,1.0,11,length_z,scaled(active_layer_length),active_layer_length,0.36857274174690247,1.0,0.023337602615356445
+0,symbolic_response,mechanism,all,1.0,1.0,21,bias_forward_softplus2,softplus(bias_v/0.2)^2,bias_v,0.3461798429489136,1.0,-0.0398058257997036
+0,symbolic_response,mechanism,all,1.0,1.0,26,depletion_knee_times_log_frequency,1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz),"bias_v,log_frequency_ghz",0.16800782084465027,1.0,-0.008747244253754616
+0,symbolic_response,mechanism,all,1.0,1.0,19,bias_curvature_z3,scaled(bias_v)^3,bias_v,0.2167651653289795,0.0,-0.007127242162823677
+0,symbolic_response,mechanism,all,1.0,1.0,25,bias_curvature_times_log_frequency,scaled(bias_v)^2*scaled(log_frequency_ghz),"bias_v,log_frequency_ghz",0.11339708417654037,0.0,-0.012477501295506954
+0,symbolic_response,mechanism,all,1.0,1.0,14,trap_A_z,scaled(trap_assisted_recomb_A),trap_assisted_recomb_A,0.03664444386959076,0.0,-0.004127474967390299

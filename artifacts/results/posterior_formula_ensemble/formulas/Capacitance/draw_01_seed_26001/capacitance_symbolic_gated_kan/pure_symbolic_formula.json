@@ -1,0 +1,617 @@
+{
+  "kind": "pure_symbolic_student",
+  "task_key": "capacitance",
+  "task": "Capacitance",
+  "uses_kan_at_inference": false,
+  "output_space": "linear",
+  "output_scale": 4.4557012978166366e-17,
+  "normalized_feature_definition": "scaled(x) = (x - mean[x]) / scale[x]",
+  "input_scalers": {
+    "bias_v": {
+      "mean": -1.5,
+      "scale": 0.9219544457292888
+    },
+    "log_frequency_ghz": {
+      "mean": 0.19604119982655918,
+      "scale": 0.7147552098133038
+    },
+    "trap_assisted_recomb_A": {
+      "mean": 1.0014810983320098e-09,
+      "scale": 1.0083776830875046e-10
+    },
+    "ge_sio2_recomb_velocity": {
+      "mean": 2503.5919682645417,
+      "scale": 98.77141855435114
+    },
+    "ge_si_recomb_velocity": {
+      "mean": 498.7958694868872,
+      "scale": 18.87889161204257
+    },
+    "active_layer_length": {
+      "mean": 40.075309699949635,
+      "scale": 1.9105182730747214
+    },
+    "simulation_temperature": {
+      "mean": 299.6985341798953,
+      "scale": 4.8530297030270235
+    }
+  },
+  "feature_centers": [
+    0.0,
+    -3.193105849175204e-11,
+    1.0,
+    7.575106143951416,
+    0.7517894506454468,
+    0.8795590400695801,
+    0.06025812029838562,
+    0.9397571086883545,
+    -2.1557295895036077e-06,
+    0.003337366972118616,
+    -0.005006289109587669,
+    4.870061275141779e-06,
+    0.025012128055095673,
+    -0.03751403093338013,
+    3.77060587197775e-07,
+    -3.915237357432488e-06,
+    1.5166854154813336e-06,
+    62.59379577636719,
+    12.475555419921875,
+    -5.108969358680326e-10,
+    77.64078521728516,
+    0.0373397022485733,
+    0.4008450210094452,
+    6.642271041870117,
+    -2.4874069690704346,
+    -4.76837147544984e-09,
+    -9.55536982871763e-09
+  ],
+  "feature_scales": [
+    1.0,
+    1.0,
+    0.8891569375991821,
+    4.500237464904785,
+    0.3039918839931488,
+    0.26507604122161865,
+    0.13252763450145721,
+    0.13252992928028107,
+    1.000007152557373,
+    5.432384932646528e-05,
+    0.0030785510316491127,
+    0.9999966025352478,
+    0.0011996356770396233,
+    0.02315496653318405,
+    1.0000056028366089,
+    0.9999805092811584,
+    1.000007152557373,
+    3.5438008308410645,
+    0.7982455492019653,
+    1.9485580921173096,
+    71.5345458984375,
+    0.11685281246900558,
+    0.2667825520038605,
+    5.676732540130615,
+    0.9098379015922546,
+    1.3381280899047852,
+    0.48153671622276306
+  ],
+  "generic_symbolic_terms": false,
+  "flat_gates": false,
+  "reverse_scale": 0.2,
+  "reverse_norm": 14.306852819440055,
+  "branches": [
+    {
+      "name": "symbolic_response",
+      "role": "other",
+      "drive": "all",
+      "sign": 1.0,
+      "scale": 1.0,
+      "bias": 0.3335701823234558,
+      "terms": [
+        {
+          "term_index": 0,
+          "term": "one",
+          "expression": "1",
+          "normalized_expression": "((1) - 0) / 1",
+          "coefficient_normalized_output": 0.324311763048172,
+          "dependencies": []
+        },
+        {
+          "term_index": 1,
+          "term": "bias_v_z",
+          "expression": "scaled(bias_v)",
+          "normalized_expression": "((scaled(bias_v)) - -3.193105849175204e-11) / 1",
+          "coefficient_normalized_output": 0.27916449308395386,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 2,
+          "term": "bias_v_z2",
+          "expression": "scaled(bias_v)^2",
+          "normalized_expression": "((scaled(bias_v)^2) - 1) / 0.8891569375991821",
+          "coefficient_normalized_output": -0.256527841091156,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 3,
+          "term": "soft_reverse_bias_v",
+          "expression": "softplus(-bias_v/0.2)",
+          "normalized_expression": "((softplus(-bias_v/0.2)) - 7.575106143951416) / 4.500237464904785",
+          "coefficient_normalized_output": 0.2622944712638855,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 4,
+          "term": "tanh_reverse_bias_v",
+          "expression": "tanh(-bias_v/1.0)",
+          "normalized_expression": "((tanh(-bias_v/1.0)) - 0.7517894506454468) / 0.3039918839931488",
+          "coefficient_normalized_output": -0.2172027975320816,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 5,
+          "term": "reverse_saturation_bias_v",
+          "expression": "1-exp(-(softplus(-bias_v/0.2)-log(2)))",
+          "normalized_expression": "((1-exp(-(softplus(-bias_v/0.2)-log(2)))) - 0.8795590400695801) / 0.2650760412216187",
+          "coefficient_normalized_output": -0.1825600564479828,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 6,
+          "term": "forward_gate_bias_v",
+          "expression": "sigmoid(bias_v/0.2)",
+          "normalized_expression": "((sigmoid(bias_v/0.2)) - 0.06025812029838562) / 0.1325276345014572",
+          "coefficient_normalized_output": -0.3031986653804779,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 7,
+          "term": "reverse_gate_bias_v",
+          "expression": "sigmoid(-bias_v/0.2)",
+          "normalized_expression": "((sigmoid(-bias_v/0.2)) - 0.9397571086883545) / 0.1325299292802811",
+          "coefficient_normalized_output": -0.01844615861773491,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 8,
+          "term": "temperature_z",
+          "expression": "scaled(simulation_temperature)",
+          "normalized_expression": "((scaled(simulation_temperature)) - -2.155729589503608e-06) / 1.000007152557373",
+          "coefficient_normalized_output": 0.02487054467201233,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 9,
+          "term": "inverse_temperature",
+          "expression": "1/simulation_temperature",
+          "normalized_expression": "((1/simulation_temperature) - 0.003337366972118616) / 5.432384932646528e-05",
+          "coefficient_normalized_output": 0.01930510438978672,
+          "dependencies": [
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 10,
+          "term": "bias_v_over_temperature",
+          "expression": "bias_v/simulation_temperature",
+          "normalized_expression": "((bias_v/simulation_temperature) - -0.005006289109587669) / 0.003078551031649113",
+          "coefficient_normalized_output": -0.11579707264900208,
+          "dependencies": [
+            "bias_v",
+            "simulation_temperature"
+          ]
+        },
+        {
+          "term_index": 11,
+          "term": "length_z",
+          "expression": "scaled(active_layer_length)",
+          "normalized_expression": "((scaled(active_layer_length)) - 4.870061275141779e-06) / 0.9999966025352478",
+          "coefficient_normalized_output": 0.027621833607554436,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 12,
+          "term": "inverse_length",
+          "expression": "1/active_layer_length",
+          "normalized_expression": "((1/active_layer_length) - 0.02501212805509567) / 0.001199635677039623",
+          "coefficient_normalized_output": -0.19776804745197296,
+          "dependencies": [
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 13,
+          "term": "bias_v_over_length",
+          "expression": "bias_v/active_layer_length",
+          "normalized_expression": "((bias_v/active_layer_length) - -0.03751403093338013) / 0.02315496653318405",
+          "coefficient_normalized_output": -0.06246166676282883,
+          "dependencies": [
+            "bias_v",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 15,
+          "term": "ge_sio2_velocity_z",
+          "expression": "scaled(ge_sio2_recomb_velocity)",
+          "normalized_expression": "((scaled(ge_sio2_recomb_velocity)) - -3.915237357432488e-06) / 0.9999805092811584",
+          "coefficient_normalized_output": -0.0665440559387207,
+          "dependencies": [
+            "ge_sio2_recomb_velocity"
+          ]
+        },
+        {
+          "term_index": 16,
+          "term": "ge_si_velocity_z",
+          "expression": "scaled(ge_si_recomb_velocity)",
+          "normalized_expression": "((scaled(ge_si_recomb_velocity)) - 1.516685415481334e-06) / 1.000007152557373",
+          "coefficient_normalized_output": -0.08727839589118958,
+          "dependencies": [
+            "ge_si_recomb_velocity"
+          ]
+        },
+        {
+          "term_index": 17,
+          "term": "ge_sio2_velocity_over_length",
+          "expression": "ge_sio2_recomb_velocity/active_layer_length",
+          "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.59379577636719) / 3.543800830841064",
+          "coefficient_normalized_output": 0.09426560997962952,
+          "dependencies": [
+            "ge_sio2_recomb_velocity",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 18,
+          "term": "ge_si_velocity_over_length",
+          "expression": "ge_si_recomb_velocity/active_layer_length",
+          "normalized_expression": "((ge_si_recomb_velocity/active_layer_length) - 12.47555541992188) / 0.7982455492019653",
+          "coefficient_normalized_output": 0.14648383855819702,
+          "dependencies": [
+            "ge_si_recomb_velocity",
+            "active_layer_length"
+          ]
+        },
+        {
+          "term_index": 20,
+          "term": "bias_reverse_softplus2",
+          "expression": "softplus(-bias_v/0.2)^2",
+          "normalized_expression": "((softplus(-bias_v/0.2)^2) - 77.64078521728516) / 71.5345458984375",
+          "coefficient_normalized_output": 0.02316046506166458,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 21,
+          "term": "bias_forward_softplus2",
+          "expression": "softplus(bias_v/0.2)^2",
+          "normalized_expression": "((softplus(bias_v/0.2)^2) - 0.0373397022485733) / 0.1168528124690056",
+          "coefficient_normalized_output": -0.03834408149123192,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 22,
+          "term": "bias_depletion_knee",
+          "expression": "1/sqrt(1 + (bias_v/0.45)^2)",
+          "normalized_expression": "((1/sqrt(1 + (bias_v/0.45)^2)) - 0.4008450210094452) / 0.2667825520038605",
+          "coefficient_normalized_output": 0.04133768752217293,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 23,
+          "term": "bias_reverse_exponential",
+          "expression": "exp(-clip(bias_v, -3, 3))",
+          "normalized_expression": "((exp(-clip(bias_v, -3, 3))) - 6.642271041870117) / 5.676732540130615",
+          "coefficient_normalized_output": 0.2955048084259033,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 24,
+          "term": "bias_signed_log_curvature",
+          "expression": "sign(bias_v)*log1p(abs(bias_v)/0.1)",
+          "normalized_expression": "((sign(bias_v)*log1p(abs(bias_v)/0.1)) - -2.487406969070435) / 0.9098379015922546",
+          "coefficient_normalized_output": 0.4021054208278656,
+          "dependencies": [
+            "bias_v"
+          ]
+        },
+        {
+          "term_index": 26,
+          "term": "depletion_knee_times_log_frequency",
+          "expression": "1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)",
+          "normalized_expression": "((1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)) - -9.55536982871763e-09) / 0.4815367162227631",
+          "coefficient_normalized_output": -0.00895263534039259,
+          "dependencies": [
+            "bias_v",
+            "log_frequency_ghz"
+          ]
+        }
+      ]
+    }
+  ],
+  "residual_branch": {
+    "bias": 0.0,
+    "terms": []
+  },
+  "generic_branch": {
+    "bias": 0.0,
+    "terms": []
+  },
+  "selected_term_count": 24,
+  "selected_terms": [
+    {
+      "term_index": 0,
+      "term": "one",
+      "expression": "1",
+      "normalized_expression": "((1) - 0) / 1",
+      "coefficient_normalized_output": 0.324311763048172,
+      "dependencies": []
+    },
+    {
+      "term_index": 1,
+      "term": "bias_v_z",
+      "expression": "scaled(bias_v)",
+      "normalized_expression": "((scaled(bias_v)) - -3.193105849175204e-11) / 1",
+      "coefficient_normalized_output": 0.27916449308395386,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 2,
+      "term": "bias_v_z2",
+      "expression": "scaled(bias_v)^2",
+      "normalized_expression": "((scaled(bias_v)^2) - 1) / 0.8891569375991821",
+      "coefficient_normalized_output": -0.256527841091156,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 3,
+      "term": "soft_reverse_bias_v",
+      "expression": "softplus(-bias_v/0.2)",
+      "normalized_expression": "((softplus(-bias_v/0.2)) - 7.575106143951416) / 4.500237464904785",
+      "coefficient_normalized_output": 0.2622944712638855,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 4,
+      "term": "tanh_reverse_bias_v",
+      "expression": "tanh(-bias_v/1.0)",
+      "normalized_expression": "((tanh(-bias_v/1.0)) - 0.7517894506454468) / 0.3039918839931488",
+      "coefficient_normalized_output": -0.2172027975320816,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 5,
+      "term": "reverse_saturation_bias_v",
+      "expression": "1-exp(-(softplus(-bias_v/0.2)-log(2)))",
+      "normalized_expression": "((1-exp(-(softplus(-bias_v/0.2)-log(2)))) - 0.8795590400695801) / 0.2650760412216187",
+      "coefficient_normalized_output": -0.1825600564479828,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 6,
+      "term": "forward_gate_bias_v",
+      "expression": "sigmoid(bias_v/0.2)",
+      "normalized_expression": "((sigmoid(bias_v/0.2)) - 0.06025812029838562) / 0.1325276345014572",
+      "coefficient_normalized_output": -0.3031986653804779,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 7,
+      "term": "reverse_gate_bias_v",
+      "expression": "sigmoid(-bias_v/0.2)",
+      "normalized_expression": "((sigmoid(-bias_v/0.2)) - 0.9397571086883545) / 0.1325299292802811",
+      "coefficient_normalized_output": -0.01844615861773491,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 8,
+      "term": "temperature_z",
+      "expression": "scaled(simulation_temperature)",
+      "normalized_expression": "((scaled(simulation_temperature)) - -2.155729589503608e-06) / 1.000007152557373",
+      "coefficient_normalized_output": 0.02487054467201233,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 9,
+      "term": "inverse_temperature",
+      "expression": "1/simulation_temperature",
+      "normalized_expression": "((1/simulation_temperature) - 0.003337366972118616) / 5.432384932646528e-05",
+      "coefficient_normalized_output": 0.01930510438978672,
+      "dependencies": [
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 10,
+      "term": "bias_v_over_temperature",
+      "expression": "bias_v/simulation_temperature",
+      "normalized_expression": "((bias_v/simulation_temperature) - -0.005006289109587669) / 0.003078551031649113",
+      "coefficient_normalized_output": -0.11579707264900208,
+      "dependencies": [
+        "bias_v",
+        "simulation_temperature"
+      ]
+    },
+    {
+      "term_index": 11,
+      "term": "length_z",
+      "expression": "scaled(active_layer_length)",
+      "normalized_expression": "((scaled(active_layer_length)) - 4.870061275141779e-06) / 0.9999966025352478",
+      "coefficient_normalized_output": 0.027621833607554436,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 12,
+      "term": "inverse_length",
+      "expression": "1/active_layer_length",
+      "normalized_expression": "((1/active_layer_length) - 0.02501212805509567) / 0.001199635677039623",
+      "coefficient_normalized_output": -0.19776804745197296,
+      "dependencies": [
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 13,
+      "term": "bias_v_over_length",
+      "expression": "bias_v/active_layer_length",
+      "normalized_expression": "((bias_v/active_layer_length) - -0.03751403093338013) / 0.02315496653318405",
+      "coefficient_normalized_output": -0.06246166676282883,
+      "dependencies": [
+        "bias_v",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 15,
+      "term": "ge_sio2_velocity_z",
+      "expression": "scaled(ge_sio2_recomb_velocity)",
+      "normalized_expression": "((scaled(ge_sio2_recomb_velocity)) - -3.915237357432488e-06) / 0.9999805092811584",
+      "coefficient_normalized_output": -0.0665440559387207,
+      "dependencies": [
+        "ge_sio2_recomb_velocity"
+      ]
+    },
+    {
+      "term_index": 16,
+      "term": "ge_si_velocity_z",
+      "expression": "scaled(ge_si_recomb_velocity)",
+      "normalized_expression": "((scaled(ge_si_recomb_velocity)) - 1.516685415481334e-06) / 1.000007152557373",
+      "coefficient_normalized_output": -0.08727839589118958,
+      "dependencies": [
+        "ge_si_recomb_velocity"
+      ]
+    },
+    {
+      "term_index": 17,
+      "term": "ge_sio2_velocity_over_length",
+      "expression": "ge_sio2_recomb_velocity/active_layer_length",
+      "normalized_expression": "((ge_sio2_recomb_velocity/active_layer_length) - 62.59379577636719) / 3.543800830841064",
+      "coefficient_normalized_output": 0.09426560997962952,
+      "dependencies": [
+        "ge_sio2_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 18,
+      "term": "ge_si_velocity_over_length",
+      "expression": "ge_si_recomb_velocity/active_layer_length",
+      "normalized_expression": "((ge_si_recomb_velocity/active_layer_length) - 12.47555541992188) / 0.7982455492019653",
+      "coefficient_normalized_output": 0.14648383855819702,
+      "dependencies": [
+        "ge_si_recomb_velocity",
+        "active_layer_length"
+      ]
+    },
+    {
+      "term_index": 20,
+      "term": "bias_reverse_softplus2",
+      "expression": "softplus(-bias_v/0.2)^2",
+      "normalized_expression": "((softplus(-bias_v/0.2)^2) - 77.64078521728516) / 71.5345458984375",
+      "coefficient_normalized_output": 0.02316046506166458,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 21,
+      "term": "bias_forward_softplus2",
+      "expression": "softplus(bias_v/0.2)^2",
+      "normalized_expression": "((softplus(bias_v/0.2)^2) - 0.0373397022485733) / 0.1168528124690056",
+      "coefficient_normalized_output": -0.03834408149123192,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 22,
+      "term": "bias_depletion_knee",
+      "expression": "1/sqrt(1 + (bias_v/0.45)^2)",
+      "normalized_expression": "((1/sqrt(1 + (bias_v/0.45)^2)) - 0.4008450210094452) / 0.2667825520038605",
+      "coefficient_normalized_output": 0.04133768752217293,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 23,
+      "term": "bias_reverse_exponential",
+      "expression": "exp(-clip(bias_v, -3, 3))",
+      "normalized_expression": "((exp(-clip(bias_v, -3, 3))) - 6.642271041870117) / 5.676732540130615",
+      "coefficient_normalized_output": 0.2955048084259033,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 24,
+      "term": "bias_signed_log_curvature",
+      "expression": "sign(bias_v)*log1p(abs(bias_v)/0.1)",
+      "normalized_expression": "((sign(bias_v)*log1p(abs(bias_v)/0.1)) - -2.487406969070435) / 0.9098379015922546",
+      "coefficient_normalized_output": 0.4021054208278656,
+      "dependencies": [
+        "bias_v"
+      ]
+    },
+    {
+      "term_index": 26,
+      "term": "depletion_knee_times_log_frequency",
+      "expression": "1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)",
+      "normalized_expression": "((1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)) - -9.55536982871763e-09) / 0.4815367162227631",
+      "coefficient_normalized_output": -0.00895263534039259,
+      "dependencies": [
+        "bias_v",
+        "log_frequency_ghz"
+      ]
+    }
+  ],
+  "model_space_formula": "4.455701297816637e-17 * (0.3335701823234558 + (0.324311763048172)*(((1) - 0) / 1) + (0.2791644930839539)*(((scaled(bias_v)) - -3.193105849175204e-11) / 1) + (-0.256527841091156)*(((scaled(bias_v)^2) - 1) / 0.8891569375991821) + (0.2622944712638855)*(((softplus(-bias_v/0.2)) - 7.575106143951416) / 4.500237464904785) + (-0.2172027975320816)*(((tanh(-bias_v/1.0)) - 0.7517894506454468) / 0.3039918839931488) + (-0.1825600564479828)*(((1-exp(-(softplus(-bias_v/0.2)-log(2)))) - 0.8795590400695801) / 0.2650760412216187) + (-0.3031986653804779)*(((sigmoid(bias_v/0.2)) - 0.06025812029838562) / 0.1325276345014572) + (-0.01844615861773491)*(((sigmoid(-bias_v/0.2)) - 0.9397571086883545) / 0.1325299292802811) + (0.02487054467201233)*(((scaled(simulation_temperature)) - -2.155729589503608e-06) / 1.000007152557373) + (0.01930510438978672)*(((1/simulation_temperature) - 0.003337366972118616) / 5.432384932646528e-05) + (-0.1157970726490021)*(((bias_v/simulation_temperature) - -0.005006289109587669) / 0.003078551031649113) + (0.02762183360755444)*(((scaled(active_layer_length)) - 4.870061275141779e-06) / 0.9999966025352478) + (-0.197768047451973)*(((1/active_layer_length) - 0.02501212805509567) / 0.001199635677039623) + (-0.06246166676282883)*(((bias_v/active_layer_length) - -0.03751403093338013) / 0.02315496653318405) + (-0.0665440559387207)*(((scaled(ge_sio2_recomb_velocity)) - -3.915237357432488e-06) / 0.9999805092811584) + (-0.08727839589118958)*(((scaled(ge_si_recomb_velocity)) - 1.516685415481334e-06) / 1.000007152557373) + (0.09426560997962952)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.59379577636719) / 3.543800830841064) + (0.146483838558197)*(((ge_si_recomb_velocity/active_layer_length) - 12.47555541992188) / 0.7982455492019653) + (0.02316046506166458)*(((softplus(-bias_v/0.2)^2) - 77.64078521728516) / 71.5345458984375) + (-0.03834408149123192)*(((softplus(bias_v/0.2)^2) - 0.0373397022485733) / 0.1168528124690056) + (0.04133768752217293)*(((1/sqrt(1 + (bias_v/0.45)^2)) - 0.4008450210094452) / 0.2667825520038605) + (0.2955048084259033)*(((exp(-clip(bias_v, -3, 3))) - 6.642271041870117) / 5.676732540130615) + (0.4021054208278656)*(((sign(bias_v)*log1p(abs(bias_v)/0.1)) - -2.487406969070435) / 0.9098379015922546) + (-0.00895263534039259)*(((1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)) - -9.55536982871763e-09) / 0.4815367162227631))",
+  "formula": "4.455701297816637e-17 * (0.3335701823234558 + (0.324311763048172)*(((1) - 0) / 1) + (0.2791644930839539)*(((scaled(bias_v)) - -3.193105849175204e-11) / 1) + (-0.256527841091156)*(((scaled(bias_v)^2) - 1) / 0.8891569375991821) + (0.2622944712638855)*(((softplus(-bias_v/0.2)) - 7.575106143951416) / 4.500237464904785) + (-0.2172027975320816)*(((tanh(-bias_v/1.0)) - 0.7517894506454468) / 0.3039918839931488) + (-0.1825600564479828)*(((1-exp(-(softplus(-bias_v/0.2)-log(2)))) - 0.8795590400695801) / 0.2650760412216187) + (-0.3031986653804779)*(((sigmoid(bias_v/0.2)) - 0.06025812029838562) / 0.1325276345014572) + (-0.01844615861773491)*(((sigmoid(-bias_v/0.2)) - 0.9397571086883545) / 0.1325299292802811) + (0.02487054467201233)*(((scaled(simulation_temperature)) - -2.155729589503608e-06) / 1.000007152557373) + (0.01930510438978672)*(((1/simulation_temperature) - 0.003337366972118616) / 5.432384932646528e-05) + (-0.1157970726490021)*(((bias_v/simulation_temperature) - -0.005006289109587669) / 0.003078551031649113) + (0.02762183360755444)*(((scaled(active_layer_length)) - 4.870061275141779e-06) / 0.9999966025352478) + (-0.197768047451973)*(((1/active_layer_length) - 0.02501212805509567) / 0.001199635677039623) + (-0.06246166676282883)*(((bias_v/active_layer_length) - -0.03751403093338013) / 0.02315496653318405) + (-0.0665440559387207)*(((scaled(ge_sio2_recomb_velocity)) - -3.915237357432488e-06) / 0.9999805092811584) + (-0.08727839589118958)*(((scaled(ge_si_recomb_velocity)) - 1.516685415481334e-06) / 1.000007152557373) + (0.09426560997962952)*(((ge_sio2_recomb_velocity/active_layer_length) - 62.59379577636719) / 3.543800830841064) + (0.146483838558197)*(((ge_si_recomb_velocity/active_layer_length) - 12.47555541992188) / 0.7982455492019653) + (0.02316046506166458)*(((softplus(-bias_v/0.2)^2) - 77.64078521728516) / 71.5345458984375) + (-0.03834408149123192)*(((softplus(bias_v/0.2)^2) - 0.0373397022485733) / 0.1168528124690056) + (0.04133768752217293)*(((1/sqrt(1 + (bias_v/0.45)^2)) - 0.4008450210094452) / 0.2667825520038605) + (0.2955048084259033)*(((exp(-clip(bias_v, -3, 3))) - 6.642271041870117) / 5.676732540130615) + (0.4021054208278656)*(((sign(bias_v)*log1p(abs(bias_v)/0.1)) - -2.487406969070435) / 0.9098379015922546) + (-0.00895263534039259)*(((1/sqrt(1 + (bias_v/0.45)^2)*scaled(log_frequency_ghz)) - -9.55536982871763e-09) / 0.4815367162227631))",
+  "deployment_cost": {
+    "unique_normalized_features": 24,
+    "branch_coefficients": 24,
+    "branches": 1
+  }
+}

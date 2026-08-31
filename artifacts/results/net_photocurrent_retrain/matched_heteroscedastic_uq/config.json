@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-08-21T16:04:33.267551+08:00",
+  "protocol": "frozen_grouped_heteroscedastic_likelihood_matched",
+  "data": "<REPO_ROOT>/artifacts\\results\\device_modeling\\cleaned_data.csv",
+  "capacitance_data": "<REPO_ROOT>/artifacts\\results\\apparent_capacitance_correction\\primary_ge_si_apparent_capacitance.csv",
+  "bkan_root": "<REPO_ROOT>/artifacts\\results\\net_photocurrent_retrain\\uq_repeated_grouped",
+  "capacitance_bkan_root": "<REPO_ROOT>/artifacts\\results\\uq_repeated_grouped_capacitance_device_cluster",
+  "capacitance_manifest_root": "<REPO_ROOT>/artifacts\\results\\uq_repeated_grouped_capacitance",
+  "tasks": [
+    "photo_current"
+  ],
+  "models": [
+    "mc_dropout_mlp"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "hidden_widths": [
+    64,
+    32
+  ],
+  "dropout_rate": 0.05,
+  "ensemble_size": 5,
+  "mc_samples": 500,
+  "prediction_seed": 1729,
+  "training_seed_rule": "split_seed*1000+member_index",
+  "device": "cpu",
+  "multiplicity_family": "all prespecified task x baseline x endpoint contrasts in this run",
+  "fairness_scope": {
+    "same_split": true,
+    "same_likelihood": true,
+    "mc_dropout_same_total_epoch_and_optimizer_update_budget": true,
+    "deep_ensemble_status": "not_run_in_this_invocation",
+    "deep_ensemble_same_per_member_epoch_and_optimizer_update_budget": false,
+    "deep_ensemble_total_budget_multiplier": null,
+    "same_architecture": false
+  }
+}
