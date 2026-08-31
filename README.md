@@ -60,7 +60,7 @@ python -m unittest discover -s tests -v
 当前候选版本为 `2026.08.31-rc10`，目标仓库为：
 
 ```text
-https://github.com/zxu700708-hub/zxu700708-hub-bkan-photodetector-compact-modeling
+https://github.com/zxu700708-hub/bkan-photodetector-compact-modeling
 ```
 
 冻结标签计划使用 `artifact-v2026.08.31-rc10`。正式归档 DOI 与压缩包 SHA-256 应在实际生成后填写，不能预先编造。引用信息见 `CITATION.cff`，论文中的 Data and code availability 建议文本见 `DATA_AVAILABILITY.md`。

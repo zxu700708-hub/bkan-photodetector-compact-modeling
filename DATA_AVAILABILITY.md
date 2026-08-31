@@ -6,7 +6,7 @@
 The source code, canonical TCAD-derived task tables, grouped data partitions,
 frozen predictions, symbolic models, Verilog-A implementation, and hash-bound
 verification materials supporting this study are versioned at
-https://github.com/zxu700708-hub/zxu700708-hub-bkan-photodetector-compact-modeling,
+https://github.com/zxu700708-hub/bkan-photodetector-compact-modeling,
 release artifact-v2026.08.31-rc10. Commercial TCAD and Cadence Spectre software
 are not redistributed; the repository provides exported data, executable input
 decks where licensing permits, software-version information, provenance

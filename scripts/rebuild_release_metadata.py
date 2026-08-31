@@ -71,7 +71,7 @@ def main() -> int:
         "source_revision": "artifact-v2026.08.31-rc9",
         "authors": "Anonymous Author(s)",
         "build_policy": "code_release_without_paper_logs_or_local_paths",
-        "repository": "https://github.com/zxu700708-hub/zxu700708-hub-bkan-photodetector-compact-modeling",
+        "repository": "https://github.com/zxu700708-hub/bkan-photodetector-compact-modeling",
         "commercial_dependencies": ["commercial TCAD solver", "Cadence Spectre 18.1"],
         "records": records,
         "payload_file_count": len(records),
