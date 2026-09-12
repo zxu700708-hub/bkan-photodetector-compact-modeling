@@ -137,10 +137,16 @@ def check_release_hygiene(root: Path) -> dict:
         root / "DATA_AVAILABILITY.md",
         root / "CITATION.cff",
         root / "artifacts/results/evidence_audit/current_evidence_index.json",
+        root / "scripts/analyze_ring_derived_metrics.py",
+        root / "scripts/experiment_ring_resonance_aware_dkan.py",
+        root / "scripts/manuscript_plot_palette.py",
+        root / "scripts/run_ac_lowpass_gated_teacher.py",
+        root / "scripts/run_multi_teacher_symbolic_pareto.py",
+        root / "scripts/run_ring_third_device.py",
     ]
     missing = [path.relative_to(root).as_posix() for path in required if not path.is_file()]
     if missing:
-        findings.append({"reason": "missing_scope_document", "paths": missing})
+        findings.append({"reason": "missing_required_document_or_dependency", "paths": missing})
     return {"passed": not findings, "findings": findings}
 
 
