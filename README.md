@@ -37,7 +37,7 @@ bash reproduce.sh
 | `MANIFEST.sha256` | 发布树中每个受管文件的 SHA-256 |
 | `artifact_metadata.json` | 版本、构建策略和逐文件来源哈希 |
 
-本代码仓库不包含论文 TeX/PDF、Web UI、本地虚拟环境、研究笔记、原始控制台日志、HMC 失败研究、旧 proxy-charge 证据、smoke/trial 结果或已弃用的六/八模型比较。
+本代码仓库不包含论文 TeX/PDF、Web UI、本地虚拟环境、研究笔记、原始控制台日志、HMC 失败研究、旧 proxy-charge 证据、smoke/trial 结果或已弃用的六/八模型结果目录。历史命名的 `scripts/run_ring_compact_variation_eight.py` 仅作为当前 `scripts/run_ring_compact_variation_seven.py` 的共享实现依赖保留；七模型入口会排除 GMLS，公开证据也只包含 `ring_compact_variation_seven_no_gmls/`。
 
 ## 当前实验对应关系
 

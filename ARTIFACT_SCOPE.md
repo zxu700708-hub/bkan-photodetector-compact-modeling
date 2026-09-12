@@ -19,7 +19,8 @@
 - 不支持 predictive dispersion 是可靠 OOD alarm。
 - 不支持微环 frozen-confirmation 结论、重复划分显著性、UQ、符号导出、动态 optical port 或 circuit validation。
 - 不支持 dispersive/trap-memory dynamics、PDK qualification、device qualification 或 production deployment。
-- 不把历史 HMC、proxy-charge、smoke/trial、弃用六/八模型或 superseded Spectre 结果传播为当前证据。
+- 不把历史 HMC、proxy-charge、smoke/trial、弃用六/八模型结果目录或 superseded Spectre 结果传播为当前证据。
+- `scripts/run_ring_compact_variation_eight.py` 仅保留为七模型入口的共享代码依赖；当前入口排除 GMLS，且没有发布八模型结果。
 
 ## 发布内容边界
 
