@@ -1,4 +1,4 @@
-"""Recalibrate saved capacitance BKAN checkpoints at the TCAD-cluster level.
+"""Recalibrate saved capacitance BKAN checkpoints at the DEVICE-cluster level.
 
 The training checkpoints and the original grouped split manifests are reused;
 only post-training conformal calibration and test-set UQ metrics are recomputed.
@@ -131,23 +131,23 @@ def recompute_seed(
     manifest = pd.read_csv(manifest_path, dtype={"group_id": str})
     audit = audit_partitions(manifest)
     if audit["overlap_groups"]:
-        raise RuntimeError(f"Seed {seed}: TCAD overlap in split manifest")
+        raise RuntimeError(f"Seed {seed}: DEVICE overlap in split manifest")
 
     calibration = select_groups(frame, audit["calibration_ids"])
     test = select_groups(frame, audit["test_ids"])
     calibration_count = calibration["_curve_id"].nunique()
     test_count = test["_curve_id"].nunique()
     if calibration_count != len(audit["calibration_ids"]):
-        raise RuntimeError(f"Seed {seed}: missing calibration TCAD rows")
+        raise RuntimeError(f"Seed {seed}: missing calibration DEVICE rows")
     if test_count != len(audit["test_ids"]):
-        raise RuntimeError(f"Seed {seed}: missing test TCAD rows")
+        raise RuntimeError(f"Seed {seed}: missing test DEVICE rows")
 
     points_per_calibration_device = calibration.groupby("_curve_id").size()
     points_per_test_device = test.groupby("_curve_id").size()
     if points_per_calibration_device.nunique() != 1:
-        raise RuntimeError(f"Seed {seed}: unequal calibration TCAD sizes")
+        raise RuntimeError(f"Seed {seed}: unequal calibration DEVICE sizes")
     if points_per_test_device.nunique() != 1:
-        raise RuntimeError(f"Seed {seed}: unequal test TCAD sizes")
+        raise RuntimeError(f"Seed {seed}: unequal test DEVICE sizes")
 
     target_result = (
         args.output
@@ -174,7 +174,7 @@ def recompute_seed(
     )
     if modeler._calib_score_count != calibration_count:
         raise RuntimeError(
-            f"Seed {seed}: expected {calibration_count} TCAD scores, "
+            f"Seed {seed}: expected {calibration_count} DEVICE scores, "
             f"got {modeler._calib_score_count}"
         )
 
@@ -294,13 +294,13 @@ def write_report(
 ) -> None:
     row = aggregate.iloc[0]
     lines = [
-        "# TCAD-Cluster Conformal Recalibration",
+        "# DEVICE-Cluster Conformal Recalibration",
         "",
         f"Generated: {datetime.now(timezone.utc).astimezone().isoformat()}",
         "",
         "- Training checkpoints were reused; no model retraining was performed.",
-        "- Calibration unit: one complete TCAD response surface.",
-        "- Each calibration TCAD contributes one maximum normalized residual.",
+        "- Calibration unit: one complete DEVICE response surface.",
+        "- Each calibration DEVICE contributes one maximum normalized residual.",
         f"- Seeds: {', '.join(map(str, metrics['seed'].tolist()))}",
         f"- Calibration scores per seed: {int(metrics['calibration_score_count'].iloc[0])}",
         f"- Calibration points per seed: {int(metrics['calibration_point_count'].iloc[0])}",
@@ -311,14 +311,14 @@ def write_report(
         f"- Model: {row['model']} ({row['inference_method']})",
         f"- Raw point coverage: {row['raw_picp_95_mean']:.2f}% ± {row['raw_picp_95_std']:.2f}%",
         f"- No-shrink point coverage: {row['calibrated_picp_95_mean']:.2f}% ± {row['calibrated_picp_95_std']:.2f}%",
-        f"- Raw TCAD coverage: {row['raw_device_coverage_95_mean']:.2f}% ± {row['raw_device_coverage_95_std']:.2f}%",
-        f"- No-shrink TCAD coverage: {row['calibrated_device_coverage_95_mean']:.2f}% ± {row['calibrated_device_coverage_95_std']:.2f}%",
+        f"- Raw DEVICE coverage: {row['raw_device_coverage_95_mean']:.2f}% ± {row['raw_device_coverage_95_std']:.2f}%",
+        f"- No-shrink DEVICE coverage: {row['calibrated_device_coverage_95_mean']:.2f}% ± {row['calibrated_device_coverage_95_std']:.2f}%",
         f"- Conformal q_raw: {row['calibration_raw_quantile_mean']:.4f} ± {row['calibration_raw_quantile_std']:.4f}",
         f"- No-shrink q: {row['calibration_z_mean']:.4f} ± {row['calibration_z_std']:.4f}",
         "",
         "## Raw / Standard / No-Shrink Comparison",
         "",
-        "| Variant | q | Point coverage | TCAD coverage | Subcurve coverage | MPIW |",
+        "| Variant | q | Point coverage | DEVICE coverage | Subcurve coverage | MPIW |",
         "|---|---:|---:|---:|---:|---:|",
     ]
     for label, prefix in (
@@ -335,7 +335,7 @@ def write_report(
         )
     lines.extend([
         "",
-        "TCAD coverage has 6.25 percentage-point resolution per seed because "
+        "DEVICE coverage has 6.25 percentage-point resolution per seed because "
         "the test split contains 16 DEVICEs.",
         "",
     ])
@@ -391,7 +391,7 @@ def main() -> int:
         encoding="utf-8",
     )
     write_report(args, metrics, aggregate)
-    print(f"Saved TCAD-cluster recalibration to {args.output}")
+    print(f"Saved DEVICE-cluster recalibration to {args.output}")
     return 0
 
 

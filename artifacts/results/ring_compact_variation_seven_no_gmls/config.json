@@ -1,0 +1,161 @@
+{
+  "generated_at": "2026-09-12T14:54:28.672892+08:00",
+  "protocol": "ring_compact_variation_7model_development_v1",
+  "data_root": "<FROZEN_RING_ROOT>/hifi_ring_80\\results\\ring_compact_variation_v1",
+  "output": "<REPO_ROOT>/artifacts\\results\\ring_compact_variation_seven_no_gmls",
+  "tasks": {
+    "resonance_shift": {
+      "key": "resonance_shift",
+      "name": "Ring_resonance_shift",
+      "target_col": "resonance_shift_pm",
+      "ylabel": "resonance shift (pm)",
+      "use_log_transform": false,
+      "y_bounds": [
+        -10.0,
+        2500.0
+      ],
+      "primary_raw_metric": "nonzero_bias_rmse_raw",
+      "monotonic_sign": -1,
+      "input_cols": [
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "delta_material_index",
+        "bias_v",
+        "temperature_c"
+      ],
+      "axis_col": "bias_v"
+    },
+    "quality_factor": {
+      "key": "quality_factor",
+      "name": "Ring_loaded_Q",
+      "target_col": "quality_factor",
+      "ylabel": "loaded quality factor",
+      "use_log_transform": true,
+      "y_bounds": [
+        3.0,
+        6.0
+      ],
+      "primary_raw_metric": "median_ape_percent",
+      "monotonic_sign": null,
+      "input_cols": [
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "delta_material_index",
+        "bias_v",
+        "temperature_c"
+      ],
+      "axis_col": "bias_v"
+    },
+    "drop_extinction": {
+      "key": "drop_extinction",
+      "name": "Ring_drop_extinction_ratio",
+      "target_col": "drop_extinction_ratio_db",
+      "ylabel": "drop-port extinction ratio (dB)",
+      "use_log_transform": false,
+      "y_bounds": [
+        0.0,
+        80.0
+      ],
+      "primary_raw_metric": "mae_raw",
+      "monotonic_sign": null,
+      "input_cols": [
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "delta_material_index",
+        "bias_v",
+        "temperature_c"
+      ],
+      "axis_col": "bias_v"
+    },
+    "through_insertion": {
+      "key": "through_insertion",
+      "name": "Ring_through_insertion_loss",
+      "target_col": "through_insertion_loss_db",
+      "ylabel": "through-port insertion loss (dB)",
+      "use_log_transform": true,
+      "y_bounds": [
+        -8.0,
+        1.0
+      ],
+      "primary_raw_metric": "median_ape_percent",
+      "monotonic_sign": null,
+      "input_cols": [
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "delta_material_index",
+        "bias_v",
+        "temperature_c"
+      ],
+      "axis_col": "bias_v"
+    }
+  },
+  "models": [
+    "bkan",
+    "dkan",
+    "mlp_l",
+    "spline_ridge",
+    "autopinn",
+    "curve_lut",
+    "semiempirical"
+  ],
+  "seeds": [
+    42
+  ],
+  "independent_unit": "nominal_structure_id",
+  "split_counts": {
+    "train": 208,
+    "validation": 32,
+    "calibration": 48,
+    "test": 32
+  },
+  "bkan_dkan_matched_backbone": {
+    "width": 8,
+    "grid": 8,
+    "k": 3
+  },
+  "device": "cpu",
+  "training": {
+    "epochs": 300,
+    "kan_steps": 300,
+    "mlp_epochs": 300,
+    "autopinn_epochs": 300,
+    "batch_size": 512,
+    "learning_rate": 0.001,
+    "kl_weight": 0.1,
+    "mc_samples": 50,
+    "train_mc_samples": 3,
+    "validation_mc_samples": 10,
+    "early_stopping_patience": 7
+  },
+  "provenance": {
+    "metric_table": "<FROZEN_RING_ROOT>/hifi_ring_80\\results\\ring_compact_variation_v1\\training_tables\\ring_compact_targets.csv",
+    "metric_table_sha256": "6375445a4f65c8be89e779e7f408582bebc35e7a8388911267062bdffc2d8cb9",
+    "source_manifest_sha256": "77ae26db52720706da77ab95615ea0027773a1ab95431962f89c93a990833107",
+    "frozen_confirmation_manifest_sha256": "36dab54be330ee61196b9ff01e98ce1588730c44eca41ebd4fe9e2d8503847ff",
+    "visible_development_structures": 320,
+    "quarantined_confirmation_structures": 80
+  },
+  "original_spectrum_code_modified": false,
+  "paper_modified": false,
+  "claim_boundary": "Exploratory development-partition comparison on a calibrated reduced-order synthetic dataset; not a frozen-confirmation result, new four-solver run, or measurement validation.",
+  "data_kind": "high_fidelity_calibrated_reduced_order_synthetic",
+  "visible_partition": "development_only",
+  "frozen_confirmation_opened": false,
+  "input_columns": [
+    "actual_core_width_nm",
+    "actual_coupling_gap_nm",
+    "actual_ring_radius_um",
+    "actual_core_thickness_nm",
+    "delta_material_index",
+    "bias_v",
+    "temperature_c"
+  ]
+}

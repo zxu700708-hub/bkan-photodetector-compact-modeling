@@ -32,11 +32,11 @@
       "ldev": 4,
       "log": 8
     },
-    "interpretation": "The primary-date subset contains four FDTD projects, four TCAD projects, and eight logs. It is partial evidence, not a 160-condition native-session archive. Other retained sessions are earlier development context and are not attributed to the primary campaign.",
+    "interpretation": "The primary-date subset contains four FDTD projects, four DEVICE projects, and eight logs. It is partial evidence, not a 160-condition native-session archive. Other retained sessions are earlier development context and are not attributed to the primary campaign.",
     "mesh_boundary": "Mesh state is embedded in retained .fsp/.ldev projects; no separate complete mesh archive was recovered. Sanitized log-derived grid/element summaries are in native_session_inventory.csv.",
     "software_versions": [
-      "commercial TCAD solver (version withheld from public artifact)",
-      "commercial optical TCAD solver (version withheld from public artifact)"
+      "Ansys Lumerical 2024 R1 Charge Transport Solver Version 7.13.3633 (Windows 64bit)",
+      "Ansys Lumerical 2024 R1 FDTD Solver Version 8.31.3633 (Windows 64bit)"
     ]
   },
   "canonical_derivatives": {
@@ -73,7 +73,7 @@
       "evidence": "primary_raw_output_inventory.csv"
     },
     {
-      "item": "native FDTD/TCAD projects and logs for primary campaign",
+      "item": "native FDTD/DEVICE projects and logs for primary campaign",
       "status": "partial",
       "evidence": "4 .fsp, 4 .ldev, and 8 logs match the campaign date; see native_session_inventory.csv"
     },
@@ -105,7 +105,7 @@
   ],
   "publication_boundary": {
     "not_packaged": [
-      "commercial TCAD .fsp/.ldev binaries",
+      "commercial Lumerical .fsp/.ldev binaries",
       "raw logs containing host, license, and local-path details",
       "large local per-condition raw tables already represented by hash inventory and canonical tables"
     ],

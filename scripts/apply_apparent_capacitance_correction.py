@@ -1,7 +1,7 @@
 """Build the canonical apparent-capacitance dataset and export overlays.
 
 The historical 64,000-row SSAC table recorded ``vac_V=1`` although the
-TCAD perturbation amplitude was 1 mV.  Its stored ``capacitance_F`` is
+DEVICE perturbation amplitude was 1 mV.  Its stored ``capacitance_F`` is
 exactly Im(Y_total)/(2*pi*f), so the physically scaled total-admittance
 apparent capacitance is obtained by a deterministic factor of 1000.  This
 script preserves the historical source, writes a corrected canonical table,
@@ -56,7 +56,7 @@ def validate_legacy(frame: pd.DataFrame) -> dict[str, Any]:
     if missing:
         raise ValueError(f"legacy capacitance table is missing columns: {missing}")
     if len(frame) != 64_000 or frame["sample_id"].nunique() != 160:
-        raise ValueError("expected 64,000 rows from 160 TCAD identifiers")
+        raise ValueError("expected 64,000 rows from 160 DEVICE identifiers")
     vac = frame["vac_V"].to_numpy(dtype=float)
     if not np.allclose(vac, 1.0, rtol=0.0, atol=0.0):
         raise ValueError("legacy vac_V is not uniformly 1 V as expected")
@@ -69,7 +69,7 @@ def validate_legacy(frame: pd.DataFrame) -> dict[str, Any]:
         raise ValueError(f"stored capacitance is not Im(Y_total)/omega: {max_rel}")
     per_device = frame.groupby("sample_id", sort=False).size().to_numpy()
     if not np.all(per_device == 400):
-        raise ValueError("each TCAD must contain a complete 16x25 surface")
+        raise ValueError("each DEVICE must contain a complete 16x25 surface")
     return {
         "rows": int(len(frame)),
         "device_count": int(frame["sample_id"].nunique()),
@@ -151,7 +151,7 @@ def correct_formula_va(source: Path, destination: Path) -> str:
     if needle not in text:
         raise ValueError(f"Verilog-A output assignment not found: {source}")
     replacement = (
-        "// Historical SSAC source used vac_V=1 while TCAD used 1 mV.\n"
+        "// Historical SSAC source used vac_V=1 while DEVICE used 1 mV.\n"
         "  // Report the corrected total-admittance apparent capacitance.\n"
         "  V(out) <+ 1000.0*y;"
     )
@@ -247,7 +247,7 @@ def build(source: Path, output: Path) -> None:
     readme.write_text(
         "# Apparent-capacitance correction\n\n"
         "The canonical target is `C_app = Im(Y_total)/(2*pi*f)`. The historical "
-        "table recorded `vac_V=1` although TCAD used 0.001 V, so all "
+        "table recorded `vac_V=1` although DEVICE used 0.001 V, so all "
         "admittance-derived physical outputs are scaled by 1000. This is a "
         "deterministic source-unit correction, not a new TCAD or model fit. "
         "It is not displacement-current capacitance and is not used as "

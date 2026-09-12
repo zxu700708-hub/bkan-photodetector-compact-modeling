@@ -1,6 +1,6 @@
 """Export the audited KAN-free net-photocurrent student to Verilog-A.
 
-The primary TCAD tables contain a dark sweep and an illuminated-total-current
+The primary DEVICE tables contain a dark sweep and an illuminated-total-current
 sweep.  The model exported here represents their paired difference
 ``I_photo,net = I_illum - I_dark``.  It must therefore be added to the dark
 branch exactly once.

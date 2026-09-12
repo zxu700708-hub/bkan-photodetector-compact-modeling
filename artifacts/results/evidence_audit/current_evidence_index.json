@@ -1,0 +1,42 @@
+{
+  "schema_version": "current_manuscript_evidence_index_v1",
+  "manuscript_snapshot": "2026-09-13",
+  "scope": "Only evidence used by the current main manuscript and supplementary information is indexed.",
+  "bundles": {
+    "primary_confirmatory_grouped_accuracy": "artifacts/results/matched_grouped_comparison",
+    "primary_seven_model_exploratory_comparison": "artifacts/results/compact_framework_seven_models_pd",
+    "apd_seven_model_device_specific_refit": "artifacts/results/compact_framework_seven_models_apd",
+    "matched_heteroscedastic_uq": "artifacts/results/matched_heteroscedastic_uq_equal_budget_current",
+    "structured_capacitance_extrapolation": "artifacts/results/structured_generalization_capacitance",
+    "structured_ood_uq_summary": "artifacts/results/structured_ood_uq",
+    "symbolic_export_audit": "artifacts/results/symbolic_export_audit",
+    "controlled_multi_teacher_symbolic_comparison": "artifacts/results/multi_teacher_symbolic_pareto_10split",
+    "posterior_formula_ensemble_summary": "artifacts/results/posterior_formula_ensemble",
+    "terminal_charge_model": "artifacts/results/terminal_charge_model",
+    "spectre_device_and_circuit_verification": "artifacts/results/corrected_composite_spectre",
+    "primary_tcad_provenance": "artifacts/results/tcad_provenance",
+    "active_microring_development_comparison": "artifacts/results/ring_compact_variation_seven_no_gmls"
+  },
+  "canonical_data": {
+    "primary_and_terminal_charge": "data/primary",
+    "apd": "data/apd",
+    "active_microring_development": "data/ring/ring_development_targets.csv",
+    "active_microring_confirmation_ids_only": "data/ring/ring_frozen_confirmation_ids.csv"
+  },
+  "explicitly_excluded": [
+    "HMC feasibility and failed-chain studies",
+    "retired proxy-charge models and their Spectre runs",
+    "smoke, trial, discarded, incomplete, and temporary runs",
+    "superseded six-model and eight-model exploratory comparisons",
+    "web UI, local environments, caches, research notes, and raw console logs",
+    "microring frozen-confirmation response targets"
+  ],
+  "claim_boundary": {
+    "measurement_validation": false,
+    "zero_shot_device_transfer": false,
+    "reliable_ood_detection": false,
+    "microring_confirmation_evaluated": false,
+    "microring_uq_symbolic_or_circuit_validation": false,
+    "pdk_or_foundry_qualification": false
+  }
+}

@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 from matplotlib.text import Text
 
+from manuscript_plot_palette import GRID, INK, MODEL_COLORS, MUTED
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "artifacts" / "results"
@@ -28,10 +30,10 @@ MODEL_LABEL = {
     "bkan": "BKAN-VI",
 }
 COLORS = {
-    "mlp_l": "#CC79A7",
-    "mlp_n": "#D55E00",
-    "dkan": "#0072B2",
-    "bkan": "#009E73",
+    "mlp_l": MODEL_COLORS["mlp_l"],
+    "mlp_n": MODEL_COLORS["curve_lut"],
+    "dkan": MODEL_COLORS["dkan"],
+    "bkan": MODEL_COLORS["bkan"],
 }
 
 FIGURE_TEXT_SCALE = 1.18
@@ -54,7 +56,7 @@ def configure() -> None:
             "axes.spines.top": False,
             "axes.spines.right": False,
             "axes.grid": True,
-            "grid.color": "#E5E7EB",
+            "grid.color": GRID,
             "grid.linewidth": 0.6,
         }
     )
@@ -174,8 +176,8 @@ def plot_structured(summary: pd.DataFrame) -> None:
     models = ["dkan", "bkan", "mlp_l", "spline_ridge", "poly3_ridge"]
     colors = {
         **COLORS,
-        "spline_ridge": "#56B4E9",
-        "poly3_ridge": "#E69F00",
+        "spline_ridge": MODEL_COLORS["spline_ridge"],
+        "poly3_ridge": MODEL_COLORS["poly3_ridge"],
     }
     display = {**MODEL_LABEL, "spline_ridge": "Spline-Ridge", "poly3_ridge": "Poly3-Ridge"}
     fig, ax = plt.subplots(figsize=(10.2, 4.2))
@@ -199,7 +201,7 @@ def plot_structured(summary: pd.DataFrame) -> None:
             color=colors[model],
             label=display[model],
         )
-    ax.axhline(0, color="#374151", linewidth=0.8)
+    ax.axhline(0, color=INK, linewidth=0.8)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.set_ylabel(r"structured-holdout $R^2$")
@@ -212,7 +214,7 @@ def plot_structured(summary: pd.DataFrame) -> None:
         r"Poly3-Ridge reverse-bias result ($R^2=-13.55$) is clipped.",
         transform=ax.transAxes,
         fontsize=8,
-        color="#4B5563",
+        color=MUTED,
     )
     fig.tight_layout()
     save(fig, "capacitance_structured_generalization")

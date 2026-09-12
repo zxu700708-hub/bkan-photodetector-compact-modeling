@@ -42,6 +42,8 @@ import numpy as np
 import pandas as pd
 import torch
 from scipy.optimize import differential_evolution, least_squares
+from sklearn.compose import TransformedTargetRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.kernel_approximation import Nystroem
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -153,6 +155,7 @@ TASKS: Dict[str, TaskSpec] = {
 
 MLP_ARCHES: Dict[str, Tuple[int, ...]] = {
     "mlp_n": (32, 16),
+    "mlp_pm": (40, 32),
     "mlp_l": (64, 32),
 }
 
@@ -631,6 +634,8 @@ ENGINEERING_MODELS = [
     "poly3_ridge",
     "spline_ridge",
     "rbf_nystroem",
+    "random_forest",
+    "xgboost",
 ]
 
 MODEL_PARAM_COUNTS = {
@@ -638,6 +643,8 @@ MODEL_PARAM_COUNTS = {
     "poly3_ridge": None,    # depends on n_features
     "spline_ridge": None,   # depends on n_features
     "rbf_nystroem": None,   # depends on n_features
+    "random_forest": None,  # total fitted tree nodes
+    "xgboost": None,        # total fitted tree nodes
 }
 
 
@@ -648,7 +655,7 @@ def build_engineering_model(
     seed: int,
     knn_neighbors: int = 5,
     rbf_components: int = 256,
-) -> Pipeline:
+) -> object:
     if model_name == "pdk_lut_knn":
         return Pipeline([
             ("scale", StandardScaler()),
@@ -690,12 +697,67 @@ def build_engineering_model(
             ("ridge", Ridge(alpha=1e-4)),
         ])
 
+    # Standardize the target from training rows only. This avoids degenerate
+    # split gains for the capacitance target, whose values are around 1e-19.
+    if model_name == "random_forest":
+        regressor = Pipeline([
+            ("scale", StandardScaler()),
+            ("forest", RandomForestRegressor(
+                n_estimators=500,
+                max_features=1.0,
+                min_samples_leaf=1,
+                random_state=seed,
+                n_jobs=-1,
+            )),
+        ])
+        return TransformedTargetRegressor(
+            regressor=regressor,
+            transformer=StandardScaler(),
+        )
+
+    if model_name == "xgboost":
+        try:
+            from xgboost import XGBRegressor
+        except ImportError as exc:  # pragma: no cover - environment guard
+            raise ImportError(
+                "The xgboost baseline requires `pip install xgboost>=3.0,<4`."
+            ) from exc
+        regressor = Pipeline([
+            ("scale", StandardScaler()),
+            ("xgboost", XGBRegressor(
+                objective="reg:squarederror",
+                n_estimators=500,
+                max_depth=4,
+                learning_rate=0.05,
+                subsample=0.8,
+                colsample_bytree=1.0,
+                reg_lambda=1.0,
+                tree_method="hist",
+                random_state=seed,
+                n_jobs=-1,
+            )),
+        ])
+        return TransformedTargetRegressor(
+            regressor=regressor,
+            transformer=StandardScaler(),
+        )
+
     raise ValueError(f"Unknown engineering model: {model_name}")
 
 
-def count_engineering_params(model_name: str, model: Pipeline, n_train: int, n_features: int) -> int:
+def count_engineering_params(model_name: str, model: object, n_train: int, n_features: int) -> int:
     if model_name == "pdk_lut_knn":
         return int(n_train * (n_features + 1))
+
+    if model_name in {"random_forest", "xgboost"}:
+        fitted_pipeline = model.regressor_
+        if model_name == "random_forest":
+            forest = fitted_pipeline.named_steps["forest"]
+            return int(sum(tree.tree_.node_count for tree in forest.estimators_))
+        booster = fitted_pipeline.named_steps["xgboost"].get_booster()
+        return int(
+            sum(tree.count('"nodeid"') for tree in booster.get_dump(dump_format="json"))
+        )
 
     if "ridge" in model.named_steps:
         ridge = model.named_steps["ridge"]
@@ -981,23 +1043,26 @@ def train_bkan(
 # PLOTTING
 # ═══════════════════════════════════════════════════════════════════════════
 
-MODEL_ORDER = ["physics_simple", "physics_full", "dkan", "bkan", "mlp_n", "mlp_l",
-                "poly3_ridge", "spline_ridge", "rbf_nystroem", "pdk_lut_knn"]
+MODEL_ORDER = ["physics_simple", "physics_full", "dkan", "bkan", "mlp_n", "mlp_pm",
+                "mlp_l", "poly3_ridge", "spline_ridge", "rbf_nystroem",
+                "random_forest", "xgboost", "pdk_lut_knn"]
 MODEL_COLORS = {
     "physics_simple": "#E53935", "physics_full": "#FF7043",
     "dkan":   "#2196F3", "bkan": "#4CAF50",
-    "mlp_n":  "#FF9800", "mlp_l": "#9C27B0",
+    "mlp_n":  "#FF9800", "mlp_pm": "#F57C00", "mlp_l": "#9C27B0",
     "poly3_ridge": "#607D8B", "spline_ridge": "#009688",
     "rbf_nystroem": "#3F51B5", "pdk_lut_knn": "#795548",
+    "random_forest": "#8BC34A", "xgboost": "#C62828",
 }
 MODEL_LABELS = {
     "physics_simple": "Analytical (simple)",
     "physics_full": "Physics / Eq.-Circuit",
     "dkan": "D-KAN", "bkan": "B-KAN",
-    "mlp_n": "MLP-N", "mlp_l": "MLP-L",
+    "mlp_n": "MLP-N", "mlp_pm": "MLP-PM", "mlp_l": "MLP-L",
     "poly3_ridge": "Poly3-Ridge",
     "spline_ridge": "Spline-Ridge",
     "rbf_nystroem": "RBF-Nystroem",
+    "random_forest": "Random Forest", "xgboost": "XGBoost",
     "pdk_lut_knn": "LUT-KNN",
 }
 
@@ -1546,9 +1611,10 @@ def parse_args() -> argparse.Namespace:
                    default=["physics_simple", "physics_full", "dkan", "bkan",
                             "mlp_n", "mlp_l"],
                    choices=["physics_simple", "physics_full",
-                            "dkan", "bkan", "mlp_n", "mlp_l",
+                            "dkan", "bkan", "mlp_n", "mlp_pm", "mlp_l",
                             "pdk_lut_knn", "poly3_ridge",
-                            "spline_ridge", "rbf_nystroem"])
+                            "spline_ridge", "rbf_nystroem",
+                            "random_forest", "xgboost"])
     p.add_argument("--seeds", nargs="+", type=int, default=[42, 43, 44])
     p.add_argument("--device", default="auto")
     # MLP

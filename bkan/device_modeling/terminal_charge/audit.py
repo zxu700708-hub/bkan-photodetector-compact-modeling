@@ -1,4 +1,4 @@
-"""Audit production terminal-charge data against strict TCAD evidence.
+"""Audit production terminal-charge data against strict DEVICE evidence.
 
 The upstream certificate checks validation gates and parameter-space coverage.
 This module additionally requires numerical agreement between strict evidence

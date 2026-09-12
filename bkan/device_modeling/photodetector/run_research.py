@@ -492,9 +492,9 @@ def train_bayesian(
         method_calibration_frame = calibration
     # Conformal calibration must use the same independent unit as the grouped
     # train/validation/calibration/test split.  In particular, capacitance rows
-    # are split by TCAD sample (``_curve_id``); grouping the calibration
+    # are split by DEVICE sample (``_curve_id``); grouping the calibration
     # scores by the remaining inputs would instead create 25 correlated C--V
-    # sub-curves per TCAD and incorrectly inflate 24 calibration devices to
+    # sub-curves per DEVICE and incorrectly inflate 24 calibration devices to
     # 600 conformal scores.
     calibration_group_cols = conformal_group_columns(
         method_calibration_frame,

@@ -1,0 +1,294 @@
+{
+  "schema_version": "ring_publication_dataset_manifest_v1",
+  "source_dataset_version": "ring_compact_process_temperature_v1",
+  "source_dataset_sha256": "77ae26db52720706da77ab95615ea0027773a1ab95431962f89c93a990833107",
+  "source_target_table_sha256": "6375445a4f65c8be89e779e7f408582bebc35e7a8388911267062bdffc2d8cb9",
+  "data_kind": "high_fidelity_calibrated_reduced_order_synthetic",
+  "design": {
+    "development_structures": 320,
+    "frozen_confirmation_structures": 80,
+    "development_seed": 20260912,
+    "confirmation_seed": 20270912,
+    "process_seed": 20260913,
+    "process_realizations_per_structure_including_nominal": 3,
+    "width_range_nm": [
+      430.0,
+      470.0
+    ],
+    "gap_range_nm": [
+      350.0,
+      450.0
+    ],
+    "radius_range_um": [
+      9.8,
+      10.2
+    ],
+    "biases_v": [
+      0.0,
+      -1.0,
+      -2.0,
+      -4.0,
+      -10.0
+    ],
+    "temperatures_c": [
+      20.0,
+      40.0,
+      60.0
+    ],
+    "aligned_spectral_points": 129,
+    "aligned_detuning_half_widths": 6.0,
+    "independent_split_unit": "nominal_structure_id"
+  },
+  "process_model": {
+    "width_sigma_nm": 4.6,
+    "gap_sigma_nm": 5.0,
+    "core_thickness_sigma_nm": 0.8,
+    "material_index_sigma": 0.0002,
+    "radius_sigma_nm": 2.0,
+    "distribution": "hierarchical bounded Gaussian; 3-sigma clipping",
+    "nominal_variant_included": true,
+    "width_gap_relation": "shared lithography component with negative correlation",
+    "material_index_scope": "wafer-level plus local residual; not resampled by bias or temperature"
+  },
+  "physics": {
+    "response_model": "symmetric_add_drop_temporal_coupled_mode",
+    "silicon_thermo_optic_per_k": 0.000186,
+    "reference_temperature_c": 20.0,
+    "bias_shift": "smooth mechanism surface calibrated to high-fidelity resonance shifts",
+    "coupling": "log coupling surface calibrated to high-fidelity FDTD coupling",
+    "loss": "roundtrip loss inferred from high-fidelity loaded Q and calibrated smoothly",
+    "temperature_relation": "confinement-scaled silicon thermo-optic response"
+  },
+  "calibration_coefficients": {
+    "lambda_model": {
+      "center": [
+        449.9974403212108,
+        400.0261861262148,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080525,
+        28.92282738185351,
+        0.11562656377278396
+      ],
+      "coefficients": [
+        1553.757855405023,
+        -0.1396025745236027,
+        0.10817470459793234,
+        -0.21403596548179019,
+        0.19153016324319494,
+        -0.6971887949021177,
+        -0.1393984450946304,
+        0.27038004578160857,
+        0.2074176161641064,
+        -0.47233388515828073
+      ]
+    },
+    "neff_model": {
+      "center": [
+        449.9974403212108,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080525,
+        0.11562656377278396
+      ],
+      "coefficients": [
+        2.5424215691235714,
+        0.010228907222053501,
+        -6.05460955785126e-05,
+        -0.00016950527679413077,
+        -0.0001294419261265374,
+        0.00010839111850337985
+      ]
+    },
+    "group_index_model": {
+      "center": [
+        449.9974403212108,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080525,
+        0.11562656377278396
+      ],
+      "coefficients": [
+        3.875685338534809,
+        0.004039965790957613,
+        -1.2243580830536394e-05,
+        -0.00047800635569679987,
+        -2.7018734683670716e-05,
+        4.1640784233675207e-05
+      ]
+    },
+    "coupling_model": {
+      "center": [
+        449.9974403212108,
+        400.0261861262148,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080525,
+        28.92282738185351,
+        0.11562656377278396
+      ],
+      "coefficients": [
+        -4.528040554964785,
+        -0.03367375911893583,
+        -0.30150261917706334,
+        0.021638744561475232,
+        -0.14234347855481555,
+        0.009526625758407683,
+        0.013393538055832871,
+        -0.012034055207856524,
+        -0.03179715518701797,
+        0.020843534252574025
+      ]
+    },
+    "bias_shift_model": {
+      "center": [
+        449.99744032121083,
+        400.0261861262147,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080527,
+        28.922827381853505,
+        0.11562656377278398
+      ],
+      "coefficients": [
+        0.0648473766242234,
+        0.00017340392308671105,
+        1.0741072082249475e-05,
+        -1.0313462979426743e-05,
+        -1.5972071927415364e-05,
+        -7.394187501055776e-05,
+        4.047572275871431e-06,
+        3.2207590209451246e-07,
+        1.1092530193438582e-05,
+        -3.1087236762143076e-05,
+        0.008239980305903156,
+        -0.00024248235805170238,
+        3.2700878178574248e-06,
+        -2.4554781346600724e-05,
+        2.5821137841642156e-05,
+        -1.679392515320031e-05,
+        -3.182428867582639e-05,
+        4.594298524520784e-05,
+        2.1472938714822064e-05,
+        -2.2275886952597044e-05
+      ]
+    },
+    "loss_model": {
+      "center": [
+        449.99744032121083,
+        400.0261861262147,
+        9.999781767531612
+      ],
+      "scale": [
+        11.548964982080527,
+        28.922827381853505,
+        0.11562656377278398
+      ],
+      "coefficients": [
+        -4.72512353843873,
+        0.0042233205619617,
+        0.008647129739717875,
+        0.007130227766337131,
+        0.005947515273127259,
+        -0.02017244728052265,
+        -0.009309714510729558,
+        0.014316748356406608,
+        0.008932586751759737,
+        -0.021627512024442946,
+        -0.21850220244090687,
+        -0.241146169013535,
+        -0.12015311500588344,
+        -0.010091861223730672,
+        -0.005400150719800501,
+        -0.006587548396521244,
+        -0.0011412331438668366,
+        0.008671879905390653,
+        -0.001521424672818105,
+        0.009413059447736466,
+        0.005631365767190209,
+        0.007283263264925228
+      ]
+    }
+  },
+  "source_basis": [
+    "https://optics.ansys.com/hc/en-us/articles/360042322794-Ring-Modulator",
+    "https://optics.ansys.com/hc/en-us/articles/360042323154-Thermal-switch",
+    "https://pubs.acs.org/doi/10.1021/acsphotonics.2c01194",
+    "https://link.springer.com/article/10.1007/s11082-026-08733-3"
+  ],
+  "validation": {
+    "status": "PASS",
+    "checks": {
+      "nominal_row_count": true,
+      "process_row_count": true,
+      "target_row_count": true,
+      "unique_nominal_ids": true,
+      "unique_process_ids": true,
+      "unique_operating_case_ids": true,
+      "development_confirmation_disjoint": true,
+      "finite_physical_targets": true,
+      "power_coupling_bounded": true,
+      "quality_factor_positive": true,
+      "geometry_guarded": true,
+      "temperature_red_shift_monotonic": true,
+      "nominal_variant_has_zero_process_delta": true
+    },
+    "failed_checks": [],
+    "counts": {
+      "nominal_structures": 400,
+      "development_structures": 320,
+      "frozen_confirmation_structures": 80,
+      "process_realizations": 1200,
+      "operating_cases": 18000,
+      "aligned_spectrum_rows": 2322000
+    },
+    "ranges": {
+      "resonance_wavelength_nm": [
+        1548.5506943927896,
+        1558.0029529331975
+      ],
+      "quality_factor": [
+        19157.221587540236,
+        80733.29688938525
+      ],
+      "power_coupling": [
+        0.0033789142847169625,
+        0.020843443085136637
+      ],
+      "roundtrip_power_loss": [
+        0.0041080295864155325,
+        0.01074531684873307
+      ],
+      "through_extinction_ratio_db": [
+        4.2254918488374935,
+        20.666324238593507
+      ],
+      "drop_extinction_ratio_db": [
+        37.9165312554755,
+        50.19095672994604
+      ],
+      "drop_insertion_loss_db": [
+        0.8441684053584206,
+        8.285972983766216
+      ],
+      "thermal_tuning_pm_per_k": [
+        53.47149219515932,
+        53.766620224339796
+      ]
+    }
+  },
+  "claim_boundary": "This is a high-fidelity-calibrated reduced-order synthetic benchmark, not a new four-solver run, measurement dataset, foundry PDK, or fabricated-device validation.",
+  "publication_boundary": {
+    "development_targets_published": true,
+    "development_structures": 320,
+    "frozen_confirmation_ids_published": true,
+    "frozen_confirmation_targets_published": false,
+    "frozen_confirmation_structures": 80,
+    "reported_comparison_used_confirmation_targets": false
+  }
+}

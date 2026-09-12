@@ -8,7 +8,7 @@
 - MC dropout uses 500 stochastic predictions and dropout rate 0.05; its total epoch/update budget matches the frozen BKAN split exactly.
 - Equal-budget deep ensemble uses 5 independently initialized members and distributes the frozen BKAN epoch/update horizon across them; phase boundaries and the LR schedule are scaled by each member's epoch fraction, and total optimizer updates match BKAN exactly.
 - Deep ensemble was not run in this invocation. The optional runner uses 5 per-member-matched fits and therefore costs 5x the BKAN optimizer-update budget.
-- Calibration uses the untouched calibration groups and the maximum normalized residual within each condition curve or complete TCAD.
+- Calibration uses the untouched calibration groups and the maximum normalized residual within each condition curve or complete DEVICE.
 - One training initialization is paired with each split, using `split_seed*1000+member_index`; as in the frozen BKAN run, split and initialization variability are not separately crossed.
 - Gaussian NLL and CRPS score the unchanged raw predictive Gaussian; conformal scaling changes only interval diagnostics.
 

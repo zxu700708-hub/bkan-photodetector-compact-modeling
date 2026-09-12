@@ -1,8 +1,8 @@
 {
   "schema_version": "publication_dataset_manifest_v1",
-  "generated_at_utc": "2026-08-30T19:30:58.500755+00:00",
+  "generated_at_utc": "2026-09-12T20:11:33.952301+00:00",
   "generation_scope": "frozen_table_conversion_only_no_tcad_rerun",
-  "dataset_count": 14,
+  "dataset_count": 18,
   "datasets": [
     {
       "dataset_id": "ac_response",
@@ -311,6 +311,140 @@
       ]
     },
     {
+      "dataset_id": "ring_development_targets",
+      "path": "ring/ring_development_targets.csv",
+      "role": "active-microring exploratory development targets",
+      "rows": 14400,
+      "columns": [
+        "nominal_structure_id",
+        "process_variant_id",
+        "process_variant_index",
+        "process_variant_role",
+        "dataset_role",
+        "split",
+        "operating_case_id",
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "delta_material_index",
+        "bias_v",
+        "temperature_c",
+        "resonance_shift_pm",
+        "quality_factor",
+        "drop_extinction_ratio_db",
+        "through_insertion_loss_db"
+      ],
+      "column_count": 18,
+      "group_unit": "all 45 process-bias-temperature rows for one nominal structure",
+      "target_definition": "four directly fitted microring device metrics",
+      "artifact_sha256": "6dd7e3efcfa78a999d8ebc338674ad94997c63c7872dd3261cc02db84fdfb929",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/ring_compact_targets.csv",
+          "sha256": "6375445a4f65c8be89e779e7f408582bebc35e7a8388911267062bdffc2d8cb9"
+        }
+      ]
+    },
+    {
+      "dataset_id": "ring_frozen_confirmation_ids",
+      "path": "ring/ring_frozen_confirmation_ids.csv",
+      "role": "quarantined confirmation identifiers without targets",
+      "rows": 80,
+      "columns": [
+        "nominal_structure_id",
+        "wafer_id",
+        "sampling_seed"
+      ],
+      "column_count": 3,
+      "group_unit": "frozen confirmation nominal structure",
+      "target_definition": "not applicable",
+      "artifact_sha256": "01ceb0fc8b571707a292e2b7d3dd250e69be3b7370705cd08fe91a48e958aa75",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/frozen_confirmation_ids.csv",
+          "sha256": "01ceb0fc8b571707a292e2b7d3dd250e69be3b7370705cd08fe91a48e958aa75"
+        }
+      ]
+    },
+    {
+      "dataset_id": "ring_nominal_structures",
+      "path": "ring/ring_nominal_structures.csv",
+      "role": "active-microring design and process provenance",
+      "rows": 400,
+      "columns": [
+        "nominal_structure_id",
+        "nominal_core_width_nm",
+        "nominal_coupling_gap_nm",
+        "nominal_ring_radius_um",
+        "nominal_core_thickness_nm",
+        "nominal_slab_thickness_nm",
+        "nominal_device_layer_thickness_nm",
+        "dataset_role",
+        "frozen_confirmation",
+        "sampling_method",
+        "sampling_seed",
+        "split",
+        "wafer_id"
+      ],
+      "column_count": 13,
+      "group_unit": "nominal structure",
+      "target_definition": "not applicable",
+      "artifact_sha256": "75bb29d36555576aceabca713336f1bf936f2358edead5f4e9bb8443ad9a37d4",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/nominal_structures.csv",
+          "sha256": "df63e9c1eac201799b97b2a7856700152035ed4cfd90eec31281ca6f7abf5ec3"
+        }
+      ]
+    },
+    {
+      "dataset_id": "ring_process_realizations",
+      "path": "ring/ring_process_realizations.csv",
+      "role": "active-microring design and process provenance",
+      "rows": 1200,
+      "columns": [
+        "nominal_structure_id",
+        "nominal_core_width_nm",
+        "nominal_coupling_gap_nm",
+        "nominal_ring_radius_um",
+        "nominal_core_thickness_nm",
+        "nominal_slab_thickness_nm",
+        "nominal_device_layer_thickness_nm",
+        "dataset_role",
+        "frozen_confirmation",
+        "sampling_method",
+        "sampling_seed",
+        "split",
+        "wafer_id",
+        "process_variant_id",
+        "process_variant_index",
+        "process_variant_role",
+        "process_seed",
+        "delta_core_width_nm",
+        "delta_coupling_gap_nm",
+        "delta_core_thickness_nm",
+        "delta_material_index",
+        "delta_ring_radius_nm",
+        "actual_core_width_nm",
+        "actual_coupling_gap_nm",
+        "actual_ring_radius_um",
+        "actual_core_thickness_nm",
+        "actual_slab_thickness_nm",
+        "actual_device_layer_thickness_nm"
+      ],
+      "column_count": 28,
+      "group_unit": "process realization",
+      "target_definition": "not applicable",
+      "artifact_sha256": "2b45a6734fd57f1ec5f08773c0678319432de8670582ec5161c4124b606d8435",
+      "sources": [
+        {
+          "logical_path": "<EXTERNAL_FROZEN_SOURCE>/process_realizations.csv",
+          "sha256": "f6738b470f67b36c0639f12fc604f49500874dc08f198ad6d7f199826bb7a525"
+        }
+      ]
+    },
+    {
       "dataset_id": "sampling_parameters",
       "path": "primary/primary_sampling_parameters.csv",
       "role": "design and provenance",
@@ -399,6 +533,7 @@
   "known_recovery_limits": {
     "primary_sampling_seed": "unavailable",
     "primary_campaign_source_revision": "unavailable",
-    "complete_native_tcad_archive": "unavailable"
+    "complete_native_tcad_archive": "unavailable",
+    "ring_confirmation_targets": "quarantined_not_published"
   }
 }

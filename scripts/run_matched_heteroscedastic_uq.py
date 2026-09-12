@@ -1126,7 +1126,7 @@ def _write_report(
         "- All methods use a Gaussian mean/variance head with `softplus(logit)+1e-6` variance.",
         "- MLP fits copy the frozen batch size and learning rate. MC dropout and the optional higher-compute ensemble retain the source schedule; the equal-budget ensemble rescales phase boundaries and the LR schedule to each member's allocated horizon. A second architecture-dependent early stop is disabled so optimizer-update counts are exact.",
         *model_lines,
-        "- Calibration uses the untouched calibration groups and the maximum normalized residual within each condition curve or complete TCAD.",
+        "- Calibration uses the untouched calibration groups and the maximum normalized residual within each condition curve or complete DEVICE.",
         "- One training initialization is paired with each split, using `split_seed*1000+member_index`; as in the frozen BKAN run, split and initialization variability are not separately crossed.",
         "- Gaussian NLL and CRPS score the unchanged raw predictive Gaussian; conformal scaling changes only interval diagnostics.",
         "",

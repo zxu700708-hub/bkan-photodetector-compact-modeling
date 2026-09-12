@@ -1,0 +1,341 @@
+{
+  "generated_at": "2026-09-12T02:50:44.370224+08:00",
+  "protocol": "apd_compact_framework_seven_model_curve_lut_exploratory_v1",
+  "data_root": "<FROZEN_APD_ROOT>/Data/APD_Data_20260816_0426_957372_paper",
+  "output": "<REPO_ROOT>/artifacts/results/compact_framework_seven_models_apd",
+  "reuse_root": "<REPO_ROOT>/artifacts/results/compact_framework_eight_models_apd",
+  "reused_runs": 420,
+  "command": [
+    "scripts/run_apd_second_device.py",
+    "--data-root",
+    "<FROZEN_APD_ROOT>/Data/APD_Data_20260816_0426_957372_paper",
+    "--output",
+    "artifacts/results/compact_framework_seven_models_apd",
+    "--reuse-root",
+    "artifacts/results/compact_framework_eight_models_apd",
+    "--models",
+    "bkan",
+    "dkan",
+    "mlp_l",
+    "spline_ridge",
+    "gmls",
+    "autopinn",
+    "curve_lut",
+    "--device",
+    "cpu"
+  ],
+  "bootstrap_replicates": 50000,
+  "bootstrap_seed": 20260817,
+  "tasks": [
+    "dark_current",
+    "photo_current",
+    "net_photocurrent",
+    "multiplication_gain",
+    "gain_threshold_voltage",
+    "breakdown_voltage"
+  ],
+  "models": [
+    "bkan",
+    "dkan",
+    "mlp_l",
+    "spline_ridge",
+    "gmls",
+    "autopinn",
+    "curve_lut"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "independent_unit": "structure_group_id",
+  "device": "cpu",
+  "gpu_name": null,
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "numpy": "2.4.0",
+    "pandas": "2.3.3"
+  },
+  "task_definitions": {
+    "dark_current": {
+      "key": "dark_current",
+      "name": "APD_I_dark",
+      "source_table": "apd_dc.csv",
+      "target_col": "current_A",
+      "axis_col": "bias_v",
+      "input_cols": [
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale"
+      ],
+      "use_log_transform": true,
+      "y_bounds": [
+        -31.0,
+        1.0
+      ],
+      "ylabel": "$\\log_{10}(I_{\\rm dark}/{\\rm A})$",
+      "primary": true
+    },
+    "photo_current": {
+      "key": "photo_current",
+      "name": "APD_I_photo",
+      "source_table": "apd_dc.csv",
+      "target_col": "current_A",
+      "axis_col": "bias_v",
+      "input_cols": [
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W"
+      ],
+      "use_log_transform": true,
+      "y_bounds": [
+        -31.0,
+        1.0
+      ],
+      "ylabel": "$\\log_{10}(I_{\\rm photo}/{\\rm A})$",
+      "primary": true
+    },
+    "net_photocurrent": {
+      "key": "net_photocurrent",
+      "name": "APD_I_net",
+      "source_table": "apd_gain.csv",
+      "target_col": "net_photocurrent_A",
+      "axis_col": "bias_v",
+      "input_cols": [
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W"
+      ],
+      "use_log_transform": true,
+      "y_bounds": [
+        -31.0,
+        1.0
+      ],
+      "ylabel": "$\\log_{10}(I_{\\rm net}/{\\rm A})$",
+      "primary": true
+    },
+    "multiplication_gain": {
+      "key": "multiplication_gain",
+      "name": "APD_M",
+      "source_table": "apd_gain.csv",
+      "target_col": "multiplication_gain",
+      "axis_col": "bias_v",
+      "input_cols": [
+        "bias_v",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W"
+      ],
+      "use_log_transform": true,
+      "y_bounds": [
+        -4.0,
+        3.0
+      ],
+      "ylabel": "$\\log_{10}(M)$",
+      "primary": true
+    },
+    "gain_threshold_voltage": {
+      "key": "gain_threshold_voltage",
+      "name": "APD_V_M10",
+      "source_table": "apd_fom.csv",
+      "target_col": "voltage_at_gain_threshold_v",
+      "axis_col": "optical_power_W",
+      "input_cols": [
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W"
+      ],
+      "use_log_transform": false,
+      "y_bounds": [
+        -20.0,
+        0.0
+      ],
+      "ylabel": "$V_{M=10}$ (V)",
+      "primary": false
+    },
+    "breakdown_voltage": {
+      "key": "breakdown_voltage",
+      "name": "APD_V_br",
+      "source_table": "apd_fom.csv",
+      "target_col": "breakdown_voltage_v",
+      "axis_col": "optical_power_W",
+      "input_cols": [
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "simulation_temperature",
+        "ge_width_scale",
+        "optical_power_W"
+      ],
+      "use_log_transform": false,
+      "y_bounds": [
+        -20.0,
+        0.0
+      ],
+      "ylabel": "$V_{\\rm br}$ (V)",
+      "primary": false
+    }
+  },
+  "training": {
+    "bkan": {
+      "width": 8,
+      "grid": 8,
+      "spline_order": 3,
+      "epochs": 300,
+      "batch_size": 256,
+      "learning_rate": 0.001,
+      "kl_weight": 0.1,
+      "train_mc_samples": 3,
+      "validation_mc_samples": 20,
+      "prediction_mc_samples": 100
+    },
+    "dkan": {
+      "width": 8,
+      "grid": 8,
+      "spline_order": 3,
+      "steps": 300
+    },
+    "mlp_l": {
+      "hidden": [
+        64,
+        32
+      ],
+      "epochs": 300
+    },
+    "spline_ridge": {
+      "knots": 6,
+      "degree": 3,
+      "alpha": 1e-05
+    },
+    "gmls": {
+      "variant": "validation-selected adapted Gaussian-weighted local polynomial",
+      "candidate_degree_neighbor_factor": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          8
+        ]
+      ],
+      "neighbors": "min(n_train, max(48, factor * n_basis_terms))",
+      "ridge": 0.0001,
+      "prediction_clip": "training target range plus 10% margin",
+      "input_and_target_standardization": "training only",
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "autopinn": {
+      "variant": "adapted smooth/monotone architecture-search network",
+      "candidates": [
+        [
+          16,
+          16
+        ],
+        [
+          32,
+          16
+        ],
+        [
+          32,
+          32
+        ]
+      ],
+      "epochs": 300,
+      "activation": "tanh",
+      "smoothness_weight": 1e-05,
+      "monotonic_weight": 0.01,
+      "monotonic_sign_by_task": {
+        "dark_current": -1,
+        "photo_current": -1,
+        "net_photocurrent": -1,
+        "multiplication_gain": -1,
+        "gain_threshold_voltage": null,
+        "breakdown_voltage": null
+      },
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "curve_lut": {
+      "variant": "curve-object PCHIP lookup table with condition-space IDW",
+      "candidate_neighbor_curves_and_power": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          8,
+          2
+        ]
+      ],
+      "axis_extrapolation": "nearest characterized boundary hold",
+      "condition_standardization": "training only",
+      "selection": "lowest validation-group MSE; test not used"
+    }
+  },
+  "data_sha256": {
+    "apd_dc.csv": "f4f718db78b0cf695324f947568d6a74cea7be5399b20783c87bb07e0e9107e1",
+    "apd_gain.csv": "cb2b65ff976efddb85acbfb81f7b7dd57986bce4dc2c0a4a8e70b85890c89bd8",
+    "apd_fom.csv": "b50a9b658acf0d22505e3d817e49e73fd2d623212c6599e1d70d41be74ad149d"
+  },
+  "excluded_tasks": [
+    "ac_response",
+    "capacitance",
+    "terminal_charge",
+    "spatial_charge",
+    "noise"
+  ],
+  "claim_boundary": {
+    "device_specific_retraining": true,
+    "zero_shot_transfer": false,
+    "foundry_transfer": false,
+    "measurement_validation": false
+  }
+}

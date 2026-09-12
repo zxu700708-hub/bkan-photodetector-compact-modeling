@@ -746,7 +746,7 @@ class BayesKANDeviceModeler:
         abs(y - mean) / max(std, sigma_floor).  ``calibration_unit="curve"``
         is the legacy name for grouped calibration: it reduces point scores to
         the maximum score per independent split group before taking the
-        conformal quantile.  A capacitance group is a complete TCAD response
+        conformal quantile.  A capacitance group is a complete DEVICE response
         surface rather than one of its frequency sub-curves.
         By default conformal calibration is not allowed to shrink the
         theoretical 95% Gaussian interval; it can only preserve or widen it.
@@ -1382,7 +1382,7 @@ class BayesKANDeviceModeler:
         ) = grouped_coverage(group_cols)
 
         # For capacitance, retain the nested C--V sub-curve diagnostic
-        # (TCAD x frequency) while keeping TCAD as the conformal unit.
+        # (DEVICE x frequency) while keeping DEVICE as the conformal unit.
         subcurve_cols = []
         if "_curve_id" in test_frame.columns and "log_frequency_ghz" in test_frame.columns:
             subcurve_cols = ["_curve_id", "log_frequency_ghz"]

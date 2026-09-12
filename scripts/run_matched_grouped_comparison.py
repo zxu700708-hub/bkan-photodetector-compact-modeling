@@ -1,10 +1,10 @@
-"""Run the frozen 10-split grouped accuracy comparison.
+"""Run the unified 10-split grouped accuracy comparison.
 
-The Bayesian KAN predictions are reused from the confirmatory repeated-UQ run.
-All deterministic baselines are refit on the exact same training groups.  The
-validation, calibration, and test groups remain quarantined; only the frozen
-BKAN training procedure uses validation for checkpoint selection and
-calibration for interval scaling.  Point-accuracy statistics use test data only.
+The Bayesian KAN predictions are loaded from the BKAN training stage of the
+current workflow. All comparison models are fitted on the exact same training
+groups. Validation, calibration, and test groups remain quarantined; BKAN uses
+validation for checkpoint selection and calibration for interval scaling.
+Point-accuracy statistics use test data only.
 """
 
 from __future__ import annotations
@@ -20,6 +20,10 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 from scipy.stats import t as student_t
 
 
@@ -45,6 +49,12 @@ from p0_3_traditional_comparison import (  # noqa: E402
     train_mlp,
     transformed_target,
 )
+from compact_framework_baselines import (  # noqa: E402
+    fit_predict_curve_lut,
+    fit_predict_gmls,
+    fit_predict_semiempirical_compact,
+    train_autopinn_adapted,
+)
 
 
 DEFAULT_DATA = ROOT / "artifacts" / "results" / "device_modeling" / "cleaned_data.csv"
@@ -52,6 +62,25 @@ DEFAULT_BKAN = ROOT / "artifacts" / "results" / "uq_repeated_grouped"
 DEFAULT_CAP_BKAN = ROOT / "artifacts" / "results" / "uq_repeated_grouped_capacitance"
 DEFAULT_OUTPUT = ROOT / "artifacts" / "results" / "matched_grouped_comparison"
 DEFAULT_MODELS = ("bkan", "dkan", "mlp_l", "poly3_ridge", "spline_ridge")
+EXPANDED_MODELS = (
+    "bkan",
+    "dkan",
+    "mlp_pm",
+    "mlp_l",
+    "poly3_ridge",
+    "spline_ridge",
+    "rbf_nystroem",
+    "random_forest",
+    "xgboost",
+    "gmls",
+    "autopinn",
+    "curve_lut",
+    "semiempirical",
+)
+CORE_FRAMEWORK_MODELS = (
+    "bkan", "dkan", "mlp_l", "spline_ridge", "gmls", "autopinn"
+)
+COMPACT_EIGHT_MODELS = CORE_FRAMEWORK_MODELS + ("curve_lut", "semiempirical")
 PRIMARY_BASELINE = "spline_ridge"
 TASK_KEY = {
     "I_dark": "dark_current",
@@ -62,9 +91,24 @@ TASK_KEY = {
 MODEL_LABEL = {
     "bkan": "BKAN",
     "dkan": "DKAN",
+    "mlp_pm": "MLP-PM",
     "mlp_l": "MLP-L",
     "poly3_ridge": "Poly3-Ridge",
     "spline_ridge": "Spline-Ridge",
+    "rbf_nystroem": "RBF-Nystroem",
+    "random_forest": "Random Forest",
+    "xgboost": "XGBoost",
+    "gmls": "GMLS-adapted",
+    "autopinn": "AutoPINN-adapted",
+    "curve_lut": "Curve-LUT-PCHIP",
+    "semiempirical": "PD SemiEmpirical-CM",
+}
+
+AUTOPINN_CONSTRAINTS = {
+    "I_dark": ("dark_voltage", -1),
+    "I_photo": ("light_voltage", -1),
+    "AC_Response": ("frequency_ghz", -1),
+    "Capacitance": ("bias_v", None),
 }
 
 
@@ -76,9 +120,21 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--capacitance-bkan-root", type=Path, default=DEFAULT_CAP_BKAN)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
+        "--reuse-root",
+        type=Path,
+        default=None,
+        help="Optional compatible prediction root used before refitting a model.",
+    )
+    parser.add_argument(
         "--tasks", nargs="+", choices=list(TASK_KEY), default=list(TASK_KEY)
     )
     parser.add_argument("--seeds", nargs="+", type=int, default=list(range(42, 52)))
+    parser.add_argument(
+        "--models",
+        nargs="+",
+        choices=list(EXPANDED_MODELS),
+        default=list(DEFAULT_MODELS),
+    )
     parser.add_argument(
         "--split-fractions", nargs=4, type=float, default=[0.65, 0.10, 0.15, 0.10]
     )
@@ -89,6 +145,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mlp-lamb-l1", type=float, default=1.0)
     parser.add_argument("--mlp-lamb-entropy", type=float, default=2.0)
     parser.add_argument("--kan-steps", type=int, default=300)
+    parser.add_argument("--autopinn-epochs", type=int, default=300)
     parser.add_argument("--bootstrap-replicates", type=int, default=50000)
     parser.add_argument("--bootstrap-seed", type=int, default=20260804)
     parser.add_argument("--resume", action="store_true")
@@ -102,6 +159,8 @@ def validate_args(args: argparse.Namespace) -> None:
     args.bkan_root = args.bkan_root.resolve()
     args.capacitance_bkan_root = args.capacitance_bkan_root.resolve()
     args.output = args.output.resolve()
+    if args.reuse_root is not None:
+        args.reuse_root = args.reuse_root.resolve()
     shared.validate_split_fractions(args.split_fractions)
     if len(args.seeds) != len(set(args.seeds)):
         raise ValueError("Seeds must be unique")
@@ -109,6 +168,10 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("The confirmatory protocol requires exactly 10 seeds")
     if args.bootstrap_replicates < 1000:
         raise ValueError("At least 1000 bootstrap replicates are required")
+    if "bkan" not in args.models or PRIMARY_BASELINE not in args.models:
+        raise ValueError("Models must include bkan and spline_ridge")
+    if args.autopinn_epochs < 10:
+        raise ValueError("AutoPINN requires at least 10 epochs")
     if not args.data.is_file():
         raise FileNotFoundError(args.data)
     if "Capacitance" in args.tasks and not args.capacitance_data.is_file():
@@ -220,6 +283,19 @@ def _load_existing_prediction(path: Path, test: pd.DataFrame, spec) -> np.ndarra
     if not path.is_file():
         raise FileNotFoundError(path)
     frame = pd.read_csv(path)
+    for column in dict.fromkeys(spec.input_cols):
+        if column not in frame:
+            raise RuntimeError(f"Prediction file lacks test input {column}: {path}")
+        observed = frame[column].to_numpy()
+        expected_column = test[column].to_numpy()
+        if np.issubdtype(expected_column.dtype, np.number):
+            matches = observed.shape == expected_column.shape and np.allclose(
+                observed, expected_column, rtol=1e-10, atol=1e-12
+            )
+        else:
+            matches = np.array_equal(observed, expected_column)
+        if not matches:
+            raise RuntimeError(f"Prediction file does not match test input {column}: {path}")
     actual = frame["actual_model_space"].to_numpy(dtype=np.float64)
     expected = transformed_target(test, spec)
     if actual.shape != expected.shape or not np.allclose(actual, expected, rtol=1e-7, atol=1e-10):
@@ -308,14 +384,15 @@ def paired_statistics(
     seed: int = 20260804,
     train_fraction: float = 0.65,
     test_fraction: float = 0.10,
+    models: tuple[str, ...] = DEFAULT_MODELS,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     rows = []
-    baselines = [model for model in DEFAULT_MODELS if model != "bkan"]
+    baselines = [model for model in models if model != "bkan"]
     for task, task_frame in metrics.groupby("task", sort=False):
         pivot = task_frame.pivot(index="seed", columns="model", values="rmse_target")
         if "bkan" not in pivot or any(model not in pivot for model in baselines):
             raise RuntimeError(f"Incomplete matched model set for {task}")
-        if pivot[list(DEFAULT_MODELS)].isna().any().any():
+        if pivot[list(models)].isna().any().any():
             raise RuntimeError(f"Incomplete seed pairing for {task}")
         for offset, baseline in enumerate(baselines):
             delta = (pivot["bkan"] - pivot[baseline]).to_numpy(dtype=np.float64)
@@ -358,11 +435,10 @@ def paired_statistics(
     pairwise["corrected_p_value_holm"] = pairwise.groupby(
         "task", sort=False, group_keys=False
     )["corrected_p_value_raw"].apply(_holm_adjust)
-    pairwise["comparison_family"] = "four prespecified BKAN-vs-baseline contrasts"
+    pairwise["comparison_family"] = f"{len(baselines)} BKAN-vs-baseline contrasts"
     primary = pairwise[pairwise["baseline"].eq(PRIMARY_BASELINE)].copy()
     primary["selection_rule"] = (
-        "prespecified architecture-independent Spline-Ridge reference; "
-        "not selected from final-test performance"
+        "architecture-independent Spline-Ridge reference used consistently across tasks"
     )
     return pairwise, primary.reset_index(drop=True)
 
@@ -385,11 +461,53 @@ def summarize_metrics(metrics: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def plot_summary(summary: pd.DataFrame, output: Path) -> None:
+    """Plot grouped-test RMSE for every task in the active model set."""
+
+    tasks = list(dict.fromkeys(summary["task"]))
+    cols = 2
+    rows = math.ceil(len(tasks) / cols)
+    fig, axes = plt.subplots(
+        rows, cols, figsize=(6.2 * cols, 4.2 * rows), squeeze=False
+    )
+    color_map = plt.get_cmap("tab20")
+    for ax, task_name in zip(axes.flat, tasks):
+        part = summary.loc[summary["task"].eq(task_name)].copy()
+        labels = [MODEL_LABEL.get(model, model) for model in part["model"]]
+        colors = [
+            color_map(EXPANDED_MODELS.index(model) % color_map.N)
+            for model in part["model"]
+        ]
+        x = np.arange(len(part))
+        ax.bar(
+            x,
+            part["rmse_mean"],
+            yerr=part["rmse_sample_std"].fillna(0.0),
+            color=colors,
+            capsize=3,
+        )
+        ax.set_xticks(x, labels, rotation=38, ha="right", fontsize=8)
+        ax.set_ylabel("Grouped-test RMSE")
+        ax.set_title(task_name.replace("_", " "))
+        ax.grid(axis="y", alpha=0.25)
+    for ax in axes.flat[len(tasks) :]:
+        ax.axis("off")
+    fig.tight_layout()
+    fig.savefig(output / "matched_grouped_rmse.png", dpi=300, bbox_inches="tight")
+    fig.savefig(output / "matched_grouped_rmse.pdf", bbox_inches="tight")
+    plt.close(fig)
+
+
 def _report(args, summary: pd.DataFrame, primary: pd.DataFrame) -> None:
+    exploratory = [
+        MODEL_LABEL[model]
+        for model in ("gmls", "autopinn", "curve_lut", "semiempirical")
+        if model in args.models
+    ]
     lines = [
         "# Ten-Split Matched Grouped Comparison",
         "",
-        "This is a frozen confirmatory comparison. All models use the same grouped splits; "
+        "All models use the same grouped splits; "
         "validation, calibration, and test condition groups are disjoint. Negative paired "
         "delta means lower RMSE for BKAN.",
         "",
@@ -410,17 +528,19 @@ def _report(args, summary: pd.DataFrame, primary: pd.DataFrame) -> None:
             "## Protocol",
             "",
             f"- Seeds: `{', '.join(map(str, args.seeds))}`",
-            "- Models: `BKAN, DKAN, MLP-L, Poly3-Ridge, Spline-Ridge`",
+            "- Models: `" + ", ".join(MODEL_LABEL[model] for model in args.models) + "`",
             "- Split fractions (train/validation/calibration/test): "
             f"`{'/'.join(f'{value:.0%}' for value in args.split_fractions)}`",
             "- Hyperparameters are frozen in `config.json`; no test-set tuning is performed.",
-            "- BKAN point predictions are reused from the frozen confirmatory UQ runs after "
-            "manifest and target-order verification.",
+            "- " + ", ".join(exploratory)
+            + " are post hoc adaptations or implementations and are reported as exploratory "
+            "comparisons, not source-code reproductions or new confirmatory hypotheses.",
+            "- BKAN point predictions come from the current workflow's BKAN training stage "
+            "after manifest and target-order verification.",
             "- Win/tie/loss uses paired RMSE with relative tolerance `1e-6 * scale`.",
-            "- The main contrast uses the prespecified Spline-Ridge reference for every task; "
-            "it is not chosen from final-test performance.",
+            "- The main contrast uses the same Spline-Ridge reference for every task.",
             "- Corrected intervals use the repeated-split variance factor "
-            "`1/r + test_fraction/train_fraction`; Holm correction covers all four "
+            "`1/r + test_fraction/train_fraction`; Holm correction covers all "
             "BKAN-vs-baseline contrasts within each task.",
             "- Naive split bootstrap intervals are retained only as descriptive audit columns "
             "in `paired_statistics.csv` and are not used for confirmatory claims.",
@@ -450,23 +570,37 @@ def run(args: argparse.Namespace) -> None:
             _verify_source_manifest(manifest, _bkan_manifest_path(task_name, seed, args))
             audit_frames.append(manifest)
             arrays = make_scaled_arrays(train, test, spec)
-            for model in DEFAULT_MODELS:
+            for model in args.models:
                 output = _prediction_output(args, seed, task_name, model)
                 start = time.perf_counter()
                 info = {}
                 if args.resume and output.is_file():
                     prediction = _load_existing_prediction(output, test, spec)
                     info["reused"] = True
+                elif args.reuse_root is not None and (
+                    reused_output := (
+                        args.reuse_root
+                        / "predictions"
+                        / f"seed_{seed}"
+                        / task_name
+                        / model
+                        / "test_predictions.csv"
+                    )
+                ).is_file():
+                    prediction = _load_existing_prediction(reused_output, test, spec)
+                    info["reused"] = True
+                    info["reuse_source"] = str(reused_output)
+                    _write_prediction(output, test, spec, seed, model, prediction)
                 elif model == "bkan":
                     prediction = _load_frozen_bkan(test, spec, task_name, seed, args)
-                    info["reused"] = True
+                    info["source_stage"] = "current_workflow_bkan_training"
                     _write_prediction(output, test, spec, seed, model, prediction)
                 elif model == "dkan":
                     prediction, info = train_dkan(
                         arrays, seed, device, args.kan_steps, grid=8, k=3, width=8
                     )
                     _write_prediction(output, test, spec, seed, model, prediction)
-                elif model == "mlp_l":
+                elif model in MLP_ARCHES:
                     prediction, info = train_mlp(
                         arrays,
                         MLP_ARCHES[model],
@@ -488,6 +622,41 @@ def run(args: argparse.Namespace) -> None:
                     prediction = fitted.predict(x_test).ravel()
                     info["param_count"] = count_engineering_params(
                         model, fitted, len(train), len(spec.input_cols)
+                    )
+                    _write_prediction(output, test, spec, seed, model, prediction)
+                elif model == "gmls":
+                    prediction, info = fit_predict_gmls(train, validation, test, spec)
+                    _write_prediction(output, test, spec, seed, model, prediction)
+                elif model == "curve_lut":
+                    prediction, info = fit_predict_curve_lut(
+                        train,
+                        validation,
+                        test,
+                        spec,
+                        axis_col=AUTOPINN_CONSTRAINTS[task_name][0],
+                    )
+                    _write_prediction(output, test, spec, seed, model, prediction)
+                elif model == "semiempirical":
+                    prediction, info = fit_predict_semiempirical_compact(
+                        train,
+                        validation,
+                        test,
+                        spec,
+                        axis_col=AUTOPINN_CONSTRAINTS[task_name][0],
+                    )
+                    _write_prediction(output, test, spec, seed, model, prediction)
+                elif model == "autopinn":
+                    axis_col, monotonic_sign = AUTOPINN_CONSTRAINTS[task_name]
+                    prediction, info = train_autopinn_adapted(
+                        train,
+                        validation,
+                        test,
+                        spec,
+                        axis_col=axis_col,
+                        monotonic_sign=monotonic_sign,
+                        seed=seed,
+                        device=device,
+                        epochs=args.autopinn_epochs,
                     )
                     _write_prediction(output, test, spec, seed, model, prediction)
                 else:
@@ -512,7 +681,7 @@ def run(args: argparse.Namespace) -> None:
                 print(f"[{task_name} seed={seed} {model}] RMSE={values['rmse_target']:.6g}")
 
     metrics = pd.DataFrame(metric_rows)
-    expected = len(args.tasks) * len(args.seeds) * len(DEFAULT_MODELS)
+    expected = len(args.tasks) * len(args.seeds) * len(args.models)
     if len(metrics) != expected:
         raise RuntimeError(f"Expected {expected} metric rows, found {len(metrics)}")
     summary = summarize_metrics(metrics)
@@ -522,6 +691,7 @@ def run(args: argparse.Namespace) -> None:
         args.bootstrap_seed,
         train_fraction=float(args.split_fractions[0]),
         test_fraction=float(args.split_fractions[3]),
+        models=tuple(args.models),
     )
     metrics.to_csv(args.output / "metrics_by_seed.csv", index=False)
     summary.to_csv(args.output / "metrics_summary.csv", index=False)
@@ -530,15 +700,27 @@ def run(args: argparse.Namespace) -> None:
     pd.concat(audit_frames, ignore_index=True).to_csv(
         args.output / "split_manifest.csv", index=False
     )
+    plot_summary(summary, args.output)
     config = {
         "generated_at": datetime.now(timezone.utc).astimezone().isoformat(),
-        "protocol": "frozen_10_seed_matched_grouped",
+        "protocol": (
+            "compact_framework_eight_model_exploratory_extension_v1"
+            if tuple(args.models) == COMPACT_EIGHT_MODELS
+            else "compact_framework_seven_model_curve_lut_exploratory_v1"
+            if "curve_lut" in args.models and "semiempirical" not in args.models
+            else "compact_framework_compact_baselines_exploratory_v1"
+            if {"curve_lut", "semiempirical"} & set(args.models)
+            else "compact_framework_core_exploratory_adaptations_v1"
+            if {"gmls", "autopinn"} & set(args.models)
+            else "unified_fresh_10_seed_matched_grouped"
+        ),
         "data": str(args.data),
         "capacitance_data": str(args.capacitance_data),
         "bkan_root": str(args.bkan_root),
         "capacitance_bkan_root": str(args.capacitance_bkan_root),
+        "reuse_root": str(args.reuse_root) if args.reuse_root is not None else None,
         "tasks": args.tasks,
-        "models": list(DEFAULT_MODELS),
+        "models": list(args.models),
         "seeds": args.seeds,
         "split_fractions": args.split_fractions,
         "frozen_hyperparameters": {
@@ -551,9 +733,71 @@ def run(args: argparse.Namespace) -> None:
                 "lamb_l1": args.mlp_lamb_l1,
                 "lamb_entropy": args.mlp_lamb_entropy,
             },
+            "mlp_pm": {
+                "hidden": list(MLP_ARCHES["mlp_pm"]),
+                "epochs": args.mlp_epochs,
+                "lr": args.mlp_lr,
+                "lamb": args.mlp_lamb,
+                "lamb_l1": args.mlp_lamb_l1,
+                "lamb_entropy": args.mlp_lamb_entropy,
+            },
             "poly3_ridge": {"degree": 3, "alpha": 1e-6},
             "spline_ridge": {"n_knots": 6, "degree": 3, "alpha": 1e-5},
-            "bkan": "reused from source run_config.json files",
+            "rbf_nystroem": {
+                "components": 256,
+                "gamma": "1 / n_features",
+                "alpha": 1e-4,
+            },
+            "random_forest": {
+                "n_estimators": 500,
+                "max_features": 1.0,
+                "min_samples_leaf": 1,
+                "target_standardization": "training only",
+            },
+            "xgboost": {
+                "n_estimators": 500,
+                "max_depth": 4,
+                "learning_rate": 0.05,
+                "subsample": 0.8,
+                "colsample_bytree": 1.0,
+                "reg_lambda": 1.0,
+                "tree_method": "hist",
+                "target_standardization": "training only",
+            },
+            "gmls": {
+                "variant": "validation-selected adapted Gaussian-weighted local polynomial",
+                "candidate_degree_neighbor_factor": [[1, 4], [2, 4], [2, 8]],
+                "neighbors": "min(n_train, max(48, factor * n_basis_terms))",
+                "ridge": 1e-4,
+                "prediction_clip": "training target range plus 10% margin",
+                "input_and_target_standardization": "training only",
+                "selection": "lowest validation-group MSE; test not used",
+            },
+            "autopinn": {
+                "variant": "adapted smooth/monotone architecture-search network",
+                "candidates": [[16, 16], [32, 16], [32, 32]],
+                "epochs": args.autopinn_epochs,
+                "activation": "tanh",
+                "smoothness_weight": 1e-5,
+                "monotonic_weight": 1e-2,
+                "constraints": AUTOPINN_CONSTRAINTS,
+                "selection": "lowest validation-group MSE; test not used",
+            },
+            "curve_lut": {
+                "variant": "curve-object PCHIP lookup table with condition-space IDW",
+                "candidate_neighbor_curves_and_power": [[1, 1], [2, 1], [4, 1], [4, 2], [8, 2]],
+                "axis_extrapolation": "nearest characterized boundary hold",
+                "condition_standardization": "training only",
+                "selection": "lowest validation-group MSE; test not used",
+            },
+            "semiempirical": {
+                "variant": "ridge-calibrated task-specific compact feature library",
+                "candidate_alpha": [1e-6, 1e-4, 1e-2, 1, 100],
+                "features": "bias/axis shape, avalanche hinges, relaxation terms, and condition interactions",
+                "input_feature_and_target_standardization": "training only",
+                "selection": "lowest validation-group MSE; test not used",
+            },
+            "bkan": "loaded from the current workflow's freshly trained BKAN stage",
         },
         "bootstrap_replicates": args.bootstrap_replicates,
         "bootstrap_seed": args.bootstrap_seed,
@@ -576,10 +820,12 @@ def summarize_existing(args: argparse.Namespace) -> None:
         args.bootstrap_seed,
         train_fraction=float(args.split_fractions[0]),
         test_fraction=float(args.split_fractions[3]),
+        models=tuple(args.models),
     )
     summary.to_csv(args.output / "metrics_summary.csv", index=False)
     pairwise.to_csv(args.output / "paired_statistics.csv", index=False)
     primary.to_csv(args.output / "prespecified_primary_comparisons.csv", index=False)
+    plot_summary(summary, args.output)
     _report(args, summary, primary)
 
 

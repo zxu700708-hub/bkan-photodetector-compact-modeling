@@ -2,24 +2,29 @@
 
 ## 当前支持的声明
 
-- 四个 Ge/Si 任务上的十个 matched grouped splits 及配对统计。
-- BKAN-VI、heteroscedastic MC dropout 和 equal-update-budget ensemble 的登记比较。
-- 完整 bias curve、frequency curve 和 bias-frequency surface 的校准审计。
-- KAN-free symbolic formula 的独立 JSON replay、有限值和导数检查。
-- corrected composite Verilog-A 源与 Spectre 18.1 device/circuit 报告之间的 SHA-256 绑定。
-- APD 数据上 device-specific retraining 后的 workflow reuse。
-- 主 Ge/Si、terminal-Q、strict dQ/dV 和 APD canonical task-level 数据。
+- 四个 Ge/Si 任务上的十个 matched grouped splits、五模型预设比较与七模型探索性比较。
+- APD 数据上七模型 device-specific refitting；不转移权重、normalizer 或符号表达式。
+- BKAN-VI、heteroscedastic MC dropout 和 equal-update-budget deep ensemble 的完整响应 UQ 比较。
+- 完整 bias curve、frequency curve 和 bias--frequency surface 的经验 no-shrink group conformal audit。
+- 结构化边界外推失败与 predictive dispersion 不能作为可靠 OOD 告警的负面证据。
+- 受控 960-formula 多教师比较、KAN-free symbolic replay、有限值和导数检查。
+- independently fitted terminal-Q、最终 current-plus-charge Verilog-A 源及 Spectre 18.1 device/circuit 报告的 SHA-256 绑定。
+- 经高保真结构校准的 reduced-order synthetic 主动微环数据上，单个预设 development split 的七模型点估计。
+- 主 Ge/Si、terminal-Q、strict dQ/dV、APD 和主动微环 development canonical 数据。
 
 ## 不支持的外延
 
-- 不支持零样本、共享权重、跨工艺或跨 foundry transfer。
-- 不支持 measurement-domain validity。
+- 不支持 zero-shot、共享权重、跨工艺或跨 foundry transfer。
+- 不支持 measurement-domain validity 或 fabricated-device agreement。
 - 不支持 predictive dispersion 是可靠 OOD alarm。
-- 不支持动态 optical port、dispersive/trap-memory dynamics、PDK qualification 或 production deployment。
-- 不把历史 proxy-charge 或 superseded Spectre 结果传播为当前 source 的证据。
+- 不支持微环 frozen-confirmation 结论、重复划分显著性、UQ、符号导出、动态 optical port 或 circuit validation。
+- 不支持 dispersive/trap-memory dynamics、PDK qualification、device qualification 或 production deployment。
+- 不把历史 HMC、proxy-charge、smoke/trial、弃用六/八模型或 superseded Spectre 结果传播为当前证据。
 
-## 发布边界
+## 发布内容边界
 
-RC10 是代码与数据发布候选，不包含论文 LaTeX、补充材料、投稿图源文件、原始控制台日志、模型 checkpoint 或商业求解器返回压缩档。大体积 checkpoint 和原始返回档如需公开，应作为单独的 GitHub Release 或长期归档附件发布，并提供 SHA-256；不建议写入 Git 历史。
+本仓库是 `public-code-core`：包含当前论文所需代码、canonical 数据、配置、split、汇总、冻结预测、公式、最终 Verilog-A 源和验证报告；排除论文源文件、模型 checkpoint、原始控制台日志、临时目录、商业求解器返回压缩档和与当前稿件无关的研究分支。
+
+主动微环公开表只包含 320 个 development 结构的响应目标。80 个 frozen-confirmation 结构只发布 ID 与冻结策略，不发布目标值。
 
 主 Ge/Si 数据从冻结的 160-row condition design 与 canonical TCAD 表开始复现。历史 sampling seed、完整商业求解器 native archive 和部分历史源码 revision 不可恢复，因此不声称逐字节重建全部历史 TCAD solve。

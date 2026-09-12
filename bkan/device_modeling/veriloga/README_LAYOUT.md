@@ -1,45 +1,53 @@
-# Verilog-A 目录说明
+# Verilog-A directory layout
 
-本目录围绕当前 terminal-charge 实现和独立 optical-SSAC 公式检查组织，不再使用已退役的 proxy-charge 文件。
+This directory is organized around the final verification artifacts used by the paper.
 
-## 当前两端口电学模型
-
-- `ge_si_photodetector_terminal_charge.va`：最终静态电流加 quasi-static terminal-charge 实现。
-- `ge_si_pdet_fixed.va`：独立静态电流实现。
-- `testbench_dc_terminal_charge_ic618.scs`：DC 检查。
-- `testbench_ac_terminal_charge_ic618.scs`：AC-admittance 检查。
-- `testbench_ac_bias_temp_terminal_charge_ic618.scs`：偏压与温度 AC 检查。
-- `testbench_transient_terminal_charge_ic618.scs`：瞬态检查。
-- `testbench_transient_terminal_charge_fine_ic618.scs`：细时间步瞬态检查。
-- `verify_terminal_charge_spectre.py`：返回结果与冻结参考的独立复核。
-
-有界负载、TIA 和多实例电路测试的可移植输入位于：
-
-```text
-artifacts/results/terminal_charge_circuit_validation/preflight_bundle/
-```
-
-## 独立 optical-SSAC 公式
+## Active standalone AC-response readout
 
 - `ge_si_ac_response_symbolic.va`
 - `testbench_ac_response_symbolic_ic618.scs`
 - `compare_ac_response_symbolic.py`
 
-这些文件只验证 optical-SSAC dB 公式的语言翻译，不构成两端口动态电学支路。
+These files implement and verify the standalone AC-response dB formula readout. This readout is a formula-translation check only; it is not the two-terminal dynamic branch.
 
-## 支持脚本与参考数据
+Returned Cadence/Spectre evidence is stored under:
 
-- `ac_terminal_charge_reference.csv`
-- `generate_ac_terminal_charge_reference.py`
+- `result/return_ac_response_symbolic_numeric_pass/ac_response_symbolic_numeric_pass_full.tar.gz`
+
+## Active proxy-charge compact-model verification
+
+- `ge_si_photodetector_charge_proxy.va`
+- `ge_si_pdet_fixed.va`
+- `testbench_dc_ic618.scs`
+- `testbench_dc_bias_temp_proxy_ic618.scs`
+- `testbench_ac_bias_temp_proxy_ic618.scs`
+- `testbench_transient_proxy_ic618.scs`
+- `compare_results_proxy.py`
+- `compare_ac_charge_proxy.py`
+- `summarize_results.py`
+- `verification_summary.txt`
+
+Spectre outputs and returned archives are kept under `result/`.
+
+## Supporting scripts and references
+
+- `charge_proxy_models.json`
+- `ac_charge_proxy_reference.csv`
+- `spectre_reference.txt`
 - `generate_veriloga_current.py`
-- `run_spectre_terminal_charge.sh`
-- `run_spectre_terminal_charge_circuits.sh`
+- `generate_ac_charge_proxy_reference.py`
+- `run_spectre.sh`
 - `run_verification.py`
-- `terminal_charge_circuit_validation.py`
 - `validate_derivatives.py`
 - `validate_generalization.py`
 - `validate_kan_formulas.py`
 - `compare_results.py`
 - `kan_to_veriloga.py`
 
-商业求解器输出不作为源码的一部分重新许可；仓库通过版本记录、规范化报告和 SHA-256 绑定其冻结证据。
+## Legacy / exploratory archive
+
+Older Verilog-A modules, early testbenches, raw DC dumps, and temporary Python cache files have been moved to:
+
+- `_archive_legacy_20260710/`
+
+Nothing in this archive is deleted; it is retained for provenance and recovery.

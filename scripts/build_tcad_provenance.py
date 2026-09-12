@@ -1,6 +1,6 @@
 """Build a sanitized, hash-bound provenance register for the primary Ge/Si TCAD data.
 
-The source tree contains commercial TCAD project files and logs with local
+The source tree contains commercial Lumerical project files and logs with local
 machine/licensing details.  This script inventories them without copying those
 files into the publication artifact.  Only the frozen parameter tables are
 copied; all published paths are logical, source-root-relative locators.
@@ -71,7 +71,7 @@ def read_log_summary(path: Path) -> dict[str, object]:
     if "FDTD Solver" in version:
         solver = "FDTD"
     elif "Charge Transport Solver" in version:
-        solver = "TCAD"
+        solver = "DEVICE"
     else:
         solver = "unknown"
     return {
@@ -133,8 +133,8 @@ def build(source_root: Path, output: Path) -> None:
         run_date = date_match.group(1) if date_match else "unknown"
         relation = "primary_campaign_date_match" if run_date == CAMPAIGN_DATE else "earlier_development_context"
         summary = read_log_summary(path) if path.suffix.lower() == ".log" else {
-            "solver": "FDTD" if path.suffix.lower() == ".fsp" else "TCAD",
-            "software_version": "embedded native project; inspect with licensed TCAD software",
+            "solver": "FDTD" if path.suffix.lower() == ".fsp" else "DEVICE",
+            "software_version": "embedded native project; inspect with licensed Lumerical software",
             "gridpoint_shapes": "",
             "vertices": "",
             "elements": "",
@@ -204,7 +204,7 @@ def build(source_root: Path, output: Path) -> None:
         {
             str(row["software_version"])
             for row in native_rows
-            if row["file_type"] == "log" and str(row["software_version"]).startswith("commercial TCAD")
+            if row["file_type"] == "log" and str(row["software_version"]).startswith("Ansys Lumerical")
         }
     )
 
@@ -249,7 +249,7 @@ def build(source_root: Path, output: Path) -> None:
             "all_retained_counts": dict(sorted(native_counts.items())),
             "primary_campaign_date_match_counts": dict(sorted(primary_native_counts.items())),
             "interpretation": (
-                "The primary-date subset contains four FDTD projects, four TCAD projects, and eight logs. "
+                "The primary-date subset contains four FDTD projects, four DEVICE projects, and eight logs. "
                 "It is partial evidence, not a 160-condition native-session archive. Other retained sessions "
                 "are earlier development context and are not attributed to the primary campaign."
             ),
@@ -272,7 +272,7 @@ def build(source_root: Path, output: Path) -> None:
                 "evidence": "primary_raw_output_inventory.csv",
             },
             {
-                "item": "native FDTD/TCAD projects and logs for primary campaign",
+                "item": "native FDTD/DEVICE projects and logs for primary campaign",
                 "status": "partial",
                 "evidence": "4 .fsp, 4 .ldev, and 8 logs match the campaign date; see native_session_inventory.csv",
             },
@@ -304,7 +304,7 @@ def build(source_root: Path, output: Path) -> None:
         ],
         "publication_boundary": {
             "not_packaged": [
-                "commercial TCAD .fsp/.ldev binaries",
+                "commercial Lumerical .fsp/.ldev binaries",
                 "raw logs containing host, license, and local-path details",
                 "large local per-condition raw tables already represented by hash inventory and canonical tables",
             ],
@@ -323,11 +323,11 @@ def build(source_root: Path, output: Path) -> None:
 
 本目录区分已恢复证据、部分恢复证据和当前快照中不可恢复的历史信息。冻结的
 160-condition 参数表及其采样参数表按原字节打包；160 个逐条件提取文件、保留的
-TCAD native sessions、后期源码快照和 canonical derivative artifacts 均在
+Lumerical native sessions、后期源码快照和 canonical derivative artifacts 均在
 CSV/JSON 清单中登记 SHA-256。
 
 原始 sampling seed 和主 campaign 实际执行的精确 source-code revision 未能恢复。
-只有 4 个 FDTD 与 4 个 TCAD native projects 匹配主 campaign 日期，因此不能把
+只有 4 个 FDTD 与 4 个 DEVICE native projects 匹配主 campaign 日期，因此不能把
 native archive 描述为完整。Mesh state 保存在已留存的 native projects 中；清单只
 发布由日志提取并脱敏的 grid/vertex/element 摘要。商业二进制 projects 以及包含主机、
 许可和本地路径信息的原始日志不纳入匿名 artifact。论文所报机器学习实验从打包的冻结

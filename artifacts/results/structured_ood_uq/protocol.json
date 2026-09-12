@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-08-06T10:18:29.742154+00:00",
+  "tasks": [
+    "dark_current",
+    "photo_current",
+    "ac_response",
+    "capacitance"
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "scenarios": [
+    {
+      "task": "dark_current",
+      "name": "voltage_extreme_reverse",
+      "column": "dark_voltage",
+      "side": "low",
+      "fraction": 0.2
+    },
+    {
+      "task": "dark_current",
+      "name": "length_high",
+      "column": "active_layer_length",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "dark_current",
+      "name": "temperature_high",
+      "column": "simulation_temperature",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "dark_current",
+      "name": "trap_high",
+      "column": "trap_assisted_recomb_A",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "photo_current",
+      "name": "voltage_extreme_reverse",
+      "column": "light_voltage",
+      "side": "low",
+      "fraction": 0.2
+    },
+    {
+      "task": "photo_current",
+      "name": "length_high",
+      "column": "active_layer_length",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "photo_current",
+      "name": "temperature_high",
+      "column": "simulation_temperature",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "photo_current",
+      "name": "trap_high",
+      "column": "trap_assisted_recomb_A",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "ac_response",
+      "name": "frequency_high",
+      "column": "frequency_ghz",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "ac_response",
+      "name": "length_high",
+      "column": "active_layer_length",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "ac_response",
+      "name": "temperature_high",
+      "column": "simulation_temperature",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "capacitance",
+      "name": "voltage_extreme_reverse",
+      "column": "bias_v",
+      "side": "low",
+      "fraction": 0.2
+    },
+    {
+      "task": "capacitance",
+      "name": "frequency_high",
+      "column": "log_frequency_ghz",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "capacitance",
+      "name": "length_high",
+      "column": "active_layer_length",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "capacitance",
+      "name": "temperature_high",
+      "column": "simulation_temperature",
+      "side": "high",
+      "fraction": 0.2
+    },
+    {
+      "task": "capacitance",
+      "name": "trap_high",
+      "column": "trap_assisted_recomb_A",
+      "side": "high",
+      "fraction": 0.2
+    }
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "architecture_changed": false,
+  "architecture": {
+    "hidden_width": 8,
+    "grid": 8,
+    "spline_order": 3,
+    "output_channels": 2
+  },
+  "calibration": "independent-group normalized conformal, no-shrink q >= 1.96",
+  "ood_use": "OOD rows/groups excluded from training, validation, and calibration"
+}

@@ -1,0 +1,209 @@
+{
+  "generated_at": "2026-09-12T02:49:20.458330+08:00",
+  "protocol": "compact_framework_seven_model_curve_lut_exploratory_v1",
+  "data": "<REPO_ROOT>/artifacts/results/device_modeling/cleaned_data.csv",
+  "capacitance_data": "<REPO_ROOT>/artifacts/results/apparent_capacitance_correction/primary_ge_si_apparent_capacitance.csv",
+  "bkan_root": "<REPO_ROOT>/artifacts/results/uq_repeated_grouped",
+  "capacitance_bkan_root": "<REPO_ROOT>/artifacts/results/uq_repeated_grouped_capacitance",
+  "reuse_root": "<REPO_ROOT>/artifacts/results/compact_framework_eight_models_pd",
+  "tasks": [
+    "I_dark",
+    "I_photo",
+    "AC_Response",
+    "Capacitance"
+  ],
+  "models": [
+    "bkan",
+    "dkan",
+    "mlp_l",
+    "spline_ridge",
+    "gmls",
+    "autopinn",
+    "curve_lut"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "split_fractions": [
+    0.65,
+    0.1,
+    0.15,
+    0.1
+  ],
+  "frozen_hyperparameters": {
+    "dkan": {
+      "steps": 300,
+      "grid": 8,
+      "k": 3,
+      "width": 8,
+      "lr": 0.002
+    },
+    "mlp_l": {
+      "hidden": [
+        64,
+        32
+      ],
+      "epochs": 300,
+      "lr": 0.002,
+      "lamb": 0.001,
+      "lamb_l1": 1.0,
+      "lamb_entropy": 2.0
+    },
+    "mlp_pm": {
+      "hidden": [
+        40,
+        32
+      ],
+      "epochs": 300,
+      "lr": 0.002,
+      "lamb": 0.001,
+      "lamb_l1": 1.0,
+      "lamb_entropy": 2.0
+    },
+    "poly3_ridge": {
+      "degree": 3,
+      "alpha": 1e-06
+    },
+    "spline_ridge": {
+      "n_knots": 6,
+      "degree": 3,
+      "alpha": 1e-05
+    },
+    "rbf_nystroem": {
+      "components": 256,
+      "gamma": "1 / n_features",
+      "alpha": 0.0001
+    },
+    "random_forest": {
+      "n_estimators": 500,
+      "max_features": 1.0,
+      "min_samples_leaf": 1,
+      "target_standardization": "training only"
+    },
+    "xgboost": {
+      "n_estimators": 500,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 1.0,
+      "tree_method": "hist",
+      "target_standardization": "training only"
+    },
+    "gmls": {
+      "variant": "validation-selected adapted Gaussian-weighted local polynomial",
+      "candidate_degree_neighbor_factor": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          8
+        ]
+      ],
+      "neighbors": "min(n_train, max(48, factor * n_basis_terms))",
+      "ridge": 0.0001,
+      "prediction_clip": "training target range plus 10% margin",
+      "input_and_target_standardization": "training only",
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "autopinn": {
+      "variant": "adapted smooth/monotone architecture-search network",
+      "candidates": [
+        [
+          16,
+          16
+        ],
+        [
+          32,
+          16
+        ],
+        [
+          32,
+          32
+        ]
+      ],
+      "epochs": 300,
+      "activation": "tanh",
+      "smoothness_weight": 1e-05,
+      "monotonic_weight": 0.01,
+      "constraints": {
+        "I_dark": [
+          "dark_voltage",
+          -1
+        ],
+        "I_photo": [
+          "light_voltage",
+          -1
+        ],
+        "AC_Response": [
+          "frequency_ghz",
+          -1
+        ],
+        "Capacitance": [
+          "bias_v",
+          null
+        ]
+      },
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "curve_lut": {
+      "variant": "curve-object PCHIP lookup table with condition-space IDW",
+      "candidate_neighbor_curves_and_power": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          8,
+          2
+        ]
+      ],
+      "axis_extrapolation": "nearest characterized boundary hold",
+      "condition_standardization": "training only",
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "semiempirical": {
+      "variant": "ridge-calibrated task-specific compact feature library",
+      "candidate_alpha": [
+        1e-06,
+        0.0001,
+        0.01,
+        1,
+        100
+      ],
+      "features": "bias/axis shape, avalanche hinges, relaxation terms, and condition interactions",
+      "input_feature_and_target_standardization": "training only",
+      "selection": "lowest validation-group MSE; test not used"
+    },
+    "bkan": "loaded from the current workflow's freshly trained BKAN stage"
+  },
+  "bootstrap_replicates": 50000,
+  "bootstrap_seed": 20260804
+}

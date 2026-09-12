@@ -34,5 +34,23 @@ APD,net_photocurrent_A,A,target,paired illuminated-minus-dark current; training 
 APD,multiplication_gain,dimensionless,target,avalanche multiplication gain; training uses log10 space
 APD,voltage_at_gain_threshold_v,V,target,voltage at the registered multiplication-gain threshold
 APD,breakdown_voltage_v,V,target,registered APD breakdown-voltage estimate
+active microring,nominal_structure_id,none,group identifier,independent nominal-structure unit; all 45 process-bias-temperature rows remain together
+active microring,process_variant_id,none,identifier,process realization nested within a nominal structure
+active microring,process_variant_index,none,identifier,zero is the nominal realization and one/two are perturbed realizations
+active microring,dataset_role,none,partition role,development or frozen_confirmation; public targets contain development only
+active microring,split,none,partition,preset development assignment: train validation calibration or internal_test/test
+active microring,actual_core_width_nm,nm,model input,realized core width after the process perturbation
+active microring,actual_coupling_gap_nm,nm,model input,realized coupling gap after the process perturbation
+active microring,actual_ring_radius_um,um,model input,realized ring radius after the process perturbation
+active microring,actual_core_thickness_nm,nm,model input,realized core thickness after the process perturbation
+active microring,delta_material_index,dimensionless,model input,material-index perturbation for the process realization
+active microring,bias_v,V,model input,reverse-bias operating point
+active microring,temperature_c,degC,model input,operating temperature
+active microring,resonance_shift_pm,pm,target,resonance shift relative to the same structure/process realization at zero bias and reference temperature
+active microring,quality_factor,dimensionless,target,loaded quality factor
+active microring,drop_extinction_ratio_db,dB,target,drop-port extinction ratio
+active microring,through_insertion_loss_db,dB,target,through-port insertion loss
+active microring,operating_case_id,none,identifier,unique process-bias-temperature operating case
+active microring confirmation,nominal_structure_id,none,quarantine identifier,frozen confirmation ID published without response targets
 manifest,artifact_sha256,hex digest,integrity,SHA-256 of the public canonical CSV
 manifest,sources,structured metadata,provenance,logical source path and SHA-256 of each frozen source table

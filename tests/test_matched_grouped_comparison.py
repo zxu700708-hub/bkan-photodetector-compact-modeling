@@ -54,7 +54,7 @@ class MatchedGroupedComparisonTests(unittest.TestCase):
         )
         self.assertEqual(len(pairwise), 4)
         self.assertEqual(selected.iloc[0]["baseline"], "spline_ridge")
-        self.assertIn("not selected", selected.iloc[0]["selection_rule"])
+        self.assertIn("used consistently", selected.iloc[0]["selection_rule"])
         self.assertEqual(int(selected.iloc[0]["wins"]), 3)
         self.assertIn("corrected_p_value_holm", pairwise.columns)
         self.assertTrue(
@@ -66,6 +66,34 @@ class MatchedGroupedComparisonTests(unittest.TestCase):
         dkan = pairwise[pairwise["baseline"] == "dkan"].iloc[0]
         self.assertEqual(int(dkan["wins"]), 3)
         self.assertAlmostEqual(float(dkan["paired_delta_mean"]), -0.2)
+
+    def test_paired_statistics_accepts_expanded_model_set(self):
+        models = ("bkan", "spline_ridge", "random_forest", "xgboost")
+        rows = []
+        for model, offset in {
+            "bkan": 0.0,
+            "spline_ridge": 0.2,
+            "random_forest": 0.1,
+            "xgboost": -0.1,
+        }.items():
+            for seed, base in zip((42, 43, 44), (0.8, 0.9, 1.0)):
+                rows.append(
+                    {
+                        "task": "I_dark",
+                        "seed": seed,
+                        "model": model,
+                        "rmse_target": base + offset,
+                    }
+                )
+        pairwise, selected = paired_statistics(
+            pd.DataFrame(rows), replicates=2000, seed=23, models=models
+        )
+        self.assertEqual(len(pairwise), 3)
+        self.assertEqual(selected.iloc[0]["baseline"], "spline_ridge")
+        self.assertEqual(
+            set(pairwise["comparison_family"]),
+            {"3 BKAN-vs-baseline contrasts"},
+        )
 
     def test_incomplete_pairing_is_rejected(self):
         frame = pd.DataFrame(
