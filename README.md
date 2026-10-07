@@ -1,6 +1,6 @@
 # KAN 光电器件紧凑建模代码与复现数据
 
-本仓库对应论文《A Falsification-First Framework for Optoelectronic Compact Modeling with Kolmogorov--Arnold Networks》的公开代码与数据包。内容按论文当前实验边界整理，仅保留 Ge/Si 光电探测器、APD、主动微环、分组不确定性评估、符号导出和 current-plus-charge Verilog-A 验证所需文件。
+本仓库对应论文《An Evidence-Bounded Framework for Optoelectronic Compact Modeling with Kolmogorov--Arnold Networks》的公开代码与数据包。内容按论文当前实验边界整理，仅保留 Ge/Si 光电探测器、APD、主动微环、分组不确定性评估、physics-constrained sparse symbolic export 和 current-plus-charge Verilog-A 验证所需文件。
 
 ## 快速复核
 
@@ -32,6 +32,7 @@ bash reproduce.sh
 | `data/ring/` | 主动微环 development 数据、设计/工艺表和不含目标值的冻结确认 ID |
 | `bkan/` | KAN/BKAN、任务数据接口、符号模型、terminal-Q 和最终 Verilog-A 相关源码 |
 | `scripts/` | 当前七模型比较、UQ、OOD、符号导出、微环和发布审计入口 |
+| `artifacts/experiments/physics_balanced_export_20260917/` | 10/8/20 稀疏模型算法、三划分选择、冻结公式和独立 replay |
 | `tests/` | 只针对当前论文路径的单元测试 |
 | `artifacts/results/` | 当前论文使用的冻结配置、split、预测、指标、公式和验证报告 |
 | `MANIFEST.sha256` | 发布树中每个受管文件的 SHA-256 |
@@ -48,8 +49,9 @@ bash reproduce.sh
 | 七模型 APD device-specific refit | `artifacts/results/compact_framework_seven_models_apd/` |
 | BKAN-VI、MC dropout 与 deep ensemble UQ | `artifacts/results/matched_heteroscedastic_uq_equal_budget_current/` |
 | 结构化外推/OOD | `artifacts/results/structured_generalization_capacitance/`、`artifacts/results/structured_ood_uq/` |
-| 受控多教师符号比较 | `artifacts/results/multi_teacher_symbolic_pareto_10split/` |
-| current-plus-charge 数值与 Spectre 验证 | `artifacts/results/terminal_charge_model/`、`artifacts/results/corrected_composite_spectre/` |
+| Physics-constrained sparse symbolic 模型 | `artifacts/experiments/physics_balanced_export_20260917/consensus_3split_compact/` |
+| 稀疏公式独立 replay | `artifacts/experiments/physics_balanced_export_20260917/independent_replay_audit.csv` |
+| current-plus-charge Spectre 验证 | `artifacts/results/physics_sparse_results_py36_20260921/` |
 | 主动微环单 development split | `artifacts/results/ring_compact_variation_seven_no_gmls/` |
 
 完整机器可读索引见 `artifacts/results/evidence_audit/current_evidence_index.json`。

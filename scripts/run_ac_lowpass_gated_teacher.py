@@ -215,7 +215,11 @@ def main() -> None:
     fit_frame = concat_without_attrs([train, calibration])
     x_fit = fit_frame[list(inputs)].to_numpy(dtype=np.float64)
     teacher_fit = _teacher(modeler, fit_frame, inputs)
-    observed_fit = target_values(fit_frame, spec)
+    observed_fit = (
+        target_values(fit_frame, spec)
+        if args.observed_loss_weight > 0.0
+        else None
+    )
     features, conditions = _make_features(train[list(inputs)].to_numpy(dtype=np.float64), inputs)
     phi_fit = _condition_design(x_fit, inputs, features)
     freq_fit = x_fit[:, inputs.index("frequency_ghz")]
@@ -256,11 +260,18 @@ def main() -> None:
         np.pad(posthoc[2 * affine_count:3 * affine_count], (0, n - affine_count)),
         posthoc[-1:],
     ])
+    def initialization_residual(theta: np.ndarray) -> np.ndarray:
+        teacher_residual = _predict_numpy(theta, phi_fit, freq_fit) - teacher_fit
+        if observed_fit is None:
+            return teacher_residual
+        return np.concatenate([
+            teacher_residual,
+            np.sqrt(args.observed_loss_weight)
+            * (_predict_numpy(theta, phi_fit, freq_fit) - observed_fit),
+        ])
+
     initial = least_squares(
-        lambda theta: np.concatenate([
-            _predict_numpy(theta, phi_fit, freq_fit) - teacher_fit,
-            np.sqrt(max(args.observed_loss_weight, 0.0)) * (_predict_numpy(theta, phi_fit, freq_fit) - observed_fit),
-        ]),
+        initialization_residual,
         theta0, loss="soft_l1", f_scale=0.08, max_nfev=10000,
     ).x
 
@@ -268,7 +279,11 @@ def main() -> None:
     phi_tensor = torch.tensor(phi_fit, dtype=torch.float32)
     freq_tensor = torch.tensor(freq_fit.reshape(-1, 1), dtype=torch.float32)
     y_tensor = torch.tensor(teacher_fit.reshape(-1, 1), dtype=torch.float32)
-    observed_tensor = torch.tensor(observed_fit.reshape(-1, 1), dtype=torch.float32)
+    observed_tensor = (
+        torch.tensor(observed_fit.reshape(-1, 1), dtype=torch.float32)
+        if observed_fit is not None
+        else None
+    )
     optimizer = torch.optim.Adam(student.parameters(), lr=args.learning_rate)
 
     def fit(steps: int, gated: bool, temperature_start: float, temperature_end: float, penalty: float) -> None:
@@ -278,7 +293,7 @@ def main() -> None:
             optimizer.zero_grad()
             prediction = student(phi_tensor, freq_tensor, temperature)
             loss = torch.mean((prediction - y_tensor) ** 2)
-            if args.observed_loss_weight > 0.0:
+            if observed_tensor is not None:
                 loss = loss + args.observed_loss_weight * torch.mean((prediction - observed_tensor) ** 2)
             if gated:
                 loss = loss + penalty * torch.sigmoid(student.gate_logits / temperature).sum()
@@ -316,6 +331,16 @@ def main() -> None:
             "stochastic_passes": int(modeler.bayes_config.get("num_mc_samples", 100)),
             "not_parameter_mean": True,
             "not_exact_posterior_predictive": True,
+        },
+        "extraction_provenance": {
+            "coefficient_target": (
+                "finite-MC BKAN predictive mean only"
+                if args.observed_loss_weight == 0.0
+                else "finite-MC BKAN predictive mean plus weighted TCAD fitting targets"
+            ),
+            "tcad_used_for_fitting": bool(args.observed_loss_weight > 0.0),
+            "tcad_fitting_weight": float(args.observed_loss_weight),
+            "test_opened_after_formula_freeze": True,
         },
         "kan_contribution_at_inference": 0.0,
     }

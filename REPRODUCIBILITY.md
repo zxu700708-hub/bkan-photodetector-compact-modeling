@@ -16,8 +16,8 @@ python verify_artifact.py --root . --output replay_output/verification_report.js
 6. 检查 APD 七模型 device-specific refit 和零结构泄漏；
 7. 检查微环 seed-42 development 比较的 28 行指标、28 份预测与 320-row split；
 8. 检查 matched heteroscedastic UQ 的 120 行指标、80 组 baseline、72 个配对对比与零 split overlap；
-9. 检查 960 个 JSON 与 960 个 Verilog-A common-family symbolic export；
-10. 检查 terminal-Q 数值审计和 corrected current-plus-charge Spectre source binding。
+9. 检查暗电流、净光电流和 terminal-Q 的九个 10/8/20 稀疏公式、三划分选择与独立 replay；
+10. 检查最终 physics-sparse current-plus-charge Verilog-A 的 device/circuit Spectre source binding。
 
 ## 2. 冻结结果重放
 
@@ -25,7 +25,7 @@ python verify_artifact.py --root . --output replay_output/verification_report.js
 python replay_current_evidence.py --root . --output replay_output/current_evidence_replay.json
 ```
 
-该入口使用 Python 标准库重新聚合正文三张预测表中的数值、matched UQ、受控符号比较、terminal-Q 与 Spectre 状态。它不重新训练、不访问微环确认目标，也不在 test set 上重新选择模型。
+该入口使用 Python 标准库重新聚合正文三张预测表中的数值、matched UQ、稀疏符号模型、terminal-Q 与 Spectre 状态。它不重新训练、不访问微环确认目标，也不在 test set 上重新选择模型。
 
 ## 3. Python 环境与测试
 
@@ -58,12 +58,14 @@ CPU/GPU、PyTorch 与线性代数库版本可能造成训练结果最后几位�
 python scripts/run_matched_grouped_comparison.py --help
 python scripts/run_apd_second_device.py --help
 python scripts/run_matched_heteroscedastic_uq.py --help
-python scripts/run_multi_teacher_symbolic_pareto_10split.py --help
+python artifacts/experiments/physics_balanced_export_20260917/run_experiment.py --help
+python artifacts/experiments/physics_balanced_export_20260917/select_consensus.py --help
+python artifacts/experiments/physics_balanced_export_20260917/replay.py --help
 python scripts/run_ring_compact_variation_seven.py --help
 python bkan/device_modeling/terminal_charge/train.py --help
 ```
 
-训练脚本的历史冻结配置仍保留原始逻辑路径，但发布构建器已将本机绝对路径替换成 `<REPO_ROOT>`、`<FROZEN_APD_ROOT>` 或 `<FROZEN_RING_ROOT>`。重跑时应显式传入本地数据路径。
+训练脚本的历史冻结配置仍保留原始逻辑路径，但发布构建器已将本机绝对路径替换成 `<REPO_ROOT>`、`<FROZEN_APD_ROOT>` 或 `<FROZEN_RING_ROOT>`。重跑时应显式传入本地数据路径。稀疏公式、冻结预测和 KAN-free replay 不需要 checkpoint；完整重新拟合中的 BKAN teacher 需要先由公开训练入口重新训练，或显式提供兼容 checkpoint。发布包不分发模型 checkpoint。
 
 ## 6. Spectre 边界
 

@@ -1,0 +1,37 @@
+{
+  "status": "ready_to_run",
+  "simulator_execution_status": "pending",
+  "candidate": "physics_balanced_sparse_v1_seed42_10_8_20",
+  "sha256": {
+    "I_dark": "1d6612ae85dc958423133316a3ebd91171aab350105609deb4ce14eeb1f47968",
+    "I_photo": "38711aa0c5ce62bcae5f839a58c8bb40fcd14b031fecfe65ad20e0c89b7709fb",
+    "Q_terminal": "48327346495c18ae752e9b77031462f9bb1bad20e261ea70c6253815ea4c72df",
+    "model": "20e00e6359c9de8dcfcc16ca27f5724093e0635dfa6cd6c69a8783e9c824b834",
+    "replay": "9abd15cab35dbb195371330235bdb96bf563b6b9abbfa9029a29acce20e894f6",
+    "testbench_dc_sparse.scs": "869c1d084217c757e9805500ca0d10b6fafdcbcaa3de1404a979552f010464f8",
+    "testbench_ac_sparse.scs": "2d695110ccc9c004cf09c617d75fa0865b7561a099cf650121eeae5d0c3bc77a",
+    "testbench_transient_sparse.scs": "51c65e1bedc671fd926204fe25597129241660b98896b4c8170ed072b95af411",
+    "testbench_transient_sparse_fine.scs": "543090efaaed11187bec73103dfb2a56ea6657e93a88bfa1ed851a31bb0095a9"
+  },
+  "tolerances": {
+    "dc_relative": 0.002,
+    "dc_absolute_A": 1e-11,
+    "ac_conductance_relative": 0.02,
+    "ac_conductance_absolute_S": 1e-10,
+    "ac_dqdv_relative": 0.02,
+    "ac_dqdv_absolute_F": 1e-18,
+    "transient_normalized_rmse": 0.08,
+    "transient_charge_relative": 0.05,
+    "transient_charge_absolute_C": 5e-18,
+    "transient_step_convergence": 0.05
+  },
+  "expected_points_per_trace": {
+    "dc": 183,
+    "ac": 1815
+  },
+  "cases": [
+    "nominal_dark",
+    "nominal_light",
+    "corner_light"
+  ]
+}

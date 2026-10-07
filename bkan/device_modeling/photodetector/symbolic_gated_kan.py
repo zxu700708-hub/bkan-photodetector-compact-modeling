@@ -176,6 +176,8 @@ class SymbolicGatedKAN(torch.nn.Module):
         # workflow, but it is not part of the deployable student expression.
         self.pure_symbolic_student = bool(pure_symbolic_student)
         self.hard_structure = False
+        self.requested_unique_feature_budget: int | None = None
+        self.fixed_unique_feature_support: tuple[str, ...] | None = None
         self.kan_adapter_enabled = False
         self.register_buffer("kan_adapter_x_mean", None)
         self.register_buffer("kan_adapter_x_scale", None)
@@ -609,8 +611,29 @@ class SymbolicGatedKAN(torch.nn.Module):
         min_probability: float,
         temperature: float = 0.2,
         max_generic_terms: int | None = None,
+        max_unique_features: int | None = None,
+        fixed_unique_features: tuple[str, ...] | list[str] | None = None,
     ) -> None:
         with torch.no_grad():
+            if max_unique_features is not None and max_unique_features < 1:
+                raise ValueError("max_unique_features must be positive when provided")
+            if fixed_unique_features is not None and self.spec.key != "photo_current":
+                raise ValueError(
+                    "fixed_unique_features is currently supported only for photo current"
+                )
+            fixed_unique_features = (
+                None
+                if fixed_unique_features is None
+                else tuple(dict.fromkeys(str(name) for name in fixed_unique_features))
+            )
+            if fixed_unique_features is not None and not fixed_unique_features:
+                raise ValueError("fixed_unique_features must not be empty")
+            self.requested_unique_feature_budget = (
+                len(fixed_unique_features)
+                if fixed_unique_features is not None
+                else (None if max_unique_features is None else int(max_unique_features))
+            )
+            self.fixed_unique_feature_support = fixed_unique_features
             probabilities = torch.sigmoid(self.gate_logits / temperature)
             scores = probabilities * self.coeff.abs()
             mask = torch.zeros_like(scores)
@@ -681,6 +704,101 @@ class SymbolicGatedKAN(torch.nn.Module):
                     generic_scores = generic_probabilities * self.generic_coeff.abs() * self.generic_term_mask
                     generic_limit = max(0, int(max_generic_terms if max_generic_terms is not None else self.max_generic_symbolic_terms)) if self.generic_symbolic_terms else 0
 
+                    # A term budget counts every branch coefficient separately.
+                    # For deployment, however, the same normalized feature can
+                    # be evaluated once and reused by several branches.  This
+                    # optional second budget selects a shared global feature
+                    # support before branch coefficients are allocated.
+                    shared_feature_mask = torch.ones(
+                        scores.shape[1], dtype=torch.bool, device=scores.device
+                    )
+                    if fixed_unique_features is not None:
+                        term_names = [term.name for term in self.library.terms]
+                        unknown = sorted(set(fixed_unique_features) - set(term_names))
+                        if unknown:
+                            raise ValueError(
+                                "Unknown fixed_unique_features: " + ", ".join(unknown)
+                            )
+                        shared_feature_mask = torch.tensor(
+                            [name in fixed_unique_features for name in term_names],
+                            dtype=torch.bool,
+                            device=scores.device,
+                        )
+                        for mechanism_index, mechanism in enumerate(self.mechanisms):
+                            if not bool(
+                                ((self.term_mask[mechanism_index] > 0) & shared_feature_mask).any()
+                            ):
+                                raise ValueError(
+                                    "fixed_unique_features leaves no allowed term for "
+                                    f"photo-current mechanism {mechanism.name}"
+                                )
+                    elif max_unique_features is not None:
+                        feature_limit = min(int(max_unique_features), scores.shape[1])
+                        group_scores = torch.zeros_like(shared_feature_mask, dtype=scores.dtype)
+                        required_features: list[int] = []
+
+                        for mechanism_index in range(scores.shape[0]):
+                            allowed = self.term_mask[mechanism_index] > 0
+                            eligible = (
+                                probabilities[mechanism_index] >= min_probability
+                            ) & allowed
+                            if not bool(eligible.any()):
+                                eligible = allowed
+                            indices = torch.where(eligible)[0]
+                            if indices.numel() == 0:
+                                continue
+                            ranked = indices[
+                                torch.argsort(
+                                    scores[mechanism_index, indices], descending=True
+                                )
+                            ]
+                            anchor = int(ranked[0])
+                            if anchor not in required_features:
+                                required_features.append(anchor)
+                            group_scores[indices] += scores[mechanism_index, indices]
+
+                        residual_allowed_for_group = self.residual_term_mask > 0
+                        residual_eligible_for_group = (
+                            residual_probabilities >= min_probability
+                        ) & residual_allowed_for_group
+                        if not bool(residual_eligible_for_group.any()):
+                            residual_eligible_for_group = residual_allowed_for_group
+                        residual_indices = torch.where(residual_eligible_for_group)[0]
+                        group_scores[residual_indices] += residual_scores[residual_indices]
+
+                        if generic_limit:
+                            generic_allowed_for_group = self.generic_term_mask > 0
+                            generic_eligible_for_group = (
+                                generic_probabilities >= min_probability
+                            ) & generic_allowed_for_group
+                            if not bool(generic_eligible_for_group.any()):
+                                generic_eligible_for_group = generic_allowed_for_group
+                            generic_indices = torch.where(generic_eligible_for_group)[0]
+                            group_scores[generic_indices] += (
+                                generic_scores[generic_indices]
+                                / self.generic_complexity_multiplier
+                            )
+
+                        if len(required_features) > feature_limit:
+                            raise ValueError(
+                                "max_unique_features is too small to preserve one "
+                                "anchor per photo-current mechanism"
+                            )
+                        shared_feature_mask.zero_()
+                        if required_features:
+                            shared_feature_mask[required_features] = True
+                        available = (
+                            (self.term_mask > 0).any(dim=0)
+                            | (self.residual_term_mask > 0)
+                            | ((self.generic_term_mask > 0) if generic_limit else False)
+                        ) & ~shared_feature_mask
+                        ranked_features = torch.where(available)[0]
+                        ranked_features = ranked_features[
+                            torch.argsort(group_scores[ranked_features], descending=True)
+                        ]
+                        slots = feature_limit - int(shared_feature_mask.sum())
+                        shared_feature_mask[ranked_features[:slots]] = True
+
                     # Preserve one interpretable anchor per mechanism, then
                     # allocate every remaining slot globally.  Fixed equal
                     # per-mechanism allocation was especially harmful for
@@ -689,7 +807,7 @@ class SymbolicGatedKAN(torch.nn.Module):
                     mask.zero_()
                     candidates = []
                     for mechanism_index in range(scores.shape[0]):
-                        allowed = self.term_mask[mechanism_index] > 0
+                        allowed = (self.term_mask[mechanism_index] > 0) & shared_feature_mask
                         eligible = torch.where((probabilities[mechanism_index] >= min_probability) & allowed)[0]
                         if eligible.numel() == 0:
                             eligible = torch.where(allowed)[0]
@@ -701,7 +819,7 @@ class SymbolicGatedKAN(torch.nn.Module):
                         for index in ranked[1:]:
                             candidates.append((float(scores[mechanism_index, index]), "mechanism", mechanism_index, int(index)))
 
-                    residual_allowed = self.residual_term_mask > 0
+                    residual_allowed = (self.residual_term_mask > 0) & shared_feature_mask
                     residual_eligible = torch.where((residual_probabilities >= min_probability) & residual_allowed)[0]
                     if residual_eligible.numel() == 0:
                         residual_eligible = torch.where(residual_allowed)[0]
@@ -709,7 +827,7 @@ class SymbolicGatedKAN(torch.nn.Module):
                         candidates.append((float(residual_scores[index]), "residual", 0, int(index)))
 
                     if generic_limit:
-                        generic_allowed = self.generic_term_mask > 0
+                        generic_allowed = (self.generic_term_mask > 0) & shared_feature_mask
                         generic_eligible = torch.where((generic_probabilities >= min_probability) & generic_allowed)[0]
                         if generic_eligible.numel() == 0:
                             generic_eligible = torch.where(generic_allowed)[0]
@@ -1048,6 +1166,12 @@ class SymbolicGatedKAN(torch.nn.Module):
             "generic_branch": generic_branch,
             "selected_term_count": int(sum(len(branch["terms"]) for branch in branches) + len(residual_branch["terms"]) + len(generic_branch["terms"])),
             "selected_terms": selected,
+            "requested_unique_feature_budget": self.requested_unique_feature_budget,
+            "fixed_unique_feature_support": (
+                list(self.fixed_unique_feature_support)
+                if self.fixed_unique_feature_support is not None
+                else None
+            ),
             "model_space_formula": model_space_formula,
             "formula": physical_formula,
         }
@@ -1539,6 +1663,7 @@ def train_symbolic_gated(
     kan_adapter: dict[str, np.ndarray | float] | None = None,
     zero_symbolic_init: bool = False,
     freeze_kan: bool = False,
+    fixed_structure_refit_frames: dict[str, pd.DataFrame] | None = None,
 ) -> dict[str, float]:
     set_seed(args.seed)
     result_dir = output_dir / f"{spec.key}_symbolic_gated_kan"
@@ -1661,6 +1786,26 @@ def train_symbolic_gated(
         sample_weights.get("test"),
         teacher_targets.get("test"),
     )
+    refit_tensors = None
+    if fixed_structure_refit_frames is not None:
+        required = {"train", "validation", "test"}
+        missing = required - set(fixed_structure_refit_frames)
+        if missing:
+            raise ValueError(
+                "fixed_structure_refit_frames is missing: " + ", ".join(sorted(missing))
+            )
+        refit_tensors = {
+            name: _tensorize(
+                fixed_structure_refit_frames[name],
+                spec,
+                inputs,
+                x_scaler,
+                y_scale,
+                device,
+                derivative_scale,
+            )
+            for name in sorted(required)
+        }
 
     stage1 = StageConfig(
         "symbolic_warmup" if model.pure_symbolic_student else "numerical_stability",
@@ -1702,12 +1847,54 @@ def train_symbolic_gated(
         _train_stage(model, train_t, val_t, stage1, args.val_freq, args.max_gradient_norm),
         _train_stage(model, train_t, val_t, stage2, args.val_freq, args.max_gradient_norm),
     ]
+    pruning_temperature = 0.2
+    model.eval()
+    _, pre_hardening_validation = _loss(
+        model, val_t, stage3, pruning_temperature, training=False
+    )
+    preserve_soft_gate_function = bool(
+        getattr(args, "preserve_soft_gate_function", False)
+    )
+    if preserve_soft_gate_function:
+        with torch.no_grad():
+            pre_hardening_probabilities = {
+                "main": model.gates(pruning_temperature).detach().clone(),
+                "residual": model.residual_gates(pruning_temperature).detach().clone(),
+                "generic": model.generic_gates(pruning_temperature).detach().clone(),
+            }
     model.prune_symbolic(
         args.max_symbolic_terms,
         args.min_symbolic_probability,
         max_generic_terms=getattr(args, "max_generic_symbolic_terms", None),
+        max_unique_features=getattr(args, "max_unique_features", None),
+        fixed_unique_features=getattr(args, "fixed_unique_features", None),
     )
-    histories.append(_train_stage(model, train_t, val_t, stage3, args.val_freq, args.max_gradient_norm))
+    if preserve_soft_gate_function:
+        # A hard gate equals one, whereas the preceding soft contribution was
+        # coefficient * probability. Absorbing that probability prevents a
+        # retained term from jumping merely because its gate was discretized.
+        with torch.no_grad():
+            model.coeff.mul_(pre_hardening_probabilities["main"])
+            model.residual_coeff.mul_(pre_hardening_probabilities["residual"])
+            model.generic_coeff.mul_(pre_hardening_probabilities["generic"])
+    model.eval()
+    _, post_hardening_validation = _loss(
+        model, val_t, stage3, pruning_temperature, training=False
+    )
+    stage3_train = refit_tensors["train"] if refit_tensors is not None else train_t
+    stage3_validation = (
+        refit_tensors["validation"] if refit_tensors is not None else val_t
+    )
+    histories.append(
+        _train_stage(
+            model,
+            stage3_train,
+            stage3_validation,
+            stage3,
+            args.val_freq,
+            args.max_gradient_norm,
+        )
+    )
     history = concat_without_attrs(histories)
 
     candidates = (1.0,) if model.pure_symbolic_student else tuple(
@@ -1715,11 +1902,23 @@ def train_symbolic_gated(
     )
     if not candidates or any(value < 0.0 or value > 1.0 for value in candidates):
         raise ValueError("symbolic_weight_candidates must be non-empty values in [0, 1].")
-    selected_symbolic_weight = _select_symbolic_weight(model, val_t, candidates)
+    selected_symbolic_weight = _select_symbolic_weight(
+        model, stage3_validation, candidates
+    )
 
     prediction_frames = []
-    split_tensors = {"train": train_t, "validation": val_t, "test": test_t}
-    for split_name, frame in (("train", train), ("validation", validation), ("test", test)):
+    split_tensors = (
+        refit_tensors
+        if refit_tensors is not None
+        else {"train": train_t, "validation": val_t, "test": test_t}
+    )
+    split_frames = (
+        fixed_structure_refit_frames
+        if fixed_structure_refit_frames is not None
+        else {"train": train, "validation": validation, "test": test}
+    )
+    for split_name in ("train", "validation", "test"):
+        frame = split_frames[split_name]
         prediction = _predict(
             model,
             split_tensors[split_name],
@@ -1750,6 +1949,20 @@ def train_symbolic_gated(
         "y_scale": float(y_scale),
         "pure_symbolic_student": bool(model.pure_symbolic_student),
         "kan_contribution_at_inference": 0.0 if model.pure_symbolic_student else 1.0,
+        "preserve_soft_gate_function": preserve_soft_gate_function,
+        "pre_hardening_validation_total": pre_hardening_validation["total"],
+        "post_hardening_validation_total": post_hardening_validation["total"],
+        "hardening_validation_total_ratio": (
+            post_hardening_validation["total"]
+            / max(pre_hardening_validation["total"], 1e-30)
+        ),
+        "pre_hardening_validation_value": pre_hardening_validation["value"],
+        "post_hardening_validation_value": post_hardening_validation["value"],
+        "hardening_validation_value_ratio": (
+            post_hardening_validation["value"]
+            / max(pre_hardening_validation["value"], 1e-30)
+        ),
+        "fixed_structure_refit": refit_tensors is not None,
     }
     if sample_weights:
         all_weights = np.concatenate([np.asarray(values, dtype=np.float64) for values in sample_weights.values()])
@@ -1798,6 +2011,7 @@ def train_symbolic_gated(
                 "bayesian_distill_weight": float(getattr(args, "bayesian_distill_weight", 0.0)),
                 "observed_loss_weight": float(getattr(args, "observed_loss_weight", 1.0)),
                 "pure_symbolic_student": bool(model.pure_symbolic_student),
+                "preserve_soft_gate_function": preserve_soft_gate_function,
             },
         },
         result_dir / "model_checkpoint.pt",
@@ -1811,10 +2025,17 @@ def train_symbolic_gated(
             "fit_partition_role": "caller-provided fitting rows",
             "validation_role": "best objective checkpoint within every stage; strict '<' tie rule; symbolic-weight selection",
             "test_role": "one-time evaluation after structure and weight freeze",
+            "structure_selection_target": "caller-provided train/validation frames in stages 1 and 2",
+            "fixed_structure_refit_target": (
+                "fixed_structure_refit_frames in stage 3"
+                if refit_tensors is not None
+                else "same caller-provided frames as stages 1 and 2"
+            ),
             "temperature_interpolation": "geometric",
             "coefficient_initialization": "0.02*torch.randn unless ridge_init or zero_symbolic_init",
             "gate_prior": "clip(0.45+0.10*normalized_term_sensitivity,0.05,0.95); optimize logits",
             "pruning_score": "sigmoid(gate_logit/0.2)*abs(coefficient)",
+            "preserve_soft_gate_function": str(preserve_soft_gate_function),
         }
     )
     with (result_dir / "run_config.json").open("w", encoding="utf-8") as handle:

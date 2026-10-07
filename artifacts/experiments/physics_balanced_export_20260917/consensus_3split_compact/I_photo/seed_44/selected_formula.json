@@ -1,0 +1,231 @@
+{
+  "schema": "physics_balanced_sparse_v1",
+  "task": "I_photo",
+  "seed": 44,
+  "input_order": [
+    "light_voltage",
+    "trap_assisted_recomb_A",
+    "ge_sio2_recomb_velocity",
+    "ge_si_recomb_velocity",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "coefficient_count": 8,
+  "config": {
+    "budget": 8,
+    "teacher_weight": 0.25,
+    "derivative_weight": 0.1,
+    "ridge_alpha": 0.0001
+  },
+  "selection_data": "validation_only",
+  "test_used_for_selection": false,
+  "uses_kan_at_inference": false,
+  "output_space": "log10(I/A)",
+  "physical_contract": {
+    "decomposition": "reference-condition amplitude plus C2 bias correction",
+    "reference_voltage_V": -3.0,
+    "bias_correction_at_reference": 0.0,
+    "input_coverage": "explicit main effect for every declared device parameter"
+  },
+  "current_formula": {
+    "input_order": [
+      "light_voltage",
+      "trap_assisted_recomb_A",
+      "ge_sio2_recomb_velocity",
+      "ge_si_recomb_velocity",
+      "active_layer_length",
+      "simulation_temperature"
+    ],
+    "input_scalers": {
+      "light_voltage": {
+        "mean": -1.5000000000000002,
+        "scale": 0.9219544457292888
+      },
+      "trap_assisted_recomb_A": {
+        "mean": 1.002636469776789e-09,
+        "scale": 9.768038032026745e-11
+      },
+      "ge_sio2_recomb_velocity": {
+        "mean": 2505.2686316188074,
+        "scale": 98.26468886785071
+      },
+      "ge_si_recomb_velocity": {
+        "mean": 498.21142727794705,
+        "scale": 17.94969162894894
+      },
+      "active_layer_length": {
+        "mean": 39.97238332889671,
+        "scale": 1.9488147055873268
+      },
+      "simulation_temperature": {
+        "mean": 299.6076984734591,
+        "scale": 4.714124909218569
+      }
+    },
+    "family": "truncated_power_spline_tensor",
+    "axis_names": [
+      "light_voltage"
+    ],
+    "condition_names": [
+      "trap_assisted_recomb_A",
+      "ge_sio2_recomb_velocity",
+      "ge_si_recomb_velocity",
+      "active_layer_length",
+      "simulation_temperature"
+    ],
+    "interior_knots": {
+      "light_voltage": [
+        -1.1931175180026088,
+        -0.7592566023652966,
+        -0.3253956867279841,
+        0.3253956867279843,
+        0.7592566023652968,
+        1.193117518002609
+      ]
+    },
+    "features": [
+      {
+        "name": "trap_assisted_recomb_A",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "trap_assisted_recomb_A",
+            "value": 1
+          }
+        ],
+        "center": -8.476834685577916e-16,
+        "scale": 1.0
+      },
+      {
+        "name": "ge_sio2_recomb_velocity",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "ge_sio2_recomb_velocity",
+            "value": 1
+          }
+        ],
+        "center": 4.284224884576471e-15,
+        "scale": 1.0000000000000007
+      },
+      {
+        "name": "ge_si_recomb_velocity",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "ge_si_recomb_velocity",
+            "value": 1
+          }
+        ],
+        "center": -8.802230862595128e-16,
+        "scale": 1.0000000000000013
+      },
+      {
+        "name": "active_layer_length",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "active_layer_length",
+            "value": 1
+          }
+        ],
+        "center": 2.170406730858318e-15,
+        "scale": 0.9999999999999999
+      },
+      {
+        "name": "simulation_temperature",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "simulation_temperature",
+            "value": 1
+          }
+        ],
+        "center": -9.182053988671113e-15,
+        "scale": 1.0000000000000002
+      },
+      {
+        "name": "light_voltage^1",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "light_voltage",
+            "value": 1
+          }
+        ],
+        "center": 1.6132928326584306e-16,
+        "scale": 1.0000000000000002
+      },
+      {
+        "name": "light_voltage_hinge3_-1.1931175",
+        "atoms": [
+          {
+            "kind": "hinge3",
+            "input": "light_voltage",
+            "value": -1.1931175180026088
+          }
+        ],
+        "center": 5.283532709400908,
+        "scale": 6.884502163459102
+      }
+    ],
+    "reference_voltage": -3.0,
+    "coefficients": [
+      -3.2799661555613975,
+      0.0007758599077245498,
+      -0.002445894080328973,
+      0.00027435754818756194,
+      0.004799149519124081,
+      -0.0014299324461650345,
+      -0.00855098169158639,
+      -0.014108820697191072
+    ],
+    "active_columns": [
+      0,
+      1,
+      3,
+      5,
+      7,
+      9,
+      21,
+      39
+    ],
+    "original_feature_indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      20,
+      38
+    ]
+  },
+  "selection": {
+    "rule": "fixed cross-split validation consensus",
+    "value_rmse_slack": 1.05,
+    "complete_response_tail_slack": 1.1,
+    "derivative_slack": 1.05,
+    "development_seeds": [
+      42,
+      43,
+      44
+    ],
+    "mandatory_columns": [
+      0,
+      1,
+      3,
+      5,
+      7,
+      9,
+      21
+    ],
+    "numerical_audit": {
+      "passed": true,
+      "dense_points": 20000,
+      "expected_derivative_sign": "nonpositive",
+      "derivative_sign_violation_fraction": 0.0
+    },
+    "test_used_by_selection_script": false,
+    "evidence_boundary": "post hoc development; historical test results existed before this run"
+  }
+}

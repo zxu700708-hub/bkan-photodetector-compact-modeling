@@ -18,8 +18,8 @@ assert SPEC.loader is not None
 SPEC.loader.exec_module(MODULE)
 
 from device_modeling.photodetector.task_config import (  # noqa: E402
-    DEFAULT_CAPACITANCE_DATA,
     load_capacitance_data,
+    resolve_capacitance_data_path,
 )
 
 
@@ -61,7 +61,11 @@ class ApparentCapacitanceCorrectionTest(unittest.TestCase):
 
     def test_default_loader_uses_only_corrected_apparent_capacitance(self):
         frame = load_capacitance_data()
-        self.assertEqual(DEFAULT_CAPACITANCE_DATA.resolve(), (ROOT / "artifacts/results/apparent_capacitance_correction/primary_ge_si_apparent_capacitance.csv").resolve())
+        source = resolve_capacitance_data_path()
+        self.assertIn(
+            source.name,
+            {"primary_ge_si_apparent_capacitance.csv", "ge_si_capacitance.csv"},
+        )
         self.assertEqual(len(frame), 64_000)
         self.assertEqual(frame["sample_id"].nunique(), 160)
         self.assertTrue((frame["vac_V"] == 1.0e-3).all())

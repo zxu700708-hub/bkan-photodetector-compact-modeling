@@ -1,0 +1,261 @@
+{
+  "schema": "physics_balanced_sparse_v1",
+  "task": "I_dark",
+  "seed": 42,
+  "input_order": [
+    "dark_voltage",
+    "trap_assisted_recomb_A",
+    "ge_sio2_recomb_velocity",
+    "ge_si_recomb_velocity",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "coefficient_count": 10,
+  "config": {
+    "budget": 10,
+    "teacher_weight": 0.25,
+    "derivative_weight": 0.1,
+    "ridge_alpha": 0.0001
+  },
+  "selection_data": "validation_only",
+  "test_used_for_selection": false,
+  "uses_kan_at_inference": false,
+  "output_space": "log10(I/A)",
+  "physical_contract": {
+    "decomposition": "reference-condition amplitude plus C2 bias correction",
+    "reference_voltage_V": -3.0,
+    "bias_correction_at_reference": 0.0,
+    "input_coverage": "explicit main effect for every declared device parameter"
+  },
+  "current_formula": {
+    "input_order": [
+      "dark_voltage",
+      "trap_assisted_recomb_A",
+      "ge_sio2_recomb_velocity",
+      "ge_si_recomb_velocity",
+      "active_layer_length",
+      "simulation_temperature"
+    ],
+    "input_scalers": {
+      "dark_voltage": {
+        "mean": -1.6,
+        "scale": 0.8640987597877148
+      },
+      "trap_assisted_recomb_A": {
+        "mean": 9.973396913520607e-10,
+        "scale": 9.898848236935635e-11
+      },
+      "ge_sio2_recomb_velocity": {
+        "mean": 2504.0379557560577,
+        "scale": 99.52894877007675
+      },
+      "ge_si_recomb_velocity": {
+        "mean": 500.07777069883736,
+        "scale": 18.38414213430408
+      },
+      "active_layer_length": {
+        "mean": 39.88551831338073,
+        "scale": 1.9155696527908814
+      },
+      "simulation_temperature": {
+        "mean": 299.69744215872004,
+        "scale": 4.739143815159304
+      }
+    },
+    "family": "truncated_power_spline_tensor",
+    "axis_names": [
+      "dark_voltage"
+    ],
+    "condition_names": [
+      "trap_assisted_recomb_A",
+      "ge_sio2_recomb_velocity",
+      "ge_si_recomb_velocity",
+      "active_layer_length",
+      "simulation_temperature"
+    ],
+    "interior_knots": {
+      "dark_voltage": [
+        -1.1572751247156892,
+        -0.6943650748294137,
+        -0.2314550249431378,
+        0.23145502494313805,
+        0.6943650748294137,
+        1.1572751247156892
+      ]
+    },
+    "features": [
+      {
+        "name": "trap_assisted_recomb_A",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "trap_assisted_recomb_A",
+            "value": 1
+          }
+        ],
+        "center": -5.863943589960267e-16,
+        "scale": 0.999999999999999
+      },
+      {
+        "name": "ge_sio2_recomb_velocity",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "ge_sio2_recomb_velocity",
+            "value": 1
+          }
+        ],
+        "center": -1.27999462880742e-15,
+        "scale": 1.0
+      },
+      {
+        "name": "ge_si_recomb_velocity",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "ge_si_recomb_velocity",
+            "value": 1
+          }
+        ],
+        "center": -5.312337664672058e-16,
+        "scale": 1.0000000000000033
+      },
+      {
+        "name": "active_layer_length",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "active_layer_length",
+            "value": 1
+          }
+        ],
+        "center": 6.678866082872789e-16,
+        "scale": 1.0000000000000016
+      },
+      {
+        "name": "simulation_temperature",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "simulation_temperature",
+            "value": 1
+          }
+        ],
+        "center": 4.324868010015711e-15,
+        "scale": 1.000000000000002
+      },
+      {
+        "name": "dark_voltage^1",
+        "atoms": [
+          {
+            "kind": "power",
+            "input": "dark_voltage",
+            "value": 1
+          }
+        ],
+        "center": 2.4864369822334235e-18,
+        "scale": 0.9999999999999997
+      },
+      {
+        "name": "dark_voltage_hinge3_-1.1572751",
+        "atoms": [
+          {
+            "kind": "hinge3",
+            "input": "dark_voltage",
+            "value": -1.1572751247156892
+          }
+        ],
+        "center": 5.029187041978743,
+        "scale": 6.61425055501518
+      },
+      {
+        "name": "dark_voltage_hinge3_0.69436507",
+        "atoms": [
+          {
+            "kind": "hinge3",
+            "input": "dark_voltage",
+            "value": 0.6943650748294137
+          }
+        ],
+        "center": 0.08266250890826327,
+        "scale": 0.20805678924519674
+      },
+      {
+        "name": "dark_voltage_hinge3_1.1572751",
+        "atoms": [
+          {
+            "kind": "hinge3",
+            "input": "dark_voltage",
+            "value": 1.1572751247156892
+          }
+        ],
+        "center": 0.0074396258017437175,
+        "scale": 0.02471595193156401
+      }
+    ],
+    "reference_voltage": -3.0,
+    "coefficients": [
+      -6.415199522159571,
+      -0.00848455977539565,
+      0.013179387623192611,
+      -7.19267030219817e-05,
+      0.021031889939394654,
+      0.12837628100864318,
+      -0.044762430943805054,
+      -0.05979217136120936,
+      -0.017659702410913407,
+      -0.009044009913658417
+    ],
+    "active_columns": [
+      0,
+      1,
+      3,
+      5,
+      7,
+      9,
+      21,
+      39,
+      63,
+      69
+    ],
+    "original_feature_indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      20,
+      38,
+      62,
+      68
+    ]
+  },
+  "selection": {
+    "rule": "fixed cross-split validation consensus",
+    "value_rmse_slack": 1.05,
+    "complete_response_tail_slack": 1.1,
+    "derivative_slack": 1.05,
+    "development_seeds": [
+      42,
+      43,
+      44
+    ],
+    "mandatory_columns": [
+      0,
+      1,
+      3,
+      5,
+      7,
+      9,
+      21
+    ],
+    "numerical_audit": {
+      "passed": true,
+      "dense_points": 20000,
+      "expected_derivative_sign": "nonpositive",
+      "derivative_sign_violation_fraction": 0.0
+    },
+    "test_used_by_selection_script": false,
+    "evidence_boundary": "post hoc development; historical test results existed before this run"
+  }
+}

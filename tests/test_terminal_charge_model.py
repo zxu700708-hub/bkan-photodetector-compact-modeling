@@ -30,7 +30,8 @@ class TerminalChargeModelTests(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("module ge_si_photodetector_terminal_charge", source)
-        self.assertIn("Locally audited terminal-charge", source)
+        self.assertIn("physics_balanced_sparse_v1 seed-42 10/8/20", source)
+        self.assertIn("ddt(q_terminal)", source)
         self.assertNotIn("module ge_si_photodetector_charge_proxy", source)
         self.assertNotIn("q_proxy", source)
 

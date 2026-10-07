@@ -1,4 +1,4 @@
-"""Direct device-metric model comparison for the active-microring dataset.
+"""Direct device-metric model comparison for the microring modulator dataset.
 
 This is an isolated follow-up experiment.  It does not modify or overwrite the
 full-spectrum experiment.  All methods reuse its frozen 80-structure repeated
@@ -496,7 +496,7 @@ def summarize(metrics: pd.DataFrame) -> pd.DataFrame:
 
 def write_report(summary: pd.DataFrame, output: Path) -> None:
     lines = [
-        "# Direct active-microring device-metric comparison",
+        "# Direct microring modulator device-metric comparison",
         "",
         "All results use the frozen 80-structure repeated splits. BKAN-VI and DKAN share width 8, grid 8, and cubic splines; their output heads differ only as required for probabilistic versus deterministic prediction.",
         "",

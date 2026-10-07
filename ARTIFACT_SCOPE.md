@@ -7,8 +7,8 @@
 - BKAN-VI、heteroscedastic MC dropout 和 equal-update-budget deep ensemble 的完整响应 UQ 比较。
 - 完整 bias curve、frequency curve 和 bias--frequency surface 的经验 no-shrink group conformal audit。
 - 结构化边界外推失败与 predictive dispersion 不能作为可靠 OOD 告警的负面证据。
-- 受控 960-formula 多教师比较、KAN-free symbolic replay、有限值和导数检查。
-- independently fitted terminal-Q、最终 current-plus-charge Verilog-A 源及 Spectre 18.1 device/circuit 报告的 SHA-256 绑定。
+- 三个 grouped development splits 上选出的 10/8/20 physics-constrained sparse symbolic 模型、KAN-free replay、有限值和导数检查。
+- 最终稀疏 current-plus-charge Verilog-A 源及 Spectre 18.1 device/circuit 报告的 SHA-256 绑定。
 - 经高保真结构校准的 reduced-order synthetic 主动微环数据上，单个预设 development split 的七模型点估计。
 - 主 Ge/Si、terminal-Q、strict dQ/dV、APD 和主动微环 development canonical 数据。
 
@@ -19,7 +19,7 @@
 - 不支持 predictive dispersion 是可靠 OOD alarm。
 - 不支持微环 frozen-confirmation 结论、重复划分显著性、UQ、符号导出、动态 optical port 或 circuit validation。
 - 不支持 dispersive/trap-memory dynamics、PDK qualification、device qualification 或 production deployment。
-- 不把历史 HMC、proxy-charge、smoke/trial、弃用六/八模型结果目录或 superseded Spectre 结果传播为当前证据。
+- 不把历史 HMC、proxy-charge、960-formula 多教师研究、smoke/trial、弃用六/八模型结果目录或 superseded Spectre 结果传播为当前证据。
 - `scripts/run_ring_compact_variation_eight.py` 仅保留为七模型入口的共享代码依赖；当前入口排除 GMLS，且没有发布八模型结果。
 
 ## 发布内容边界

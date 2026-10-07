@@ -140,45 +140,56 @@ def replay_uq(root: Path) -> dict:
 
 
 def replay_symbolic(root: Path) -> dict:
-    export_root = root / "artifacts/results/multi_teacher_symbolic_pareto_10split"
-    formulas = sorted(export_root.rglob("formula.json"))
-    sources = sorted(export_root.rglob("formula.va"))
+    base = root / "artifacts/experiments/physics_balanced_export_20260917"
+    export_root = base / "consensus_3split_compact"
+    formulas = sorted(export_root.rglob("selected_formula.json"))
+    expected_counts = {"I_dark": 10, "I_photo": 8, "Q_terminal": 20}
     numeric_values = 0
     invalid_values = 0
     parse_failures = []
+    coefficient_counts = []
+    dense_audit_points = 0
     for path in formulas:
         try:
-            total, invalid = finite_numbers(load_json(path))
+            payload = load_json(path)
+            total, invalid = finite_numbers(payload)
             numeric_values += total
             invalid_values += invalid
+            coefficient_counts.append(
+                (payload.get("task"), payload.get("seed"), payload.get("coefficient_count"))
+            )
+            dense_audit_points += int(
+                payload.get("selection", {}).get("numerical_audit", {}).get("dense_points", 0)
+            )
         except Exception as exc:
             parse_failures.append({"path": path.relative_to(root).as_posix(), "error": str(exc)})
-    metrics = load_csv(export_root / "metrics_by_export.csv")
-    paired = load_csv(export_root / "paired_teacher_vs_direct.csv")
-    ensemble = load_csv(
-        root / "artifacts/results/posterior_formula_ensemble/formula_ensemble_calibration.csv"
-    )
-    capacitance = next((row for row in ensemble if row.get("task") == "Capacitance"), None)
+    aggregate = load_csv(base / "aggregate.csv")
+    replay = load_csv(base / "independent_replay_audit.csv")
+    expected_triplets = {
+        (task, seed, count)
+        for task, count in expected_counts.items()
+        for seed in (42, 43, 44)
+    }
     passed = (
-        len(formulas) == 960
-        and len(sources) == 960
-        and len(metrics) == 960
-        and len(paired) == 72
+        len(formulas) == 9
+        and set(coefficient_counts) == expected_triplets
+        and dense_audit_points == 238080
+        and len(aggregate) == 3
+        and len(replay) == 9
+        and max(float(row["prediction_max_abs_error"]) for row in replay) <= 1e-14
+        and max(float(row["derivative_max_abs_error"]) for row in replay) <= 1e-9
         and invalid_values == 0
         and not parse_failures
-        and capacitance is not None
-        and abs(float(capacitance["test_point_coverage_90"]) - 99.90625) < 1e-9
-        and abs(float(capacitance["test_group_coverage_90"]) - 75.0) < 1e-9
     )
     return {
         "passed": passed,
-        "json_exports": len(formulas),
-        "veriloga_exports": len(sources),
-        "metric_rows": len(metrics),
-        "paired_contrasts": len(paired),
+        "selected_formulas": len(formulas),
+        "coefficient_counts": expected_counts,
+        "dense_audit_points": dense_audit_points,
+        "aggregate": aggregate,
+        "independent_replay_rows": len(replay),
         "numeric_values_checked": numeric_values,
         "invalid_numeric_values": invalid_values,
-        "capacitance_formula_ensemble": capacitance,
         "parse_failures": parse_failures,
     }
 
@@ -203,31 +214,35 @@ def replay_ood(root: Path) -> dict:
 
 
 def replay_terminal_and_spectre(root: Path) -> dict:
-    terminal_root = root / "artifacts/results/terminal_charge_model"
-    terminal = load_json(terminal_root / "terminal_charge_audit.json")
-    numerical = load_json(terminal_root / "reference_validation/reference_validation_summary.json")
-    base = root / "artifacts/results/corrected_composite_spectre"
-    device = load_json(base / "device_acceptance_report.json")
-    circuit = load_json(base / "circuit_acceptance_report.json")
-    provenance = load_json(base / "clean_rerun_provenance.json")
-    model_hash = provenance.get("model_sha256")
+    base = root / "artifacts/results/physics_sparse_results_py36_20260921"
+    device = load_json(base / "device/acceptance_report.json")
+    circuit = load_json(base / "circuits/circuit_acceptance_report.json")
+    source_binding = circuit.get("checks", {}).get("source_binding", {})
+    model_hash = device.get("model_sha256")
+    coarse = device.get("transient", {}).get("coarse_nrmse", {})
+    tia_ac = circuit.get("checks", {}).get("tia_ac", {})
+    tia_transient = circuit.get("checks", {}).get("tia_transient", {})
     passed = (
-        terminal.get("audit_status") == "passed"
-        and numerical.get("validation_status") == "passed"
-        and device.get("status") == "passed"
+        device.get("status") == "passed"
         and circuit.get("status") == "passed"
-        and device.get("model_sha256") == model_hash
-        and circuit.get("checks", {}).get("source_binding", {}).get("expected_sha256") == model_hash
-        and provenance.get("device_decks_rerun_after_verifier_fix") is True
-        and provenance.get("spectre_results_reused") is False
+        and device.get("checks", {}).get("source_binding") is True
+        and source_binding.get("passed") is True
+        and source_binding.get("expected_sha256") == model_hash
+        and source_binding.get("returned_sha256") == model_hash
+        and device.get("dc", {}).get("points_per_trace") == 183
+        and device.get("ac", {}).get("points_per_trace") == 1815
+        and max(coarse.values()) < 0.08
+        and tia_ac.get("max_output_complex_error_V") < 5e-8
+        and tia_transient.get("output_nrmse") < 0.05
     )
     return {
         "passed": passed,
-        "terminal_audit": terminal.get("audit_status"),
-        "numerical_replay": numerical.get("validation_status"),
         "device_status": device.get("status"),
         "circuit_status": circuit.get("status"),
         "model_sha256": model_hash,
+        "maximum_coarse_transient_nrmse": max(coarse.values()),
+        "tia_ac_maximum_output_error_V": tia_ac.get("max_output_complex_error_V"),
+        "tia_transient_output_nrmse": tia_transient.get("output_nrmse"),
     }
 
 

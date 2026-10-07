@@ -464,6 +464,7 @@ def _verify_bias(results: Path, reference: Path) -> dict:
     current_allowed = TOLERANCES["bias_current_absolute_A"] + TOLERANCES["bias_current_relative"] * np.abs(expected_current)
     passed = bool(
         len(x) == len(ref["source_V"])
+        and np.allclose(x, ref["source_V"], rtol=0.0, atol=1.0e-9)
         and np.all(node_error <= TOLERANCES["bias_node_absolute_V"])
         and np.all(current_error <= current_allowed)
     )
@@ -485,7 +486,8 @@ def _verify_tia_ac(results: Path, reference: Path) -> dict:
     expected_out = ref["output_real_V"] + 1j * ref["output_imag_V"]
     actual_in = data["in"]
     actual_out = data["out"]
-    if len(frequency) != len(expected_in):
+    if len(frequency) != len(expected_in) or not np.allclose(
+            frequency.real, ref["frequency_Hz"], rtol=1.0e-5, atol=0.0):
         return {"passed": False, "failures": [f"tia_ac_point_count:{len(frequency)}"]}
     in_ok, in_error = _complex_error(actual_in, expected_in, TOLERANCES["tia_ac_complex_relative"], TOLERANCES["tia_ac_complex_absolute_V"])
     out_ok, out_error = _complex_error(actual_out, expected_out, TOLERANCES["tia_ac_complex_relative"], TOLERANCES["tia_ac_complex_absolute_V"])
@@ -503,6 +505,10 @@ def _verify_tia_transient(results: Path, reference: Path) -> dict:
     if "time" not in data or "in" not in data or "out" not in data:
         return {"passed": False, "failures": ["missing_tia_transient_trace"]}
     time = data["time"].real
+    if (len(time) < 100 or not np.all(np.diff(time) > 0.0)
+            or abs(time[0] - ref["time_s"][0]) > 1.0e-13
+            or abs(time[-1] - ref["time_s"][-1]) > 1.0e-13):
+        return {"passed": False, "failures": ["incomplete_tia_timeline"]}
     expected_in = np.interp(time, ref["time_s"], ref["input_V"])
     expected_out = np.interp(time, ref["time_s"], ref["output_V"])
     actual_in = data["in"].real
@@ -537,7 +543,10 @@ def _verify_multi(results: Path, reference: Path) -> dict:
         subset = ref["instances"] == count
         expected = ref["source_current_real_A"][subset] + 1j * ref["source_current_imag_A"][subset]
         actual = data.get("Vstim:p")
-        if actual is None or len(actual) != len(expected):
+        frequency = data.get("freq", data.get("frequency"))
+        if (actual is None or frequency is None or len(actual) != len(expected)
+                or not np.allclose(frequency.real, ref["frequency_Hz"][subset],
+                                    rtol=1.0e-5, atol=0.0)):
             details[str(count)] = {"passed": False, "failure": "missing_or_count"}
             passed = False
             continue
@@ -585,8 +594,18 @@ def verify(run_root: Path, output: Path) -> int:
         "returned_sha256": source_hash,
         "historical_default_sha256": MODEL_SHA256,
     }
+    frozen_files = manifest.get("files", [])
+    bundle_binding = {
+        "passed": bool(frozen_files) and all(
+            (bundle / item["path"]).is_file()
+            and sha256(bundle / item["path"]) == item["sha256"]
+            for item in frozen_files
+        ),
+        "checked_files": len(frozen_files),
+    }
     checks = {
         "source_binding": source_binding,
+        "bundle_binding": bundle_binding,
         "logs_and_convergence": _verify_logs(results),
         "bias_load": _verify_bias(results, reference),
         "tia_ac": _verify_tia_ac(results, reference),

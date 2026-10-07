@@ -1,0 +1,16 @@
+simulator lang=spectre
+ahdl_include "ge_si_photodetector_terminal_charge.va"
+
+parameters Vb_ac=-1.0 Tdev=300.0 Vac_mag=1m
+Vac_dark (a_dark 0) vsource dc=Vb_ac mag=Vac_mag type=sine
+Vac_light (a_light 0) vsource dc=Vb_ac mag=Vac_mag type=sine
+Vac_corner (a_corner 0) vsource dc=Vb_ac mag=Vac_mag type=sine
+Xdark (a_dark 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=0.0
+Xlight (a_light 0) ge_si_photodetector_terminal_charge active_layer_length=40.0 sim_temp=Tdev trap_assisted_recomb_A=1.0e-9 ge_sio2_recomb_velocity=2500.0 ge_si_recomb_velocity=500.0 area=1.0 light_power=1.0
+Xcorner (a_corner 0) ge_si_photodetector_terminal_charge active_layer_length=43.0 sim_temp=Tdev trap_assisted_recomb_A=1.15e-9 ge_sio2_recomb_velocity=2650.0 ge_si_recomb_velocity=530.0 area=1.0 light_power=1.0
+save Vac_dark:p Vac_light:p Vac_corner:p
+bias_sweep sweep param=Vb_ac values=[-3.0 -2.0 -1.0 -0.5 0.0] {
+  temperature_sweep sweep param=Tdev values=[290.0 300.0 310.0] {
+    ac_sparse ac dec=20 start=1M stop=1000G
+  }
+}

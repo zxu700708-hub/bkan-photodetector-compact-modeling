@@ -47,14 +47,11 @@ DARK_FORMULA = (
 )
 NET_PHOTO_FORMULA = (
     REPO_ROOT
-    / "artifacts"
-    / "results"
-    / "net_photocurrent_retrain"
-    / "symbolic_fixed_teacher"
-    / "seed_42"
-    / "photo_current_symbolic_gated_kan"
-    / "pure_symbolic_formula.json"
+    / "artifacts/results/mechanism_symbolic_pareto_photo_joint54_seed42"
+    / "seed_42/I_photo/joint_bkan_tcad/budget_54"
+    / "photo_current_symbolic_gated_kan/matched_pareto_formula.json"
 )
+
 DECK_NAMES = (
     "testbench_dc_terminal_charge_ic618.scs",
     "testbench_ac_bias_temp_terminal_charge_ic618.scs",

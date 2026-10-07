@@ -118,7 +118,7 @@ def plot_paired_panel(ax: plt.Axes) -> None:
     ax.set_yticks(range(len(TASKS)), [label for _, label in TASKS])
     ax.invert_yaxis()
     ax.set_xlim(-0.075, 0.032)
-    ax.set_xlabel("Paired RMSE difference\n" + r"BKAN-VI $-$ Spline-Ridge")
+    ax.set_xlabel(r"Paired $\Delta$RMSE (BKAN-VI $-$ Spline-Ridge)")
     ax.set_title("Matched-split advantage")
     ax.grid(axis="y", visible=False)
     ax.legend(
@@ -158,7 +158,7 @@ def plot_paired_panel(ax: plt.Axes) -> None:
         frameon=False,
         ncol=2,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.52),
+        bbox_to_anchor=(0.5, -0.25),
         columnspacing=0.9,
         handlelength=2.0,
         fontsize=6.8,
@@ -213,7 +213,7 @@ def plot_response_panel(ax: plt.Axes) -> dict[str, object]:
     ax.set_yscale("log")
     ax.set_xlabel("Bias (V)")
     ax.set_ylabel(r"$I_{\rm photo,net}$ (A)")
-    ax.set_title("Representative complete response")
+    ax.set_title("APD net photocurrent")
     ax.legend(
         handles=[
             Line2D(
@@ -257,55 +257,40 @@ def plot_response_panel(ax: plt.Axes) -> dict[str, object]:
 
 def main() -> None:
     style()
-    fig, axes = plt.subplots(
-        1,
-        2,
-        figsize=(7.05, 3.05),
-        gridspec_kw={"width_ratios": [1.05, 1.25]},
-    )
-    plot_paired_panel(axes[0])
-    selection = plot_response_panel(axes[1])
-    for label, ax in zip("ab", axes):
-        ax.text(
-            0.5,
-            -0.36,
-            f"({label})",
-            transform=ax.transAxes,
-            ha="center",
-            va="top",
-            fontweight="bold",
-            fontsize=9.5,
-            clip_on=False,
-        )
-    fig.tight_layout(pad=0.8)
-    fig.subplots_adjust(bottom=0.36)
-
     FIGURE_OUT.mkdir(parents=True, exist_ok=True)
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    original_visibility = [ax.get_visible() for ax in axes]
-    for ax, stem in zip(
-        axes,
-        ["fig03a_apd_paired_advantage", "fig03b_apd_complete_response"],
-        strict=True,
-    ):
-        for item in axes:
-            item.set_visible(item is ax)
-        fig.canvas.draw()
-        renderer = fig.canvas.get_renderer()
-        bbox = ax.get_tightbbox(renderer).transformed(fig.dpi_scale_trans.inverted())
-        fig.savefig(
-            FIGURE_OUT / f"{stem}.pdf",
-            bbox_inches=bbox,
-            pad_inches=0.06,
-            facecolor="white",
-        )
-    for ax, visible in zip(axes, original_visibility, strict=True):
-        ax.set_visible(visible)
+
+    fig, ax = plt.subplots(figsize=(4.35, 3.15))
+    plot_paired_panel(ax)
+    fig.tight_layout(pad=0.8)
+    fig.subplots_adjust(bottom=0.24)
     for suffix in ("pdf", "png"):
         fig.savefig(
-            FIGURE_OUT / f"fig03_apd_paired_evidence.{suffix}",
+            FIGURE_OUT / f"fig03_apd_matched_split_evidence.{suffix}",
             bbox_inches="tight",
+            facecolor="white",
+        )
+    plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(4.35, 3.0))
+    selection = plot_response_panel(ax)
+    ax.text(
+        0.5,
+        -0.22,
+        "(e)",
+        transform=ax.transAxes,
+        ha="center",
+        va="top",
+        fontweight="bold",
+        fontsize=9.5,
+        clip_on=False,
+    )
+    fig.tight_layout(pad=0.8)
+    fig.subplots_adjust(bottom=0.2)
+    for suffix in ("pdf", "png"):
+        fig.savefig(
+            FIGURE_OUT / f"figS03e_apd_net_photocurrent_response.{suffix}",
+            bbox_inches="tight",
+            facecolor="white",
         )
     plt.close(fig)
     pd.DataFrame([selection]).to_csv(SELECTION_OUT, index=False)

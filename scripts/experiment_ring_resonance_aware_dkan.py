@@ -1,4 +1,4 @@
-"""Isolated DKAN architecture experiments for the active-microring dataset.
+"""Isolated DKAN architecture experiments for the microring modulator dataset.
 
 This file intentionally leaves ``run_ring_third_device.py`` unchanged.  It
 reuses the frozen data, structure splits, full-grid loader, and metric

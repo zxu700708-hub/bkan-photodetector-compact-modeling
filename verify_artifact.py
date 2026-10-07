@@ -43,16 +43,13 @@ ALLOWED_RESULT_DIRS = {
     "apparent_capacitance_correction",
     "compact_framework_seven_models_apd",
     "compact_framework_seven_models_pd",
-    "corrected_composite_spectre",
     "evidence_audit",
     "matched_grouped_comparison",
     "matched_heteroscedastic_uq_equal_budget_current",
-    "multi_teacher_symbolic_pareto_10split",
-    "posterior_formula_ensemble",
+    "physics_sparse_results_py36_20260921",
     "ring_compact_variation_seven_no_gmls",
     "structured_generalization_capacitance",
     "structured_ood_uq",
-    "symbolic_export_audit",
     "tcad_provenance",
     "terminal_charge_model",
 }
@@ -140,8 +137,10 @@ def check_release_hygiene(root: Path) -> dict:
         root / "scripts/analyze_ring_derived_metrics.py",
         root / "scripts/experiment_ring_resonance_aware_dkan.py",
         root / "scripts/manuscript_plot_palette.py",
-        root / "scripts/run_ac_lowpass_gated_teacher.py",
-        root / "scripts/run_multi_teacher_symbolic_pareto.py",
+        root / "artifacts/experiments/physics_balanced_export_20260917/run_experiment.py",
+        root / "artifacts/experiments/physics_balanced_export_20260917/select_consensus.py",
+        root / "bkan/device_modeling/veriloga/physics_sparse_replay.py",
+        root / "bkan/device_modeling/veriloga/physics_sparse_validation.py",
         root / "scripts/run_ring_third_device.py",
     ]
     missing = [path.relative_to(root).as_posix() for path in required if not path.is_file()]
@@ -337,71 +336,111 @@ def check_uq(root: Path) -> dict:
 
 
 def check_symbolic(root: Path) -> dict:
-    audit_root = root / "artifacts/results/multi_teacher_symbolic_pareto_10split"
-    formulas = list(audit_root.rglob("formula.json")) if audit_root.is_dir() else []
-    sources = list(audit_root.rglob("formula.va")) if audit_root.is_dir() else []
-    metrics = load_csv(audit_root / "metrics_by_export.csv") if (audit_root / "metrics_by_export.csv").is_file() else []
-    paired = load_csv(audit_root / "paired_teacher_vs_direct.csv") if (audit_root / "paired_teacher_vs_direct.csv").is_file() else []
-    finite = all(
-        row.get(column) == "1.0"
-        for row in metrics
-        for column in ("test_finite_rate", "dense_finite_rate", "swept_axis_derivative_finite_rate")
+    base = root / "artifacts/experiments/physics_balanced_export_20260917"
+    formula_root = base / "consensus_3split_compact"
+    expected_counts = {"I_dark": 10, "I_photo": 8, "Q_terminal": 20}
+    failures = []
+    formula_count = 0
+    audit_points = 0
+    for task, coefficient_count in expected_counts.items():
+        for seed in (42, 43, 44):
+            directory = formula_root / task / f"seed_{seed}"
+            formula_path = directory / "selected_formula.json"
+            required = [
+                formula_path,
+                directory / "split_manifest.csv",
+                directory / "test_metrics.json",
+                directory / "test_predictions.csv",
+            ]
+            if task == "Q_terminal":
+                required.append(directory / "derivative_test_predictions.csv")
+            missing = [path.relative_to(root).as_posix() for path in required if not path.is_file()]
+            if missing:
+                failures.append({"task": task, "seed": seed, "reason": "missing", "paths": missing})
+                continue
+            payload = load_json(formula_path)
+            numerical = payload.get("selection", {}).get("numerical_audit", {})
+            if (
+                payload.get("schema") != "physics_balanced_sparse_v1"
+                or payload.get("task") != task
+                or payload.get("seed") != seed
+                or payload.get("coefficient_count") != coefficient_count
+                or payload.get("uses_kan_at_inference") is not False
+                or payload.get("test_used_for_selection") is not False
+                or numerical.get("passed") is not True
+            ):
+                failures.append({"task": task, "seed": seed, "reason": "formula_contract"})
+                continue
+            formula_count += 1
+            audit_points += int(numerical.get("dense_points", 0))
+
+    replay = load_csv(base / "independent_replay_audit.csv")
+    aggregate = load_csv(base / "aggregate.csv")
+    replay_passed = (
+        len(replay) == 9
+        and max(float(row["prediction_max_abs_error"]) for row in replay) <= 1e-14
+        and max(float(row["derivative_max_abs_error"]) for row in replay) <= 1e-9
     )
-    ensemble_root = root / "artifacts/results/posterior_formula_ensemble"
-    ensemble_required = [
-        ensemble_root / "formula_ensemble_calibration.csv",
-        ensemble_root / "formula_metrics_by_posterior_draw.csv",
-        ensemble_root / "formula_stability_summary.csv",
-        ensemble_root / "protocol.json",
-    ]
-    passed = (
-        len(formulas) == 960
-        and len(sources) == 960
-        and len(metrics) == 960
-        and len({row.get("seed") for row in metrics}) == 10
-        and len(paired) == 72
-        and finite
-        and all(path.is_file() for path in ensemble_required)
+    aggregate_passed = (
+        len(aggregate) == 3
+        and {row["task"] for row in aggregate} == set(expected_counts)
+        and all(int(row["splits"]) == 3 for row in aggregate)
+        and all(int(row["selected_count"]) == expected_counts[row["task"]] for row in aggregate)
     )
+    passed = formula_count == 9 and audit_points == 238080 and replay_passed and aggregate_passed and not failures
     return {
         "passed": passed,
-        "json_exports": len(formulas),
-        "veriloga_exports": len(sources),
-        "metric_rows": len(metrics),
-        "paired_contrasts": len(paired),
-        "posterior_formula_summaries_present": all(path.is_file() for path in ensemble_required),
+        "selected_formulas": formula_count,
+        "coefficient_counts": expected_counts,
+        "dense_audit_points": audit_points,
+        "independent_replay_rows": len(replay),
+        "aggregate_rows": len(aggregate),
+        "failures": failures,
     }
 
 
 def check_terminal_and_spectre(root: Path) -> dict:
-    terminal_root = root / "artifacts/results/terminal_charge_model"
-    terminal = load_json(terminal_root / "terminal_charge_audit.json")
-    numerical = load_json(terminal_root / "reference_validation/reference_validation_summary.json")
-    base = root / "artifacts/results/corrected_composite_spectre"
-    device = load_json(base / "device_acceptance_report.json")
-    circuit = load_json(base / "circuit_acceptance_report.json")
-    provenance = load_json(base / "clean_rerun_provenance.json")
-    model_hash = provenance.get("model_sha256")
+    base = root / "artifacts/results/physics_sparse_results_py36_20260921"
+    device = load_json(base / "device/acceptance_report.json")
+    circuit = load_json(base / "circuits/circuit_acceptance_report.json")
+    device_source = base / "device/bundle/ge_si_photodetector_terminal_charge.va"
+    circuit_source = base / "circuits/bundle/ge_si_photodetector_terminal_charge.va"
+    public_source = root / "bkan/device_modeling/veriloga/ge_si_photodetector_terminal_charge.va"
+    model_hash = sha256(device_source) if device_source.is_file() else None
+    source_binding = circuit.get("checks", {}).get("source_binding", {})
+    formula_checks_pass = all(
+        device.get("checks", {}).get(f"formula_{task}") is True
+        for task in ("I_dark", "I_photo", "Q_terminal")
+    )
     passed = (
-        terminal.get("audit_status") == "passed"
-        and terminal.get("production_rows") == 2080
-        and terminal.get("production_conditions") == 160
-        and numerical.get("validation_status") == "passed"
-        and device.get("status") == "passed"
+        device.get("status") == "passed"
         and circuit.get("status") == "passed"
         and device.get("model_sha256") == model_hash
-        and circuit.get("checks", {}).get("source_binding", {}).get("expected_sha256") == model_hash
-        and provenance.get("status") == "clean_rerun_passed"
-        and provenance.get("device_decks_rerun_after_verifier_fix") is True
-        and provenance.get("spectre_results_reused") is False
+        and source_binding.get("passed") is True
+        and source_binding.get("expected_sha256") == model_hash
+        and source_binding.get("returned_sha256") == model_hash
+        and circuit_source.is_file()
+        and public_source.is_file()
+        and sha256(circuit_source) == model_hash
+        and sha256(public_source) == model_hash
+        and formula_checks_pass
+        and device.get("dc", {}).get("points_per_trace") == 183
+        and device.get("ac", {}).get("points_per_trace") == 1815
+        and circuit.get("checks", {}).get("bias_load", {}).get("points") == 57
+        and circuit.get("checks", {}).get("tia_ac", {}).get("points") == 101
+        and circuit.get("checks", {}).get("tia_transient", {}).get("points") == 5001
+        and set(circuit.get("checks", {}).get("multi_instance", {}).get("instances", {})) == {"1", "10", "100"}
     )
     return {
         "passed": passed,
-        "terminal_audit": terminal.get("audit_status"),
-        "numerical_replay": numerical.get("validation_status"),
         "device_status": device.get("status"),
         "circuit_status": circuit.get("status"),
         "model_sha256": model_hash,
+        "spectre_formula_checks_pass": formula_checks_pass,
+        "device_points_per_trace": {
+            "dc": device.get("dc", {}).get("points_per_trace"),
+            "ac": device.get("ac", {}).get("points_per_trace"),
+        },
     }
 
 

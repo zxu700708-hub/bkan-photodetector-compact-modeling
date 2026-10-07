@@ -137,6 +137,7 @@ def resolve_capacitance_data_path(path=DEFAULT_CAPACITANCE_DATA):
     if path.is_file():
         return path
     candidates = [
+        REPO_ROOT / "data" / "primary" / "ge_si_capacitance.csv",
         path
         / "supplemental_charge_ac"
         / "supplemental_electrical"
@@ -157,6 +158,31 @@ def load_capacitance_data(path=DEFAULT_CAPACITANCE_DATA):
 
     table_path = resolve_capacitance_data_path(path)
     frame = read_table(table_path)
+    canonical_required = {
+        "bias_v",
+        "log_frequency_ghz",
+        "capacitance_F",
+        "trap_assisted_recomb_A",
+        "ge_sio2_recomb_velocity",
+        "ge_si_recomb_velocity",
+        "active_layer_length",
+        "simulation_temperature",
+        "_curve_id",
+    }
+    is_public_canonical = canonical_required.issubset(frame.columns)
+    if is_public_canonical:
+        frame = frame.copy()
+        if "task" in frame.columns and not frame["task"].eq("Capacitance").all():
+            raise ValueError("The public canonical capacitance table contains another task.")
+        frame["frequency_ghz"] = np.power(
+            10.0, frame["log_frequency_ghz"].astype(float)
+        )
+        frame["sample_id"] = frame["_curve_id"].astype(str).str.replace(
+            "capacitance_sample_", "", regex=False
+        )
+        frame["vac_V"] = 1.0e-3
+        frame["target_definition"] = "C_app=Im(Y_total)/(2*pi*f)"
+
     required = {
         "sample_id",
         "bias_v",
@@ -171,7 +197,7 @@ def load_capacitance_data(path=DEFAULT_CAPACITANCE_DATA):
     missing = sorted(required - set(frame.columns))
     if missing:
         raise KeyError(f"Missing required AC-CV capacitance columns: {missing}")
-    if "target_definition" not in frame.columns or not frame["target_definition"].astype(str).str.startswith(
+    if not frame["target_definition"].astype(str).str.startswith(
         "C_app=Im(Y_total)/(2*pi*f)"
     ).all():
         raise ValueError(
@@ -179,7 +205,7 @@ def load_capacitance_data(path=DEFAULT_CAPACITANCE_DATA):
             "scripts/apply_apparent_capacitance_correction.py to create the "
             "Vac-corrected total-admittance apparent-capacitance table."
         )
-    if "vac_V" not in frame.columns or not np.allclose(
+    if not np.allclose(
         frame["vac_V"].astype(float).to_numpy(), 1.0e-3, rtol=0.0, atol=1.0e-15
     ):
         raise ValueError("The apparent-capacitance table must record the actual Vac=1 mV.")

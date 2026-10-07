@@ -1,0 +1,227 @@
+{
+  "schema": "physics_balanced_sparse_v1",
+  "task": "Q_terminal",
+  "seed": 43,
+  "input_order": [
+    "bias_v",
+    "trap_assisted_recomb_A",
+    "ge_sio2_recomb_velocity",
+    "ge_si_recomb_velocity",
+    "active_layer_length",
+    "simulation_temperature"
+  ],
+  "coefficient_count": 20,
+  "config": {
+    "budget": 20,
+    "teacher_weight": 0.0,
+    "derivative_weight": 3.0,
+    "ridge_alpha": 1e-10
+  },
+  "selection_data": "validation_only",
+  "test_used_for_selection": false,
+  "uses_kan_at_inference": false,
+  "physical_contract": {
+    "reference": "Q(0,p)=0 exactly",
+    "derivative": "analytic dQ/dV",
+    "input_coverage": "one explicit linear sensitivity per device parameter"
+  },
+  "charge_basis": {
+    "model_type": "reference_constrained_tensor_cubic_spline_ridge",
+    "parameter_names": [
+      "trap_assisted_recomb_A",
+      "ge_sio2_recomb_velocity",
+      "ge_si_recomb_velocity",
+      "active_layer_length",
+      "simulation_temperature"
+    ],
+    "parameter_mean": [
+      9.959640639746399e-10,
+      2507.136622082613,
+      496.90493439821404,
+      39.770236983837805,
+      299.64880592169726
+    ],
+    "parameter_scale": [
+      9.626890189823185e-11,
+      101.1785412885373,
+      17.048516538652397,
+      1.7998582892096424,
+      4.873033532685974
+    ],
+    "parameter_powers": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "voltage_basis": "V,V^2,V^3,(max(V-k,0)^3-max(-k,0)^3)",
+    "voltage_knots_V": [
+      -2.75,
+      -2.5,
+      -2.25,
+      -2.0,
+      -1.75,
+      -1.5,
+      -1.25,
+      -1.0,
+      -0.75,
+      -0.5,
+      -0.25
+    ],
+    "reference_bias_V": 0.0,
+    "q_scale_C": 2.5015870889131227e-15,
+    "c_scale_F": 1.6578823635823684e-15,
+    "alpha": 0.001,
+    "derivative_weight": 10.0
+  },
+  "terms": [
+    {
+      "index": 0,
+      "coefficient": 22.922230076831156
+    },
+    {
+      "index": 1,
+      "coefficient": 2.2893624398294107e-06
+    },
+    {
+      "index": 2,
+      "coefficient": -6.935623325410939e-05
+    },
+    {
+      "index": 3,
+      "coefficient": -1.509134801780257e-06
+    },
+    {
+      "index": 4,
+      "coefficient": 0.06612785430813209
+    },
+    {
+      "index": 5,
+      "coefficient": 0.00020626707397238797
+    },
+    {
+      "index": 6,
+      "coefficient": 8.140960054749252
+    },
+    {
+      "index": 10,
+      "coefficient": 0.025594356176095852
+    },
+    {
+      "index": 11,
+      "coefficient": -0.0004904523509269895
+    },
+    {
+      "index": 12,
+      "coefficient": 0.982998677715692
+    },
+    {
+      "index": 16,
+      "coefficient": 0.004334000946963069
+    },
+    {
+      "index": 18,
+      "coefficient": -1.059794992492808
+    },
+    {
+      "index": 36,
+      "coefficient": 0.38792339232538187
+    },
+    {
+      "index": 42,
+      "coefficient": -0.5091513891892884
+    },
+    {
+      "index": 46,
+      "coefficient": -0.009462248861185204
+    },
+    {
+      "index": 54,
+      "coefficient": 0.60429375273319
+    },
+    {
+      "index": 58,
+      "coefficient": 0.006288879716926125
+    },
+    {
+      "index": 60,
+      "coefficient": -0.6920151795604542
+    },
+    {
+      "index": 66,
+      "coefficient": 0.42680594849560827
+    },
+    {
+      "index": 72,
+      "coefficient": -0.19682673716638685
+    }
+  ],
+  "selection": {
+    "rule": "fixed cross-split validation consensus",
+    "value_rmse_slack": 1.05,
+    "complete_response_tail_slack": 1.1,
+    "derivative_slack": 1.05,
+    "development_seeds": [
+      42,
+      43,
+      44
+    ],
+    "mandatory_columns": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      12
+    ],
+    "numerical_audit": {
+      "passed": true,
+      "dense_points": 39360,
+      "minimum_dqdv_F": 4.009245788616927e-16,
+      "zero_reference_max_abs_C": 0.0,
+      "derivative_fd_max_relative": 6.734305887342485e-09
+    },
+    "test_used_by_selection_script": false,
+    "evidence_boundary": "post hoc development; historical test results existed before this run"
+  }
+}

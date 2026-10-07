@@ -208,14 +208,6 @@ def plot_structured(summary: pd.DataFrame) -> None:
     ax.set_ylim(-1.0, 1.08)
     ax.set_title("Apparent-capacitance structured extrapolation")
     ax.legend(ncol=3, frameon=False, loc="lower right")
-    ax.text(
-        0.02,
-        0.03,
-        r"Poly3-Ridge reverse-bias result ($R^2=-13.55$) is clipped.",
-        transform=ax.transAxes,
-        fontsize=8,
-        color=MUTED,
-    )
     fig.tight_layout()
     save(fig, "capacitance_structured_generalization")
 

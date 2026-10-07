@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "candidate": "physics_balanced_sparse_v1_seed42_10_8_20",
+  "simulator_execution_status": "passed",
+  "checks": {
+    "preflight_status": true,
+    "source_binding": true,
+    "formula_I_dark": true,
+    "formula_I_photo": true,
+    "formula_Q_terminal": true,
+    "replay": true,
+    "deck_testbench_dc_sparse.scs": true,
+    "deck_testbench_ac_sparse.scs": true,
+    "deck_testbench_transient_sparse.scs": true,
+    "deck_testbench_transient_sparse_fine.scs": true,
+    "logs": true,
+    "version": true,
+    "dc": true,
+    "ac": true,
+    "transient": true
+  },
+  "dc": {
+    "passed": true,
+    "failures": [],
+    "points_per_trace": 183
+  },
+  "ac": {
+    "passed": true,
+    "failures": [],
+    "points_per_trace": 1815
+  },
+  "transient": {
+    "coarse_nrmse": {
+      "fast": 0.02561024586072256,
+      "slow": 0.00131540898654397,
+      "sine": 0.0016085438325294584
+    },
+    "fine_nrmse": {
+      "fast": 0.011339647537037673,
+      "slow": 0.0006556241932299269,
+      "sine": 0.0008626132850823669
+    },
+    "step_nrmse": {
+      "fast": 0.02714250373267341,
+      "slow": 0.0014722453060122724,
+      "sine": 0.0017772472500820825
+    }
+  },
+  "model_sha256": "20e00e6359c9de8dcfcc16ca27f5724093e0635dfa6cd6c69a8783e9c824b834",
+  "tolerances": {
+    "dc_relative": 0.002,
+    "dc_absolute_A": 1e-11,
+    "ac_conductance_relative": 0.02,
+    "ac_conductance_absolute_S": 1e-10,
+    "ac_dqdv_relative": 0.02,
+    "ac_dqdv_absolute_F": 1e-18,
+    "transient_normalized_rmse": 0.08,
+    "transient_charge_relative": 0.05,
+    "transient_charge_absolute_C": 5e-18,
+    "transient_step_convergence": 0.05
+  }
+}

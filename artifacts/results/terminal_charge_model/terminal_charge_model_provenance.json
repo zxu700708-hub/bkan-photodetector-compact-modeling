@@ -31,13 +31,19 @@
   },
   "training_script_sha256": "396ea06eb396e2b62e18570de8c2cf943086879971b9f6b73f1c84de58972ece",
   "simulator_execution_status": {
-    "spectre_compilation": "passed",
-    "spectre_dc": "passed",
-    "spectre_ac_admittance": "passed",
-    "spectre_transient_stability": "passed",
+    "spectre_compilation": "pending_joint54_revalidation",
+    "spectre_dc": "pending_joint54_revalidation",
+    "spectre_ac_admittance": "pending_joint54_revalidation",
+    "spectre_transient_stability": "pending_joint54_revalidation",
+    "spectre_circuits": "pending_joint54_revalidation",
     "legacy_proxy_evidence_transfer": false
   },
-  "simulator_evidence": {
+  "outputs": {
+    "models_sha256": "1b571416067bbdef0b4de16f038a7f98732a0ab94918b5e04b4f697d5fffc345",
+    "veriloga_sha256": "def323e68d4b6d08bc515cfb7ecfb8bd574a80a6b0780b1a5edca37de9d8a778",
+    "exported_veriloga": "bkan\\device_modeling\\veriloga\\ge_si_photodetector_terminal_charge.va"
+  },
+  "previous_simulator_evidence": {
     "scope": "CURRENT_REPLACEMENT_TERMINAL_Q",
     "acceptance_report": "artifacts/results/terminal_charge_spectre/acceptance_report.json",
     "acceptance_report_sha256": "44670fd44f0948baa834174ff1609f42a3edee47e714d591719f0409a8f32fe7",
@@ -45,9 +51,11 @@
     "spectre_version": "18.1.0.077",
     "qualification_scope": "reported DC, AC-admittance, and transient test envelope only"
   },
-  "outputs": {
-    "models_sha256": "1b571416067bbdef0b4de16f038a7f98732a0ab94918b5e04b4f697d5fffc345",
-    "veriloga_sha256": "2dbe37208a520f2abbf6244b5e88c520db7793c1d4ebe51044fe2886651a062b",
-    "exported_veriloga": "bkan\\device_modeling\\veriloga\\ge_si_photodetector_terminal_charge.va"
+  "net_photocurrent_replacement": {
+    "formula": "artifacts/results/mechanism_symbolic_pareto_photo_joint54_seed42/seed_42/I_photo/joint_bkan_tcad/budget_54/photo_current_symbolic_gated_kan/matched_pareto_formula.json",
+    "formula_sha256": "a7ca946a048bbf2fd361eaf97f2efd30694a46067f87f8579ebc348f2ec1ecb7",
+    "terms": 54,
+    "charge_coefficients_refitted": false,
+    "previous_source_backup": "artifacts/results/joint54_deployment/previous_69term"
   }
 }
